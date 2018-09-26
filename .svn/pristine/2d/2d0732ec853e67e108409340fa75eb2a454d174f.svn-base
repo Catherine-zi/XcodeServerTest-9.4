@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SelectWalletViewController" customModule="DQDTelegraphDemo" customModuleProvider="target">
+            <connections>
+                <outlet property="WalletNameLabel" destination="0LY-gM-acK" id="vJJ-pf-YBw"/>
+                <outlet property="bgView" destination="NQM-lN-ggO" id="t6m-F6-d31"/>
+                <outlet property="manageWalletLabel" destination="vzx-5s-6c5" id="oFm-ss-lFN"/>
+                <outlet property="tableView" destination="pZx-6x-vjE" id="D9R-TO-09I"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NQM-lN-ggO">
+                    <rect key="frame" x="16" y="72" width="343" height="523"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wallet Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0LY-gM-acK">
+                            <rect key="frame" x="117" y="20" width="110" height="16"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="16" id="ooM-IA-yFz"/>
+                                <constraint firstAttribute="width" constant="110" id="wtz-EQ-eYv"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KlC-rC-Kzw">
+                            <rect key="frame" x="301" y="20" width="26" height="22"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" image="SelectWallet_close">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="closeButtonClick:" destination="-1" eventType="touchUpInside" id="ceD-bv-nrC"/>
+                            </connections>
+                        </button>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="70" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pZx-6x-vjE">
+                            <rect key="frame" x="0.0" y="56" width="343" height="391"/>
+                            <color key="backgroundColor" red="0.11764705882352941" green="0.34901960784313724" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <outlet property="dataSource" destination="-1" id="SNs-0b-DHw"/>
+                                <outlet property="delegate" destination="-1" id="dpv-nf-DTf"/>
+                            </connections>
+                        </tableView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Manage Wallet" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vzx-5s-6c5">
+                            <rect key="frame" x="126" y="479" width="90" height="12"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="12" id="0hu-ha-Si9"/>
+                                <constraint firstAttribute="width" constant="90" id="Ep3-k0-9y3"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.11764705882352941" green="0.34901960784313724" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="pZx-6x-vjE" firstAttribute="top" secondItem="0LY-gM-acK" secondAttribute="bottom" constant="20" id="GyN-tM-JcX"/>
+                        <constraint firstItem="0LY-gM-acK" firstAttribute="centerX" secondItem="NQM-lN-ggO" secondAttribute="centerX" id="M4z-p2-GiO"/>
+                        <constraint firstAttribute="height" constant="523" id="Szp-YR-FLd"/>
+                        <constraint firstItem="pZx-6x-vjE" firstAttribute="leading" secondItem="NQM-lN-ggO" secondAttribute="leading" id="aOR-4R-tUH"/>
+                        <constraint firstAttribute="bottom" secondItem="vzx-5s-6c5" secondAttribute="bottom" constant="32" id="c4f-kA-UqC"/>
+                        <constraint firstItem="vzx-5s-6c5" firstAttribute="top" secondItem="pZx-6x-vjE" secondAttribute="bottom" constant="32" id="mjn-kq-dkw"/>
+                        <constraint firstAttribute="trailing" secondItem="pZx-6x-vjE" secondAttribute="trailing" id="nUL-Zn-WDl"/>
+                        <constraint firstItem="vzx-5s-6c5" firstAttribute="centerX" secondItem="NQM-lN-ggO" secondAttribute="centerX" id="uXU-sR-XaN"/>
+                        <constraint firstItem="0LY-gM-acK" firstAttribute="top" secondItem="NQM-lN-ggO" secondAttribute="top" constant="20" id="ynn-JN-GKI"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="NQM-lN-ggO" secondAttribute="trailing" constant="16" id="sSb-0i-XeH"/>
+                <constraint firstItem="NQM-lN-ggO" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="ss5-AM-kJn"/>
+                <constraint firstItem="NQM-lN-ggO" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="wUz-s0-Ps1"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="188.5" y="38.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="SelectWallet_close" width="14" height="14"/>
+    </resources>
+</document>

@@ -1,0 +1,6 @@
+framework module SwiftHex {
+  header "SwiftHex-Swift.h"
+
+  export *
+  module SwiftHex { export * }
+}

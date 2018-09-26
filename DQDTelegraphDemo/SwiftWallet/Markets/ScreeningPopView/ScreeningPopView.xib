@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ScreeningPopView" customModule="DQDTelegraphDemo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KuI-GP-wJL">
+                    <rect key="frame" x="0.0" y="132" width="157" height="242"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ixZ-Gd-Bw4">
+                            <rect key="frame" x="0.0" y="0.0" width="157" height="60"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
+                            <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="2" maxX="0.0" maxY="2"/>
+                            <state key="normal" title="CAP Up">
+                                <color key="titleColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="selected">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="buttonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="m25-Ux-WrD"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ogJ-YU-Uex">
+                            <rect key="frame" x="0.0" y="61" width="157" height="60"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
+                            <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="2" maxX="0.0" maxY="2"/>
+                            <state key="normal" title="CAP Down">
+                                <color key="titleColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="selected">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="buttonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="p39-11-Ir3"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="soS-5l-PMB">
+                            <rect key="frame" x="0.0" y="122" width="157" height="60"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
+                            <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="2" maxX="0.0" maxY="2"/>
+                            <state key="normal" title="Price Up">
+                                <color key="titleColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="selected">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="buttonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="Ufs-0O-iKa"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hfY-05-nfk">
+                            <rect key="frame" x="0.0" y="183" width="157" height="59"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
+                            <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="2" maxX="0.0" maxY="2"/>
+                            <state key="normal" title="Price Down">
+                                <color key="titleColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="selected">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="buttonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="BDC-e1-Sc6"/>
+                            </connections>
+                        </button>
+                        <view alpha="0.10000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HZQ-Ae-PwB">
+                            <rect key="frame" x="15" y="60" width="127" height="1"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="5gm-6F-8h8"/>
+                            </constraints>
+                        </view>
+                        <view alpha="0.10000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aLJ-j6-WQq">
+                            <rect key="frame" x="15" y="121" width="127" height="1"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="kH0-UQ-R6r"/>
+                            </constraints>
+                        </view>
+                        <view alpha="0.10000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eBI-Nd-jCG">
+                            <rect key="frame" x="15" y="182" width="127" height="1"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="CpE-H3-sk7"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.15686274509803921" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="ixZ-Gd-Bw4" firstAttribute="leading" secondItem="KuI-GP-wJL" secondAttribute="leading" id="1aA-cD-RwG"/>
+                        <constraint firstAttribute="width" constant="157" id="5hi-fx-q9b"/>
+                        <constraint firstItem="hfY-05-nfk" firstAttribute="leading" secondItem="KuI-GP-wJL" secondAttribute="leading" id="8yo-uD-M6G"/>
+                        <constraint firstAttribute="trailing" secondItem="soS-5l-PMB" secondAttribute="trailing" id="9ey-FJ-ibK"/>
+                        <constraint firstItem="HZQ-Ae-PwB" firstAttribute="top" secondItem="KuI-GP-wJL" secondAttribute="top" constant="60" id="Bo9-cn-pJl"/>
+                        <constraint firstItem="ogJ-YU-Uex" firstAttribute="leading" secondItem="KuI-GP-wJL" secondAttribute="leading" id="CPI-hv-9GQ"/>
+                        <constraint firstItem="ixZ-Gd-Bw4" firstAttribute="top" secondItem="KuI-GP-wJL" secondAttribute="top" id="EHM-1E-ZeD"/>
+                        <constraint firstItem="aLJ-j6-WQq" firstAttribute="top" secondItem="ogJ-YU-Uex" secondAttribute="bottom" id="FbN-fX-tGG"/>
+                        <constraint firstItem="soS-5l-PMB" firstAttribute="leading" secondItem="KuI-GP-wJL" secondAttribute="leading" id="NRk-9G-gqc"/>
+                        <constraint firstAttribute="trailing" secondItem="eBI-Nd-jCG" secondAttribute="trailing" constant="15" id="Nbt-ft-UOn"/>
+                        <constraint firstItem="eBI-Nd-jCG" firstAttribute="top" secondItem="soS-5l-PMB" secondAttribute="bottom" id="UEw-cf-cft"/>
+                        <constraint firstItem="aLJ-j6-WQq" firstAttribute="leading" secondItem="KuI-GP-wJL" secondAttribute="leading" constant="15" id="VKi-5c-F04"/>
+                        <constraint firstAttribute="trailing" secondItem="aLJ-j6-WQq" secondAttribute="trailing" constant="15" id="gz9-Dd-zhb"/>
+                        <constraint firstItem="eBI-Nd-jCG" firstAttribute="leading" secondItem="KuI-GP-wJL" secondAttribute="leading" constant="15" id="j1z-lG-04U"/>
+                        <constraint firstItem="aLJ-j6-WQq" firstAttribute="top" secondItem="KuI-GP-wJL" secondAttribute="top" constant="121" id="j3u-lI-N8F"/>
+                        <constraint firstAttribute="trailing" secondItem="hfY-05-nfk" secondAttribute="trailing" id="jae-yY-28m"/>
+                        <constraint firstAttribute="bottom" secondItem="hfY-05-nfk" secondAttribute="bottom" id="lO4-PO-3N7"/>
+                        <constraint firstAttribute="trailing" secondItem="ixZ-Gd-Bw4" secondAttribute="trailing" id="lu1-Zc-lnI"/>
+                        <constraint firstItem="ogJ-YU-Uex" firstAttribute="top" secondItem="HZQ-Ae-PwB" secondAttribute="bottom" id="mnT-Rk-wUQ"/>
+                        <constraint firstAttribute="height" constant="242" id="nha-fF-OZA"/>
+                        <constraint firstItem="soS-5l-PMB" firstAttribute="top" secondItem="aLJ-j6-WQq" secondAttribute="bottom" id="nxV-wG-h1f"/>
+                        <constraint firstItem="HZQ-Ae-PwB" firstAttribute="top" secondItem="ixZ-Gd-Bw4" secondAttribute="bottom" id="qWi-Pf-9jf"/>
+                        <constraint firstAttribute="trailing" secondItem="ogJ-YU-Uex" secondAttribute="trailing" id="r1d-tn-KdQ"/>
+                        <constraint firstItem="hfY-05-nfk" firstAttribute="top" secondItem="eBI-Nd-jCG" secondAttribute="bottom" id="rJd-PW-gPE"/>
+                        <constraint firstAttribute="trailing" secondItem="HZQ-Ae-PwB" secondAttribute="trailing" constant="15" id="rMJ-2F-Ky3"/>
+                        <constraint firstItem="eBI-Nd-jCG" firstAttribute="top" secondItem="KuI-GP-wJL" secondAttribute="top" constant="182" id="upy-7R-SjP"/>
+                        <constraint firstItem="HZQ-Ae-PwB" firstAttribute="leading" secondItem="KuI-GP-wJL" secondAttribute="leading" constant="15" id="xsn-TJ-GH1"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="KuI-GP-wJL" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="112" id="2PS-i4-JpK"/>
+                <constraint firstItem="KuI-GP-wJL" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="pW6-v4-V9X"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="backView" destination="KuI-GP-wJL" id="Cfn-xK-acu"/>
+                <outlet property="capDownBtn" destination="ogJ-YU-Uex" id="0ew-7Z-BPG"/>
+                <outlet property="capUpBtn" destination="ixZ-Gd-Bw4" id="DOl-py-A9M"/>
+                <outlet property="priceDownBtn" destination="hfY-05-nfk" id="zNR-5Q-cSS"/>
+                <outlet property="priceUpBtn" destination="soS-5l-PMB" id="Qlz-Uc-j7g"/>
+            </connections>
+            <point key="canvasLocation" x="-460" y="-5"/>
+        </view>
+    </objects>
+</document>

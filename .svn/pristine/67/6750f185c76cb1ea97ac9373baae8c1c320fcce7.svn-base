@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>bitPub</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>9.2</string>
+	<key>CFBundleName</key>
+	<string>bitPub</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0.3</string>
+	<key>CFBundleVersion</key>
+	<string>1.3.6</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>We need this so that you can take and share photos and videos.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>bitPub will continuously upload your contacts to its heavily encrypted cloud servers to let you connect with your friends across all your devices.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>You can use Face ID to unlock the app.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>When you choose to share your Live Location with friends in a chat, bitPub needs background access to your location to keep them updated for the duration of the live sharing.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>When you choose to share your Live Location with friends in a chat, bitPub needs background access to your location to keep them updated for the duration of the live sharing. </string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>When you send your location to your friends, bitPub needs access to show them a map.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>We need this so that you can record and share voice messages and videos with sound.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>When you send your location to your friends, bitPub needs access to show them a map.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>We need this so that you can save photos and videos to your photo library.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need this so that you can share photos and videos from your photo library.</string>
+	<key>NSSiriUsageDescription</key>
+	<string>You can use Siri to send messages.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>SFCompactRounded-Semibold.otf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+</dict>
+</plist>

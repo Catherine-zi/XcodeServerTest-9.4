@@ -1,0 +1,9 @@
+{
+  "commitish" : "v0.4.1",
+  "iOS" : [
+    {
+      "name" : "SwiftHex",
+      "hash" : "860abe96841b533d2064decfbfb9e252919945679d21924755475d28259d4407"
+    }
+  ]
+}

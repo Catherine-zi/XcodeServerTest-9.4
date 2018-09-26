@@ -1,0 +1,34 @@
+#import <Foundation/Foundation.h>
+
+@class TGNeoChatsController;
+@class TGFileCache;
+
+typedef enum
+{
+    TGContentSizeCategoryXS,
+    TGContentSizeCategoryS,
+    TGContentSizeCategoryM,
+    TGContentSizeCategoryL,
+    TGContentSizeCategoryXL,
+    TGContentSizeCategoryXXL,
+    TGContentSizeCategoryXXXL
+} TGContentSizeCategory;
+
+//Avazu 20180607 注释掉WKExtensionDelegate
+//@interface TGExtensionDelegate : NSObject<WKExtensionDelegate>
+@interface TGExtensionDelegate : NSObject
+
+@property (nonatomic, readonly) TGFileCache *audioCache;
+@property (nonatomic, readonly) TGFileCache *imageCache;
+
+@property (nonatomic, readonly) TGNeoChatsController *chatsController;
+
+@property (nonatomic, readonly) TGContentSizeCategory contentSizeCategory;
+
+- (void)setCustomLocalizationFile:(NSURL *)fileUrl;
+
++ (NSString *)documentsPath;
+
++ (instancetype)instance;
+
+@end

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="102" id="KGk-i7-Jjw" customClass="WatchInputContentCell" customModule="DQDTelegraphDemo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="363" height="130"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="363" height="129.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hyS-ni-EOk" customClass="SWCornerRadiusView" customModule="DQDTelegraphDemo" customModuleProvider="target">
+                        <rect key="frame" x="16" y="0.0" width="331" height="130"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5Fe-KT-boS" customClass="SWPlaceholderTextView" customModule="DQDTelegraphDemo" customModuleProvider="target">
+                                <rect key="frame" x="16" y="20" width="299" height="90"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="placeholderColor">
+                                        <color key="value" red="0.73333333333333328" green="0.73333333333333328" blue="0.73333333333333328" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Placeholder"/>
+                                </userDefinedRuntimeAttributes>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="5Fe-KT-boS" secondAttribute="trailing" constant="16" id="4g0-gE-0Hs"/>
+                            <constraint firstItem="5Fe-KT-boS" firstAttribute="leading" secondItem="hyS-ni-EOk" secondAttribute="leading" constant="16" id="9FL-Hg-pKp"/>
+                            <constraint firstItem="5Fe-KT-boS" firstAttribute="top" secondItem="hyS-ni-EOk" secondAttribute="top" constant="20" id="JQl-JQ-6Ka"/>
+                            <constraint firstAttribute="height" constant="130" id="hCo-NS-Pl8"/>
+                            <constraint firstAttribute="bottom" secondItem="5Fe-KT-boS" secondAttribute="bottom" constant="20" id="zYf-WH-3uG"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="4"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="hyS-ni-EOk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="JmG-rY-xRW"/>
+                    <constraint firstItem="hyS-ni-EOk" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="N0a-ix-kKv"/>
+                    <constraint firstAttribute="bottom" secondItem="hyS-ni-EOk" secondAttribute="bottom" id="oEf-01-T8x"/>
+                    <constraint firstAttribute="trailing" secondItem="hyS-ni-EOk" secondAttribute="trailing" constant="16" id="vMs-4Q-wkr"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="cornerRadiusView" destination="hyS-ni-EOk" id="Oig-Re-wqO"/>
+                <outlet property="textView" destination="5Fe-KT-boS" id="G9U-GZ-wUA"/>
+            </connections>
+            <point key="canvasLocation" x="55.5" y="72"/>
+        </tableViewCell>
+    </objects>
+</document>

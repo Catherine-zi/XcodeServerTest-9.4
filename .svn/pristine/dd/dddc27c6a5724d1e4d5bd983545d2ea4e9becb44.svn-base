@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="UXv-vj-OcT" customClass="LogoutConfirmView" customModule="DQDTelegraphDemo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="396" height="151"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view alpha="0.10000000149011612" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bPq-qg-rep">
+                    <rect key="frame" x="0.0" y="102" width="396" height="1"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="uhm-xV-rZF"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qun-zo-rMg">
+                    <rect key="frame" x="0.0" y="103" width="198" height="48"/>
+                    <color key="backgroundColor" red="0.11764705882352941" green="0.34901960784313724" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="CxD-9D-IxT"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <state key="normal" title="CONFIRM">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="clickCancel:" destination="UXv-vj-OcT" eventType="touchUpInside" id="MlC-1x-C4g"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c6N-T9-9Or">
+                    <rect key="frame" x="198.5" y="103" width="197.5" height="48"/>
+                    <color key="backgroundColor" red="0.11764705882352941" green="0.34901960784313724" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="Sg4-5X-N9x"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <state key="normal" title="CANCEL">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="clickConfirm:" destination="UXv-vj-OcT" eventType="touchUpInside" id="Tyf-5g-MD2"/>
+                    </connections>
+                </button>
+                <view alpha="0.10000000149011612" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BSh-hf-Gxb">
+                    <rect key="frame" x="198" y="98" width="0.5" height="53"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="1" id="62l-iI-Czx"/>
+                        <constraint firstAttribute="height" constant="53" id="XjC-nS-xhS"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="btD-SX-R4E">
+                    <rect key="frame" x="0.0" y="0.0" width="396" height="102"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Confirm to Log Out？You Can‘t use Chat feature！" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BPY-v9-Wge">
+                            <rect key="frame" x="30" y="33" width="336" height="36"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.11764705882352941" green="0.34901960784313724" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="BPY-v9-Wge" firstAttribute="leading" secondItem="btD-SX-R4E" secondAttribute="leading" constant="30" id="Vw2-S2-Vbz"/>
+                        <constraint firstAttribute="trailing" secondItem="BPY-v9-Wge" secondAttribute="trailing" constant="30" id="cUW-lD-DrQ"/>
+                        <constraint firstItem="BPY-v9-Wge" firstAttribute="centerY" secondItem="btD-SX-R4E" secondAttribute="centerY" id="vwu-3t-dHr"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.1529411765" green="0.31372549020000001" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="btD-SX-R4E" firstAttribute="top" secondItem="LG7-aA-nzn" secondAttribute="top" id="ATy-Tq-A0k"/>
+                <constraint firstItem="LG7-aA-nzn" firstAttribute="trailing" secondItem="bPq-qg-rep" secondAttribute="trailing" id="Gxq-fZ-L9p"/>
+                <constraint firstItem="LG7-aA-nzn" firstAttribute="trailing" secondItem="c6N-T9-9Or" secondAttribute="trailing" id="KxT-JK-4iS"/>
+                <constraint firstAttribute="bottom" secondItem="BSh-hf-Gxb" secondAttribute="bottom" id="OLo-D0-Vin"/>
+                <constraint firstItem="LG7-aA-nzn" firstAttribute="bottom" secondItem="Qun-zo-rMg" secondAttribute="bottom" id="S3x-Ab-hka"/>
+                <constraint firstItem="Qun-zo-rMg" firstAttribute="top" secondItem="bPq-qg-rep" secondAttribute="bottom" id="TOt-HA-JVP"/>
+                <constraint firstItem="c6N-T9-9Or" firstAttribute="leading" secondItem="BSh-hf-Gxb" secondAttribute="trailing" id="Tyl-53-I4N"/>
+                <constraint firstItem="BSh-hf-Gxb" firstAttribute="centerX" secondItem="LG7-aA-nzn" secondAttribute="centerX" id="baJ-tA-nD4"/>
+                <constraint firstItem="bPq-qg-rep" firstAttribute="leading" secondItem="LG7-aA-nzn" secondAttribute="leading" id="hcl-3R-zbh"/>
+                <constraint firstItem="LG7-aA-nzn" firstAttribute="bottom" secondItem="c6N-T9-9Or" secondAttribute="bottom" id="hgW-BX-vBF"/>
+                <constraint firstItem="bPq-qg-rep" firstAttribute="top" secondItem="btD-SX-R4E" secondAttribute="bottom" id="iAG-zP-SLV"/>
+                <constraint firstItem="LG7-aA-nzn" firstAttribute="bottom" secondItem="BSh-hf-Gxb" secondAttribute="bottom" id="iQe-fZ-QRE"/>
+                <constraint firstItem="Qun-zo-rMg" firstAttribute="leading" secondItem="LG7-aA-nzn" secondAttribute="leading" id="jny-AJ-8qL"/>
+                <constraint firstItem="LG7-aA-nzn" firstAttribute="trailing" secondItem="btD-SX-R4E" secondAttribute="trailing" id="ksq-Fh-8yF"/>
+                <constraint firstItem="BSh-hf-Gxb" firstAttribute="leading" secondItem="Qun-zo-rMg" secondAttribute="trailing" id="noR-6l-Y3v"/>
+                <constraint firstItem="btD-SX-R4E" firstAttribute="leading" secondItem="LG7-aA-nzn" secondAttribute="leading" id="rZv-f3-2ML"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="LG7-aA-nzn"/>
+            <connections>
+                <outlet property="cancelBtn" destination="Qun-zo-rMg" id="g5q-I8-LaY"/>
+                <outlet property="confirmBtn" destination="c6N-T9-9Or" id="Sf0-Iz-IJ2"/>
+                <outlet property="tipLB" destination="BPY-v9-Wge" id="ELv-uq-KvO"/>
+            </connections>
+            <point key="canvasLocation" x="-13" y="-154.5"/>
+        </view>
+    </objects>
+</document>

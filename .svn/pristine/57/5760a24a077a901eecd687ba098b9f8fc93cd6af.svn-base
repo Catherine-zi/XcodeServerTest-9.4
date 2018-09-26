@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   type = "0"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DQDTelegraphDemo/AppDelegate/TGAppDelegate.mm"
+            timestampString = "550231932.758793"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1313"
+            endingLineNumber = "1313"
+            landmarkName = "-presentLoginController:animated:phoneNumber:phoneCode:phoneCodeHash:codeSentToTelegram:codeSentViaPhone:profileFirstName:profileLastName:resetAccountState:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DQDTelegraph/Telegraph/UserInterface/ModernConversation/TGModernConversationController.mm"
+            timestampString = "550293947.246488"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "8299"
+            endingLineNumber = "8299"
+            landmarkName = "-_displayAttachmentsMenu"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[TGModernConversationController _displayAttachmentsMenu]"
+                  moduleName = "DQDTelegraphDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mac/Documents/Project/%E7%BB%84%E4%BB%B6%E5%BA%93/%E5%9F%BA%E7%A1%80%E7%BB%84%E4%BB%B6/DQDTelegraph/DQDTelegraph/Telegraph/UserInterface/ModernConversation/TGModernConversationController.mm"
+                  timestampString = "550321785.655908"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "8299"
+                  endingLineNumber = "8299"
+                  offsetFromSymbolStart = "4416">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_.3336"
+                  moduleName = "DQDTelegraphDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mac/Documents/Project/%E7%BB%84%E4%BB%B6%E5%BA%93/%E5%9F%BA%E7%A1%80%E7%BB%84%E4%BB%B6/DQDTelegraph/DQDTelegraph/Telegraph/UserInterface/ModernConversation/TGModernConversationController.mm"
+                  timestampString = "550321785.657971"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "8299"
+                  endingLineNumber = "8299"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DQDTelegraph/Telegraph/UserInterface/ModernConversation/TGModernConversationController.mm"
+            timestampString = "550293947.2471761"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "8176"
+            endingLineNumber = "8176"
+            landmarkName = "-inputPanelRequestedAttachmentsMenu:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DQDTelegraph/Telegraph/UserInterface/ModernConversation/TGModernConversationController.mm"
+            timestampString = "550293947.2476881"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "8186"
+            endingLineNumber = "8186"
+            landmarkName = "-_displayAttachmentsMenu"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

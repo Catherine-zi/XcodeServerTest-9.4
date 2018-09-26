@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AlertSettingViewController" customModule="DQDTelegraphDemo" customModuleProvider="target">
+            <connections>
+                <outlet property="bgView" destination="Uuk-wl-bxg" id="Ttu-hM-i95"/>
+                <outlet property="bgViewConstraint_height" destination="SoY-N2-nHb" id="DVM-O4-o51"/>
+                <outlet property="closeBtn" destination="ywz-8r-y9Z" id="nIT-sO-GkW"/>
+                <outlet property="saveBtn" destination="5Oq-4x-LMS" id="sH0-IA-35b"/>
+                <outlet property="tableView" destination="6Fc-dX-vV0" id="IUx-Or-uqe"/>
+                <outlet property="titleLabel" destination="357-yR-bbp" id="HHe-cS-owL"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uuk-wl-bxg" customClass="SWCornerRadiusView" customModule="DQDTelegraphDemo" customModuleProvider="target">
+                    <rect key="frame" x="20" y="144" width="335" height="380"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alert Setting" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="357-yR-bbp">
+                            <rect key="frame" x="114" y="55" width="107" height="23"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="23" id="94F-Wy-C5i"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="18"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ywz-8r-y9Z">
+                            <rect key="frame" x="285" y="10" width="40" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="CKV-dz-New"/>
+                                <constraint firstAttribute="height" constant="40" id="CUq-Kv-esb"/>
+                            </constraints>
+                            <state key="normal" image="SelectWallet_close"/>
+                            <connections>
+                                <action selector="closeBtnClick:" destination="-1" eventType="touchUpInside" id="ys4-nH-SHb"/>
+                            </connections>
+                        </button>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6Fc-dX-vV0">
+                            <rect key="frame" x="0.0" y="97" width="335" height="213"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <outlet property="dataSource" destination="-1" id="EhG-xG-M47"/>
+                                <outlet property="delegate" destination="-1" id="e05-Dc-WdF"/>
+                            </connections>
+                        </tableView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Oq-4x-LMS">
+                            <rect key="frame" x="0.0" y="320" width="335" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="XSy-wq-OdA"/>
+                            </constraints>
+                            <state key="normal" title="Save"/>
+                            <connections>
+                                <action selector="saveBtnClick:" destination="-1" eventType="touchUpInside" id="n1G-Ag-mgw"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.11764705882352941" green="0.34901960784313724" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="ywz-8r-y9Z" secondAttribute="trailing" constant="10" id="Ct2-qv-HfJ"/>
+                        <constraint firstAttribute="bottom" secondItem="5Oq-4x-LMS" secondAttribute="bottom" constant="10" id="LoD-cQ-uN9"/>
+                        <constraint firstAttribute="trailing" secondItem="6Fc-dX-vV0" secondAttribute="trailing" id="QEu-Qy-Rm4"/>
+                        <constraint firstAttribute="height" constant="380" id="SoY-N2-nHb"/>
+                        <constraint firstItem="5Oq-4x-LMS" firstAttribute="leading" secondItem="Uuk-wl-bxg" secondAttribute="leading" id="Uxc-Z4-7o9"/>
+                        <constraint firstItem="6Fc-dX-vV0" firstAttribute="top" secondItem="357-yR-bbp" secondAttribute="bottom" constant="19" id="YGG-ki-ZPm"/>
+                        <constraint firstItem="ywz-8r-y9Z" firstAttribute="top" secondItem="Uuk-wl-bxg" secondAttribute="top" constant="10" id="aAx-KS-SoH"/>
+                        <constraint firstItem="357-yR-bbp" firstAttribute="centerX" secondItem="Uuk-wl-bxg" secondAttribute="centerX" id="bRI-5Z-mrf"/>
+                        <constraint firstItem="357-yR-bbp" firstAttribute="top" secondItem="Uuk-wl-bxg" secondAttribute="top" constant="55" id="cXN-gK-EYr"/>
+                        <constraint firstItem="5Oq-4x-LMS" firstAttribute="top" secondItem="6Fc-dX-vV0" secondAttribute="bottom" constant="10" id="izP-SB-XYN"/>
+                        <constraint firstItem="6Fc-dX-vV0" firstAttribute="leading" secondItem="Uuk-wl-bxg" secondAttribute="leading" id="wT3-rr-qnp"/>
+                        <constraint firstAttribute="trailing" secondItem="5Oq-4x-LMS" secondAttribute="trailing" id="x2k-Tw-Hiv"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Uuk-wl-bxg" secondAttribute="trailing" constant="20" id="Ouc-mq-akw"/>
+                <constraint firstItem="Uuk-wl-bxg" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="VQc-Fh-G4Q"/>
+                <constraint firstItem="Uuk-wl-bxg" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="uyK-Qr-Xlp"/>
+                <constraint firstItem="Uuk-wl-bxg" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="xCR-rV-QaN"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="-385.5" y="108.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="SelectWallet_close" width="14" height="14"/>
+    </resources>
+</document>

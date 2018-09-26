@@ -1,0 +1,6 @@
+module Pods_DQDTelegraphDemo {
+  umbrella header "Pods-DQDTelegraphDemo-umbrella.h"
+
+  export *
+  module * { export * }
+}

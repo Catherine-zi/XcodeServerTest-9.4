@@ -1,0 +1,19 @@
+/* 
+  InfoPlist.strings
+  DQDTelegraphDemo
+
+  Created by Avazu on 2018/6/9.
+  Copyright © 2018年 Avazu. All rights reserved.
+*/
+"CFBundleDisplayName" = "币栈";
+
+"NSContactsUsageDescription" = "bitPub会将您的联系人上传到高度加密的云服务器上，以便您在所有设备上与您的朋友进行联系。";
+"NSLocationWhenInUseUsageDescription" = "当你把你的位置发送给你的朋友时，bitPub将为他们显示一个地图。";
+"NSCameraUsageDescription" = "我们需要您允许相机权限，这样你就可以拍摄和分享照片和视频。";
+"NSPhotoLibraryUsageDescription" = "我们需要您允许相册权限，这样你就可以从你的照片库分享照片和视频。";
+"NSPhotoLibraryAddUsageDescription" = "我们需要这个，以便你可以保存照片和视频到你的照片库。";
+"NSMicrophoneUsageDescription" = "我们需要这个，这样你就可以用声音记录和分享语音信息和视频。";
+"NSSiriUsageDescription" = "您可以使用Siri发送信息.";
+
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "当你选择在聊天中与朋友分享你的生活地点时，bitPub需要后台访问到你的位置，以便在实时共享期间保持他们的更新。";
+"NSLocationAlwaysUsageDescription" = "当你选择在聊天中与朋友分享你的生活地点时，bitPub需要后台访问到你的位置，以便在实时共享期间保持他们的更新。你还需要从Apple Watch发送位置。";

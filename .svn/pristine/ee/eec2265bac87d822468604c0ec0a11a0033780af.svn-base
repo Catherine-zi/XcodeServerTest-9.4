@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="NetworkFailView" customModule="DQDTelegraphDemo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="135" height="115"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TGV-Fb-fgw">
+                    <rect key="frame" x="0.0" y="0.0" width="135" height="115"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="115" id="YGt-2U-29H"/>
+                    </constraints>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="markets_network_fail" translatesAutoresizingMaskIntoConstraints="NO" id="U45-oY-vMO">
+                    <rect key="frame" x="30" y="0.0" width="75" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="75" id="rMH-VE-8mT"/>
+                        <constraint firstAttribute="height" constant="75" id="ry5-uy-g05"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="network fail network fail network fail" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oc1-r9-fqM">
+                    <rect key="frame" x="0.0" y="80" width="135" height="29"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="U45-oY-vMO" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="3Wn-tR-wcj"/>
+                <constraint firstItem="oc1-r9-fqM" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="6Ot-cT-rQw"/>
+                <constraint firstItem="TGV-Fb-fgw" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="DBU-La-XfT"/>
+                <constraint firstItem="TGV-Fb-fgw" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="F3w-fS-ETI"/>
+                <constraint firstItem="oc1-r9-fqM" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="LJM-0d-VaD"/>
+                <constraint firstItem="TGV-Fb-fgw" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Pan-sn-MTh"/>
+                <constraint firstItem="TGV-Fb-fgw" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="Rev-2y-gLh"/>
+                <constraint firstItem="U45-oY-vMO" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="UnV-06-5Z1"/>
+                <constraint firstItem="oc1-r9-fqM" firstAttribute="top" secondItem="U45-oY-vMO" secondAttribute="bottom" constant="5" id="o0U-Ke-1hC"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="tipsLabel" destination="oc1-r9-fqM" id="UHq-Wd-ny0"/>
+                <outlet property="tryButton" destination="TGV-Fb-fgw" id="SGG-nj-NEq"/>
+            </connections>
+            <point key="canvasLocation" x="-53.5" y="-186.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="markets_network_fail" width="77" height="77"/>
+    </resources>
+</document>

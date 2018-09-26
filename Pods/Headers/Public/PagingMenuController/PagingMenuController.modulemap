@@ -1,0 +1,6 @@
+module PagingMenuController {
+  umbrella header "PagingMenuController-umbrella.h"
+
+  export *
+  module * { export * }
+}

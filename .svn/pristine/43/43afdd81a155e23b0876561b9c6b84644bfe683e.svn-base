@@ -1,0 +1,9 @@
+{
+  "commitish" : "2.0.0",
+  "iOS" : [
+    {
+      "name" : "EthereumKit",
+      "hash" : "59a8b2dc5eb1f43ce1746f54839dd8cff76fa6300912f05faf095ffca726c0af"
+    }
+  ]
+}

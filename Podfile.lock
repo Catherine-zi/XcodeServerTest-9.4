@@ -1,0 +1,101 @@
+PODS:
+  - Alamofire (4.7.2)
+  - Bugly (2.5.0)
+  - CoreBitcoin (0.6.8.1):
+    - ISO8601DateFormatter
+    - OpenSSL-Universal (= 1.0.1.16)
+  - HSStockChart (1.1.2)
+  - IQKeyboardManager (6.0.5)
+  - ISO8601DateFormatter (0.8)
+  - JCore (1.2.0)
+  - JPush (3.0.9):
+    - JCore (~> 1.2.0)
+  - KeychainAccess (3.1.1)
+  - MJRefresh (3.1.15.3)
+  - Moya (11.0.2):
+    - Moya/Core (= 11.0.2)
+  - Moya/Core (11.0.2):
+    - Alamofire (~> 4.1)
+    - Result (~> 3.0)
+  - OpenSSL-Universal (1.0.1.16)
+  - PagingMenuController (2.2.0)
+  - PKHUD (5.0.0)
+  - QQ_MTA (2.4.3):
+    - QQ_MTA/BasicAnalysis (= 2.4.3)
+  - QQ_MTA/AutoTrack (2.4.3):
+    - QQ_MTA/BasicAnalysis
+  - QQ_MTA/BasicAnalysis (2.4.3)
+  - Result (3.2.4)
+  - SDWebImage (4.3.3):
+    - SDWebImage/Core (= 4.3.3)
+  - SDWebImage/Core (4.3.3)
+  - SnapKit (4.0.0)
+  - Starscream (3.0.5)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.7)
+  - Bugly
+  - CoreBitcoin (from `https://raw.github.com/oleganza/CoreBitcoin/master/CoreBitcoin.podspec`)
+  - HSStockChart
+  - IQKeyboardManager
+  - JPush
+  - KeychainAccess (~> 3.1.0)
+  - MJRefresh (~> 3.1.15.3)
+  - Moya (~> 11.0.1)
+  - PagingMenuController (~> 2.2.0)
+  - PKHUD (~> 5.0)
+  - QQ_MTA
+  - QQ_MTA/AutoTrack
+  - SDWebImage (~> 4.3.3)
+  - SnapKit (~> 4.0.0)
+  - Starscream (~> 3.0.5)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - Bugly
+    - HSStockChart
+    - IQKeyboardManager
+    - ISO8601DateFormatter
+    - JCore
+    - JPush
+    - KeychainAccess
+    - MJRefresh
+    - Moya
+    - OpenSSL-Universal
+    - PagingMenuController
+    - PKHUD
+    - QQ_MTA
+    - Result
+    - SDWebImage
+    - SnapKit
+    - Starscream
+
+EXTERNAL SOURCES:
+  CoreBitcoin:
+    :podspec: https://raw.github.com/oleganza/CoreBitcoin/master/CoreBitcoin.podspec
+
+SPEC CHECKSUMS:
+  Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
+  Bugly: 3ca9f255c01025582df26f9222893b383c7e4b4e
+  CoreBitcoin: 4ac6f6a61e543f08399c2fe57496d4fdcbaf74f9
+  HSStockChart: d83363c4683f04cbd103bac434f379740f7dddc9
+  IQKeyboardManager: 64c05e5d127a8a53819f33937dfe468cf051b4be
+  ISO8601DateFormatter: 4551b6ce4f83185425f583b0b3feb3c7b59b942c
+  JCore: b52e3dd73625eec70afd1244bb9c41038aa06087
+  JPush: 48041e8c5ad2ef9b48709eb0888af9640b36e9b0
+  KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3
+  MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
+  Moya: a725035953bc1c0eb1be505ab903984501d82440
+  OpenSSL-Universal: 85ef63bf81d0741b03c8719cd29685c37c59518d
+  PagingMenuController: 6176618987bb170096664f2da097313e45ed9c31
+  PKHUD: 3c001512c6e002091184197a8de7a20420786e3b
+  QQ_MTA: ce2c862613b9241576e9128aab200c131ca7b513
+  Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
+  SDWebImage: de4d90b5bff3571eae7bd16202b1f43135409fa5
+  SnapKit: a42d492c16e80209130a3379f73596c3454b7694
+  Starscream: faf918b2f2eff7d5dd21180646bf015a669673bd
+
+PODFILE CHECKSUM: 78e1bbcb5d0687133e39cb8e49baf6d1f3a339bc
+
+COCOAPODS: 1.5.2

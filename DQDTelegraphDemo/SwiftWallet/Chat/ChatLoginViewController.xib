@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChatLoginViewController" customModule="DQDTelegraphDemo" customModuleProvider="target">
+            <connections>
+                <outlet property="chatTipLabel" destination="CtQ-j0-YGA" id="LdK-HM-JnR"/>
+                <outlet property="loginBtn" destination="56A-bR-0Py" id="WOY-Q8-Kv2"/>
+                <outlet property="navTitleLabel" destination="aum-BL-xCo" id="G7K-EN-pG4"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QsL-Fa-wfN">
+                    <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chat" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aum-BL-xCo">
+                            <rect key="frame" x="163" y="12" width="50" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="50" id="wIm-FW-q5s"/>
+                                <constraint firstAttribute="height" constant="20" id="wXo-s8-Enb"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IoH-OP-v8o">
+                            <rect key="frame" x="342" y="11" width="18" height="22"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" image="markets_search"/>
+                            <connections>
+                                <action selector="searchButtonClick:" destination="-1" eventType="touchUpInside" id="4qS-Iv-n1Q"/>
+                            </connections>
+                        </button>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hpg-bF-lQg">
+                            <rect key="frame" x="311" y="11" width="18" height="22"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" image="chat_addBtn">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="addButtonClick:" destination="-1" eventType="touchUpInside" id="RS2-Xn-IUp"/>
+                            </connections>
+                        </button>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lif-0D-9Cd">
+                            <rect key="frame" x="0.0" y="43" width="375" height="1"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="IIU-qf-BEP"/>
+                        <constraint firstItem="aum-BL-xCo" firstAttribute="centerX" secondItem="QsL-Fa-wfN" secondAttribute="centerX" id="je7-no-hdT"/>
+                        <constraint firstItem="aum-BL-xCo" firstAttribute="centerY" secondItem="QsL-Fa-wfN" secondAttribute="centerY" id="ziX-h6-BlD"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Can't view message without logging in" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CtQ-j0-YGA">
+                    <rect key="frame" x="75" y="78" width="225" height="14"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="14" id="9O2-Mp-pYR"/>
+                        <constraint firstAttribute="width" constant="225" id="JKd-I0-9Oy"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chat_messageIcon" translatesAutoresizingMaskIntoConstraints="NO" id="So7-U4-YQg">
+                    <rect key="frame" x="133" y="186" width="109" height="109"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="109" id="crL-3K-zaf"/>
+                        <constraint firstAttribute="height" constant="109" id="yfN-rE-dzs"/>
+                    </constraints>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chat_loginArrow" translatesAutoresizingMaskIntoConstraints="NO" id="dSO-c0-cyv">
+                    <rect key="frame" x="180" y="339" width="15.5" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="15.5" id="kDi-kg-OfC"/>
+                        <constraint firstAttribute="height" constant="32" id="ueZ-dM-P7a"/>
+                    </constraints>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="56A-bR-0Py">
+                    <rect key="frame" x="20" y="422" width="335" height="68"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="68" id="UCB-Ts-7lH"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                    <inset key="titleEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="11"/>
+                    <inset key="imageEdgeInsets" minX="-17" minY="0.0" maxX="0.0" maxY="11"/>
+                    <state key="normal" title="Telegram Login" image="chat_telegramLogin" backgroundImage="button_blue_normal">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="loginButtonClick:" destination="-1" eventType="touchUpInside" id="vto-y7-PKd"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="CtQ-j0-YGA" firstAttribute="top" secondItem="QsL-Fa-wfN" secondAttribute="bottom" constant="14" id="0Nd-cU-NUD"/>
+                <constraint firstItem="QsL-Fa-wfN" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="15E-hh-hJb"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="56A-bR-0Py" secondAttribute="bottom" constant="10" id="CLa-eC-o1m"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="56A-bR-0Py" secondAttribute="trailing" constant="20" id="KTo-Ht-Ewk"/>
+                <constraint firstItem="dSO-c0-cyv" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="NJ5-KR-KgY"/>
+                <constraint firstItem="QsL-Fa-wfN" firstAttribute="top" relation="greaterThanOrEqual" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="NgR-ph-XqW"/>
+                <constraint firstItem="QsL-Fa-wfN" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" priority="750" id="O7K-DE-jVA"/>
+                <constraint firstItem="So7-U4-YQg" firstAttribute="top" secondItem="CtQ-j0-YGA" secondAttribute="bottom" priority="250" constant="94" id="QnE-dI-Dfe"/>
+                <constraint firstItem="QsL-Fa-wfN" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Vtg-5O-9Ch"/>
+                <constraint firstItem="So7-U4-YQg" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Zd7-KG-b8H"/>
+                <constraint firstItem="CtQ-j0-YGA" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Zx0-zr-Uny"/>
+                <constraint firstItem="56A-bR-0Py" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="a5H-gu-1PU"/>
+                <constraint firstItem="dSO-c0-cyv" firstAttribute="top" secondItem="So7-U4-YQg" secondAttribute="bottom" constant="44" id="aZy-Nd-ZIU"/>
+                <constraint firstItem="56A-bR-0Py" firstAttribute="top" secondItem="dSO-c0-cyv" secondAttribute="bottom" constant="51" id="zUW-6M-EQZ"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="-593" y="27"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="button_blue_normal" width="335" height="68"/>
+        <image name="chat_addBtn" width="18" height="18"/>
+        <image name="chat_loginArrow" width="15" height="32"/>
+        <image name="chat_messageIcon" width="109" height="109"/>
+        <image name="chat_telegramLogin" width="23" height="19"/>
+        <image name="markets_search" width="18" height="18"/>
+    </resources>
+</document>

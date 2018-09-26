@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchCoinListViewController" customModule="DQDTelegraphDemo" customModuleProvider="target">
+            <connections>
+                <outlet property="tableView" destination="JD2-S5-25f" id="Huc-fl-kB6"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ydY-Ju-Llk">
+                    <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yyL-BR-gm9">
+                            <rect key="frame" x="16" y="7" width="30" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="30" id="c1b-ZS-ju9"/>
+                                <constraint firstAttribute="height" constant="30" id="edv-7m-d8e"/>
+                            </constraints>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="15" maxY="0.0"/>
+                            <state key="normal" image="addAssets_back"/>
+                            <connections>
+                                <action selector="backAction:" destination="-1" eventType="touchUpInside" id="VFT-fg-dFZ"/>
+                            </connections>
+                        </button>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GQG-kh-aCr">
+                            <rect key="frame" x="0.0" y="43" width="375" height="1"/>
+                            <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="0.5" id="Vza-Xj-rQ3"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="yyL-BR-gm9" firstAttribute="leading" secondItem="ydY-Ju-Llk" secondAttribute="leading" constant="16" id="DsP-Dg-o7E"/>
+                        <constraint firstItem="yyL-BR-gm9" firstAttribute="centerY" secondItem="ydY-Ju-Llk" secondAttribute="centerY" id="HMu-At-q6y"/>
+                        <constraint firstItem="GQG-kh-aCr" firstAttribute="leading" secondItem="ydY-Ju-Llk" secondAttribute="leading" id="Jek-f7-JFz"/>
+                        <constraint firstAttribute="trailing" secondItem="GQG-kh-aCr" secondAttribute="trailing" id="OiT-eQ-RsQ"/>
+                        <constraint firstAttribute="height" constant="44" id="SoL-13-z2V"/>
+                        <constraint firstAttribute="bottom" secondItem="GQG-kh-aCr" secondAttribute="bottom" id="do4-Pk-cMJ"/>
+                    </constraints>
+                </view>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="60" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="JD2-S5-25f">
+                    <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="Q5a-OX-fjF"/>
+                        <outlet property="delegate" destination="-1" id="oHJ-v0-6H4"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="ydY-Ju-Llk" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="5VY-A5-zVK"/>
+                <constraint firstItem="ydY-Ju-Llk" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="7Hf-ch-Ope"/>
+                <constraint firstItem="JD2-S5-25f" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="NKW-0p-b26"/>
+                <constraint firstItem="JD2-S5-25f" firstAttribute="top" secondItem="ydY-Ju-Llk" secondAttribute="bottom" id="UV7-6N-9mU"/>
+                <constraint firstItem="JD2-S5-25f" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="YmK-gi-jct"/>
+                <constraint firstItem="JD2-S5-25f" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="eM3-j5-QXR"/>
+                <constraint firstItem="ydY-Ju-Llk" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="zAJ-kI-59Q"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="32.5" y="59.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="addAssets_back" width="18" height="14"/>
+    </resources>
+</document>

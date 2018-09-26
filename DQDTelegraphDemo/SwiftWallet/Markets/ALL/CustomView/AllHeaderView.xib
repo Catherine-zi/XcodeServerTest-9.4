@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="AllHeaderView" customModule="DQDTelegraphDemo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="34"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="alr-Nc-seD">
+                    <rect key="frame" x="0.0" y="0.0" width="125" height="33"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TB8-JC-Yvt">
+                            <rect key="frame" x="46" y="3" width="33" height="27"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <state key="normal" title="Name">
+                                <color key="titleColor" red="0.73333333329999995" green="0.73333333329999995" blue="0.73333333329999995" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="selected">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="button1Action:" destination="iN0-l3-epB" eventType="touchUpInside" id="nHn-XL-mDh"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="33" id="Dsh-xM-xWO"/>
+                        <constraint firstItem="TB8-JC-Yvt" firstAttribute="centerX" secondItem="alr-Nc-seD" secondAttribute="centerX" id="OlX-fM-w3A"/>
+                        <constraint firstItem="TB8-JC-Yvt" firstAttribute="centerY" secondItem="alr-Nc-seD" secondAttribute="centerY" id="U6L-jl-VR1"/>
+                        <constraint firstAttribute="width" constant="125" id="n9u-Vk-oje"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8hc-NK-QoR">
+                    <rect key="frame" x="250" y="0.0" width="125" height="33"/>
+                    <subviews>
+                        <button opaque="NO" tag="2" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cfY-8H-wL7">
+                            <rect key="frame" x="43" y="9" width="62" height="15"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <state key="normal" title="CHANGE" image="markets_all_sorting_normal">
+                                <color key="titleColor" red="0.73333333329999995" green="0.73333333329999995" blue="0.73333333329999995" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="selected" image="markets_all_sorting_down">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="button3Action:" destination="iN0-l3-epB" eventType="touchUpInside" id="CMK-eE-WcZ"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="cfY-8H-wL7" firstAttribute="centerY" secondItem="8hc-NK-QoR" secondAttribute="centerY" id="IWg-KZ-c20"/>
+                        <constraint firstAttribute="height" constant="33" id="dml-yE-b4f"/>
+                        <constraint firstAttribute="trailing" secondItem="cfY-8H-wL7" secondAttribute="trailing" constant="20" id="kFH-vK-N3O"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Rc-wz-vcv">
+                    <rect key="frame" x="125" y="0.0" width="125" height="33"/>
+                    <subviews>
+                        <button opaque="NO" tag="1" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VML-u4-97D">
+                            <rect key="frame" x="45" y="9" width="70" height="15"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="15" id="QFt-Af-qnW"/>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="bgv-wO-yZN"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <state key="normal" title="VOL(USD)" image="markets_all_sorting_normal">
+                                <color key="titleColor" red="0.73333333333333328" green="0.73333333333333328" blue="0.73333333333333328" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="selected" image="markets_all_sorting_up">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="button2Action:" destination="iN0-l3-epB" eventType="touchUpInside" id="F6D-h2-cIe"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="VML-u4-97D" secondAttribute="trailing" constant="10" id="CW3-da-fsd"/>
+                        <constraint firstItem="VML-u4-97D" firstAttribute="centerY" secondItem="6Rc-wz-vcv" secondAttribute="centerY" id="Csb-pD-fiE"/>
+                        <constraint firstAttribute="height" constant="33" id="sIV-W3-JpP"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mOE-Cs-CiQ">
+                    <rect key="frame" x="0.0" y="33" width="375" height="1"/>
+                    <color key="backgroundColor" red="0.86666666670000003" green="0.86666666670000003" blue="0.86666666670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="TxD-nd-ZfD"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="alr-Nc-seD" firstAttribute="leading" secondItem="zpo-WA-czp" secondAttribute="leading" id="2GK-jL-MWH"/>
+                <constraint firstItem="8hc-NK-QoR" firstAttribute="top" secondItem="zpo-WA-czp" secondAttribute="top" id="77Y-eX-k74"/>
+                <constraint firstItem="8hc-NK-QoR" firstAttribute="leading" secondItem="6Rc-wz-vcv" secondAttribute="trailing" id="IXc-6Y-7j0"/>
+                <constraint firstItem="6Rc-wz-vcv" firstAttribute="top" secondItem="zpo-WA-czp" secondAttribute="top" id="JkV-e8-Mc8"/>
+                <constraint firstItem="8hc-NK-QoR" firstAttribute="width" secondItem="6Rc-wz-vcv" secondAttribute="width" id="Sw1-rf-aYz"/>
+                <constraint firstAttribute="trailing" secondItem="mOE-Cs-CiQ" secondAttribute="trailing" id="WNV-v3-jbc"/>
+                <constraint firstItem="8hc-NK-QoR" firstAttribute="trailing" secondItem="zpo-WA-czp" secondAttribute="trailing" id="aX1-5y-3qT"/>
+                <constraint firstItem="6Rc-wz-vcv" firstAttribute="leading" secondItem="alr-Nc-seD" secondAttribute="trailing" id="d03-ki-yZ7"/>
+                <constraint firstItem="alr-Nc-seD" firstAttribute="top" secondItem="zpo-WA-czp" secondAttribute="top" id="is3-TT-Gc5"/>
+                <constraint firstItem="mOE-Cs-CiQ" firstAttribute="top" secondItem="alr-Nc-seD" secondAttribute="bottom" id="pHv-ON-Kvs"/>
+                <constraint firstItem="mOE-Cs-CiQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="w3i-vs-L6z"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="zpo-WA-czp"/>
+            <connections>
+                <outlet property="changeSortingBtn" destination="cfY-8H-wL7" id="9VR-RM-J6t"/>
+                <outlet property="nameBtn" destination="TB8-JC-Yvt" id="Nw8-HT-Tga"/>
+                <outlet property="volSortingBtn" destination="VML-u4-97D" id="AhW-MB-dLQ"/>
+            </connections>
+            <point key="canvasLocation" x="-793" y="-1202"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="markets_all_sorting_down" width="11" height="11"/>
+        <image name="markets_all_sorting_normal" width="11" height="11"/>
+        <image name="markets_all_sorting_up" width="11" height="11"/>
+    </resources>
+</document>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BackUpWalletViewController" customModule="DQDTelegraphDemo" customModuleProvider="target">
+            <connections>
+                <outlet property="attentionLabel" destination="cak-Hr-dqr" id="LNh-gv-BoN"/>
+                <outlet property="backupBtn" destination="ehs-L0-ugq" id="jKp-pU-UQQ"/>
+                <outlet property="navTitleLabel" destination="wNh-KY-MoD" id="0GQ-bH-anT"/>
+                <outlet property="tipTextView" destination="NU3-Ol-tAJ" id="Tkj-Jm-aEM"/>
+                <outlet property="titleTextLabel" destination="nH4-5f-t8S" id="gcp-Zp-C3a"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="381" height="618"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BackUpWallet" translatesAutoresizingMaskIntoConstraints="NO" id="Mqr-3G-QrI">
+                    <rect key="frame" x="163" y="115" width="55" height="55"/>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mEv-r3-cYd">
+                    <rect key="frame" x="0.0" y="20" width="381" height="44"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BACKUP" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wNh-KY-MoD">
+                            <rect key="frame" x="159.5" y="13" width="63" height="18"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <color key="textColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.15686274509803921" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hXG-C8-BnV">
+                            <rect key="frame" x="16" y="2" width="40" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="YoY-lQ-gVQ"/>
+                                <constraint firstAttribute="height" constant="40" id="rYw-kv-3N9"/>
+                            </constraints>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="20" maxY="0.0"/>
+                            <state key="normal" image="addAssets_back"/>
+                            <connections>
+                                <action selector="clickBackBtn:" destination="-1" eventType="touchUpInside" id="2K0-Bj-s1y"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="0Hr-Y7-2JW"/>
+                        <constraint firstItem="hXG-C8-BnV" firstAttribute="centerY" secondItem="mEv-r3-cYd" secondAttribute="centerY" id="0uy-Nl-DcN"/>
+                        <constraint firstItem="wNh-KY-MoD" firstAttribute="centerX" secondItem="mEv-r3-cYd" secondAttribute="centerX" id="4oh-8n-298"/>
+                        <constraint firstItem="wNh-KY-MoD" firstAttribute="centerY" secondItem="mEv-r3-cYd" secondAttribute="centerY" id="9Uz-3k-enG"/>
+                        <constraint firstItem="hXG-C8-BnV" firstAttribute="leading" secondItem="mEv-r3-cYd" secondAttribute="leading" constant="16" id="Xah-07-cW1"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please back up your wallet now!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nH4-5f-t8S">
+                    <rect key="frame" x="81.5" y="190" width="218.5" height="18"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" red="0.11764705882352941" green="0.34901960784313724" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HYN-xD-HXN" customClass="SWCornerRadiusView" customModule="DQDTelegraphDemo" customModuleProvider="target">
+                    <rect key="frame" x="16" y="239" width="349" height="319"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Attention" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cak-Hr-dqr">
+                            <rect key="frame" x="143.5" y="20" width="62.5" height="18"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" red="0.15686274510000001" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" bouncesZoom="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NU3-Ol-tAJ">
+                            <rect key="frame" x="16" y="54" width="317" height="234"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <fontDescription key="fontDescription" name=".SFNSText" family=".SF NS Text" pointSize="12"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="cak-Hr-dqr" firstAttribute="top" secondItem="HYN-xD-HXN" secondAttribute="top" constant="20" id="Dna-BV-JZw"/>
+                        <constraint firstAttribute="trailing" secondItem="NU3-Ol-tAJ" secondAttribute="trailing" constant="16" id="EtD-Sr-jbn"/>
+                        <constraint firstItem="NU3-Ol-tAJ" firstAttribute="leading" secondItem="HYN-xD-HXN" secondAttribute="leading" constant="16" id="N1S-e8-wWp"/>
+                        <constraint firstItem="cak-Hr-dqr" firstAttribute="centerX" secondItem="HYN-xD-HXN" secondAttribute="centerX" id="kKg-dy-F4g"/>
+                        <constraint firstAttribute="bottom" secondItem="NU3-Ol-tAJ" secondAttribute="bottom" constant="31" id="mmu-QR-CBA"/>
+                        <constraint firstItem="NU3-Ol-tAJ" firstAttribute="top" secondItem="cak-Hr-dqr" secondAttribute="bottom" constant="16" id="oso-pL-UfT"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="5"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ehs-L0-ugq">
+                    <rect key="frame" x="0.0" y="568" width="381" height="50"/>
+                    <color key="backgroundColor" red="0.1176470588" green="0.34901960780000002" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="svZ-o7-Wel"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <state key="normal" title="BACKUP NOW">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="clickBackUpNowBtn:" destination="-1" eventType="touchUpInside" id="gnA-8d-c5Z"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zlC-Ec-nbz">
+                    <rect key="frame" x="0.0" y="0.0" width="381" height="20"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="HYN-xD-HXN" secondAttribute="trailing" constant="16" id="0Hb-im-atG"/>
+                <constraint firstItem="zlC-Ec-nbz" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="4GK-Ws-Wvn"/>
+                <constraint firstItem="ehs-L0-ugq" firstAttribute="top" secondItem="HYN-xD-HXN" secondAttribute="bottom" priority="750" constant="10" id="5NF-Je-VLq"/>
+                <constraint firstItem="mEv-r3-cYd" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" priority="750" id="6Ls-gF-d0D"/>
+                <constraint firstItem="nH4-5f-t8S" firstAttribute="top" secondItem="Mqr-3G-QrI" secondAttribute="bottom" constant="20" id="B27-Mp-dWe"/>
+                <constraint firstItem="zlC-Ec-nbz" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="BU7-M3-tph"/>
+                <constraint firstItem="mEv-r3-cYd" firstAttribute="top" secondItem="zlC-Ec-nbz" secondAttribute="bottom" id="Bxr-0d-nbc"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="mEv-r3-cYd" secondAttribute="trailing" id="IZi-ej-Ahf"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ehs-L0-ugq" secondAttribute="trailing" id="KeA-sh-9KU"/>
+                <constraint firstItem="HYN-xD-HXN" firstAttribute="top" secondItem="nH4-5f-t8S" secondAttribute="bottom" constant="31" id="LOk-uC-mGd"/>
+                <constraint firstItem="Mqr-3G-QrI" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="QI2-gG-Bpz"/>
+                <constraint firstAttribute="trailing" secondItem="zlC-Ec-nbz" secondAttribute="trailing" id="TTW-3Y-ahP"/>
+                <constraint firstItem="ehs-L0-ugq" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="aCQ-e5-TBo"/>
+                <constraint firstItem="mEv-r3-cYd" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="eVj-6d-9r6"/>
+                <constraint firstItem="nH4-5f-t8S" firstAttribute="centerX" secondItem="Mqr-3G-QrI" secondAttribute="centerX" id="goT-rQ-Tak"/>
+                <constraint firstItem="HYN-xD-HXN" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="hZB-sz-nNv"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="ehs-L0-ugq" secondAttribute="bottom" id="pXB-io-D4P"/>
+                <constraint firstItem="Mqr-3G-QrI" firstAttribute="top" secondItem="mEv-r3-cYd" secondAttribute="bottom" constant="51" id="zFA-Cz-uJp"/>
+                <constraint firstItem="mEv-r3-cYd" firstAttribute="top" relation="greaterThanOrEqual" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="zlA-3W-uci"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="-327.5" y="-94"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="BackUpWallet" width="55" height="55"/>
+        <image name="addAssets_back" width="18" height="14"/>
+    </resources>
+</document>
