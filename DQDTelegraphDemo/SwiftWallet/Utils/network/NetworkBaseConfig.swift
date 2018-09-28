@@ -40,4 +40,14 @@ public var EthereumBaseURL: URL {
     }
 }
 
+public var LitecoinBaseURL: URL {
+    get {
+        if isTest {
+            return URL(string: "http://172.31.3.247:3236")!
+        }else {
+            return URL(string: "http://ltcwallet.cryptohubapp.info")!
+        }
+    }
+}
+
 

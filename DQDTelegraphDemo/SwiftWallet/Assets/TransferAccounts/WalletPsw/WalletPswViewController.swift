@@ -172,12 +172,21 @@ class WalletPswViewController: UIViewController {
     }
     
     private func sendTransaction() {
-		
-        if self.walletModel!.coinType == CoinType.BTC {
-            self.sendBtcTransaction()
-        } else if self.walletModel!.coinType == CoinType.ETH {
-            self.sendEthTransaction()
+        if let type = self.walletModel?.coinType {
+            switch type {
+            case .BTC:
+                self.sendBtcTransaction()
+            case .LTC:
+                self.sendLtcTransaction()
+            case .ETH:
+                self.sendEthTransaction()
+            }
         }
+//        if self.walletModel!.coinType == CoinType.BTC {
+//            self.sendBtcTransaction()
+//        } else if self.walletModel!.coinType == CoinType.ETH {
+//            self.sendEthTransaction()
+//        }
     }
     
     private func sendBtcTransaction() {
@@ -202,6 +211,31 @@ class WalletPswViewController: UIViewController {
             amount: amount,
             feeRate: feeRate,
             api: SwiftTransaction.BTCAPI.Testnet, completionHandler: self.processBtcTransaction(transaction:error:)
+        )
+    }
+    
+    private func sendLtcTransaction() {
+        guard let encryptPrivateKey = self.walletModel!.extendedPrivateKey,
+            let encryptPassword = self.walletModel!.password,
+            let password = SwiftWalletManager.shared.normalDecrypt(string: encryptPassword),
+            let privateKey = SwiftWalletManager.shared.customDecrypt(string: encryptPrivateKey, key: password),
+            let destinationAddress = LTCPublicKeyAddress.init(string:self.inputModel!.address),
+            let changeAddress = LTCPublicKeyAddress.init(string:self.walletModel!.extendedPublicKey),
+            let amount = self.inputModel!.amount,
+            let feeRate = self.inputModel!.ltcFee
+            else {
+                self.noticeOnlyText(SWLocalizedString(key: "send_failed"))
+                self.transactionSent(success: false)
+                return
+        }
+        
+        self.transactionManager.createLtcTransaction(
+            privateKey: privateKey,
+            destinationAddress: destinationAddress,
+            changeAddress: changeAddress,
+            amount: amount,
+            feeRate: feeRate,
+            completionHandler: self.processLtcTransaction(transaction:error:)
         )
     }
     
@@ -272,6 +306,39 @@ class WalletPswViewController: UIViewController {
         }
     }
     
+    private func processLtcTransaction(transaction:BTCTransaction?, error:Error?) {
+        if transaction == nil {
+            self.noticeOnlyText(SWLocalizedString(key: "send_failed"))
+            self.transactionSent(success: false)
+            return
+        }
+        LtcAPIProvider.request(LtcAPI.ltcSendRawTransaction(BTCHexFromData(transaction!.data))) { [weak self](result) in
+            switch result {
+            case let .success(response):
+                let json = try? JSONDecoder().decode(ltcRawTransactionModel.self, from: response.data)
+                if json?.errcode != 0 {
+                    print(json?.msg ?? "send transaction error")
+                    self?.noticeOnlyText(SWLocalizedString(key: "send_failed"))
+                    self?.transactionSent(success: false)
+                    return
+                }
+                let txid = json?.data.txid
+                print(txid)
+                self?.transactionSent(success: true)
+                guard let address = self?.inputModel?.address else {
+                    self?.transactionSent(success: false)
+                    return
+                }
+                self?.saveLastReceiver(address: address)
+            case let .failure(error):
+                print("request error:\n\(error)")
+                //                self?.noticeOnlyText(SWLocalizedString(key: "send_failed"))
+                self?.noticeOnlyText(SWLocalizedString(key: "network_error"))
+                self?.transactionSent(success: false)
+            }
+        }
+    }
+    
     private func processEthTransaction(transaction:String?, error:Error?) {
         if transaction == nil {
             self.noticeOnlyText(SWLocalizedString(key: "send_failed"))
@@ -305,10 +372,10 @@ class WalletPswViewController: UIViewController {
     
     private func saveLastReceiver(address: String) {
         var symbol = ""
-        if self.walletModel?.coinType == CoinType.BTC {
-            symbol = "BTC"
-        } else if self.walletModel?.coinType == CoinType.ETH {
+        if self.walletModel?.coinType == CoinType.ETH {
             symbol = self.inputModel?.assetModel?.symbol ?? "UNKNOW"
+        } else {
+            symbol = self.walletModel?.coinType?.rawValue ?? "UNKNOW"
         }
         let receiverData = ["receiver": address,
                             "time": String(Date.init().timeIntervalSince1970)]

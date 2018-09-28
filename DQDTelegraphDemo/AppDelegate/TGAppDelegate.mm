@@ -3005,7 +3005,7 @@ static unsigned int overrideIndexAbove(__unused id self, __unused SEL _cmd)
 {
 	SWTabBarController *tempTab = (SWTabBarController *)self.tabBarController;
 	if (tempTab.allowRotation) {
-		return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? UIInterfaceOrientationMaskLandscapeLeft : UIInterfaceOrientationMaskAll;
+		return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? UIInterfaceOrientationMaskLandscapeRight : UIInterfaceOrientationMaskAll;
 	}else {
 		return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? UIInterfaceOrientationMaskPortrait : UIInterfaceOrientationMaskAll;
 	}

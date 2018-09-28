@@ -27,7 +27,7 @@ class TransactionListCell: UITableViewCell {
         self.backgroundColor = UIColor.init(hexColor: "F2F2F2")
     }
     
-    func setContent(data:TransactionListViewController.UniversalTransactionModel) {
+    func setContent(data:UniversalTransactionModel) {
         let changeValue:Decimal = data.amount ?? 0.0
         var iconImg = ""
         var changeColor = UIColor.white
@@ -53,15 +53,15 @@ class TransactionListCell: UITableViewCell {
         }
         self.changeLbl.text = changeChar + changeValue.description
         self.changeView.backgroundColor = changeColor
-        if data.coinType == CoinType.BTC || data.assetSymbol == "ETH" {
+        if data.coinType == CoinType.ETH && data.assetSymbol != "ETH" {
+            self.coinNameLbl.text = data.assetSymbol ?? ""
+            self.coinLogoView.coinImageSet(urlStr: data.assetIconUrl)
+        } else {
             let coinName = data.coinType?.rawValue
             self.coinNameLbl.text = coinName
             if coinName != nil {
                 self.coinLogoView.image = UIImage.init(named: coinName!)
             }
-        } else {
-            self.coinNameLbl.text = data.assetSymbol ?? ""
-            self.coinLogoView.coinImageSet(urlStr: data.assetIconUrl)
         }
     }
 

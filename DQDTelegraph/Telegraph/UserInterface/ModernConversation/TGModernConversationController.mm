@@ -1610,7 +1610,9 @@ typedef enum {
     
     [_searchBar resignFirstResponder];
     
+
     [super viewWillDisappear:animated];
+    
 }
 
 - (void)viewDidDisappear:(BOOL)animated

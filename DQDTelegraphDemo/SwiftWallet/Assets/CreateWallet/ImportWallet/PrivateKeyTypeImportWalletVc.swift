@@ -200,7 +200,7 @@ class PrivateKeyTypeImportWalletVc: UIViewController,UITableViewDataSource,UITab
                 return
         }
 		
-		let coinType = coinTypeCell.typeName.titleLabel?.text == "BTC" ? CoinType.BTC : CoinType.ETH
+        let coinType = CoinType(rawValue: coinTypeCell.typeName.titleLabel?.text ?? "ETH") ?? .ETH
         let privKey = privateKeyCell.textView.text.replacingOccurrences(of: " ", with: "")
 		let result = SwiftWalletManager.shared.createWalletByPrivateKey(privateKey: privKey, walletName: walletNameCell.walletName.text, pwd: pwdCell.passwordTF.text!, coinType: coinType)
 		

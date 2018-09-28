@@ -154,13 +154,75 @@ class TransactionListViewController: UIViewController, UITableViewDelegate, UITa
                     self?.transactionArr.removeAll()
                 }
                 guard let data = json?.data,
-                    let uniArray = self?.convertData(dataArray: data, asset: nil)
+                    let wallet = self?.selectedWalletModel,
+                    let uniArray = SwiftWalletManager.shared.convertData(walletModel: wallet, asset: nil, dataArray: data)
                 else {
                     self?.noMore = true
                     if self?.btcPage == 0 {
                         self?.setHintViewShow(type: "empty")
                     }
                     return
+                }
+                if uniArray.count > 0 {
+                    self?.setHintViewShow(type: "none")
+                    self?.noMore = false
+                }
+                if self?.tableView.delegate == nil {
+                    self?.tableView.delegate = self
+                    self?.tableView.dataSource = self
+                }
+                self?.oriTransactionArr += uniArray
+                self?.transactionArr += uniArray
+                self?.tableView.reloadData()
+                if self?.oriTransactionArr != nil {
+                    SPUserEventsManager.shared.trackEventAction(SWUEC_Show_TransactionList, eventPrame: (self!.oriTransactionArr.count > 0 ? "1" : "0"))
+                }
+                self?.btcPage += 1
+            case let .failure(error):
+                print("error = \(error)")
+                self?.setHintViewShow(type: "net")
+                self?.noticeOnlyText(SWLocalizedString(key: "network_error"))
+            }
+        }
+    }
+    
+    private func requestLtcData(offset: Int) {
+        guard let address = self.selectedWalletModel?.extendedPublicKey else {
+            return
+        }
+        self.loading = true
+        LtcAPIProvider.request(LtcAPI.ltcTransactionList(address, offset, 10)) { [weak self] (result) in
+            if self?.tableView.mj_header != nil {
+                self?.tableView.mj_header.endRefreshing()
+            }
+            self?.loading = false
+            switch result {
+            case let .success(response):
+                if self?.selectedWalletModel?.extendedPublicKey != address {
+                    return
+                }
+                let json = try? JSONDecoder().decode(ltcTransactionListModel.self, from: response.data)
+                if json?.errcode != 0 {
+                    print(json?.msg ?? "get transaction list error")
+                    if self?.oriTransactionArr.count == 0 {
+                        self?.setHintViewShow(type: "empty")
+                    }
+                    return
+                }
+                self?.setHintViewShow(type: "none")
+                if self?.btcPage == 0 {
+                    self?.oriTransactionArr.removeAll()
+                    self?.transactionArr.removeAll()
+                }
+                guard let data = json?.data,
+                    let wallet = self?.selectedWalletModel,
+                    let uniArray = SwiftWalletManager.shared.convertData(walletModel: wallet, asset: nil, dataArray: data)
+                    else {
+                        self?.noMore = true
+                        if self?.btcPage == 0 {
+                            self?.setHintViewShow(type: "empty")
+                        }
+                        return
                 }
                 if uniArray.count > 0 {
                     self?.setHintViewShow(type: "none")
@@ -209,7 +271,8 @@ class TransactionListViewController: UIViewController, UITableViewDelegate, UITa
 //                }
                 self?.setHintViewShow(type: "none")
                 guard let data = json?.data,
-                    let uniArray = self?.convertData(dataArray: data, asset: asset)
+                    let wallet = self?.selectedWalletModel,
+                    let uniArray = SwiftWalletManager.shared.convertData(walletModel: wallet, asset: asset, dataArray: data)
                 else {
 //                    if self?.ethPage == 1 {
 //                        self?.emptyView.isHidden = false
@@ -240,48 +303,95 @@ class TransactionListViewController: UIViewController, UITableViewDelegate, UITa
     }
     
     private func loadMoreData() {
-        if self.selectedWalletModel?.coinType == CoinType.BTC {
-            self.requestBtcData(offset: self.btcPage * 10)
-        } else if self.selectedWalletModel!.coinType == CoinType.ETH {
-            let group = DispatchGroup()
-            if self.ethPage == 1 {
-                self.oriTransactionArr.removeAll()
-                self.transactionArr.removeAll()
+        if let type = self.selectedWalletModel?.coinType {
+            switch type {
+            case .BTC:
+                self.requestBtcData(offset: self.btcPage * 10)
+            case .LTC:
+                self.requestLtcData(offset: self.btcPage * 10)
+            case .ETH:
+                let group = DispatchGroup()
+                if self.ethPage == 1 {
+                    self.oriTransactionArr.removeAll()
+                    self.transactionArr.removeAll()
+                }
+                if let assets = self.selectedWalletModel!.assetsType {
+                    for asset in assets {
+                        if let _ = asset.contractAddress {
+                            self.requestEthData(asset: asset, page: self.ethPage, group: group)
+                        }
+                    }
+                }
+                let privHash = self.selectedWalletModel?.extendedPrivateKey
+                group.notify(queue: .main, execute: {
+                    if self.selectedWalletModel?.extendedPrivateKey != privHash {
+                        return
+                    }
+                    self.loading = false
+                    if self.oriTransactionArr.count > 0 {
+                        self.setHintViewShow(type: "none")
+                    }
+                    SPUserEventsManager.shared.trackEventAction(SWUEC_Show_TransactionList, eventPrame: (self.oriTransactionArr.count > 0 ? "1" : "0"))
+                    if self.oriTransactionArr.count > self.fommerCountForEth {
+                        //                    self.oriTransactionArr.sort(by: { $1.timeInterval!.isLessThanOrEqualTo($0.timeInterval!) })
+                        if let arr = self.sortArray(parentList: self.oriTransactionArr) {
+                            self.oriTransactionArr = arr
+                            self.transactionArr = self.oriTransactionArr
+                            self.tableView.reloadData()
+                            self.ethPage += 1
+                        }
+                    } else {
+                        self.noMore = true
+                        if self.ethPage == 1 && self.oriTransactionArr.count == 0 && self.netErrorView.isHidden {
+                            self.setHintViewShow(type: "empty")
+                        }
+                    }
+                    self.fommerCountForEth = self.oriTransactionArr.count
+                })
             }
-            if let assets = self.selectedWalletModel!.assetsType {
-                for asset in assets {
-                    if let _ = asset.contractAddress {
-                        self.requestEthData(asset: asset, page: self.ethPage, group: group)
-                    }
-                }
-            }
-            let privHash = self.selectedWalletModel?.extendedPrivateKey
-            group.notify(queue: .main, execute: {
-                if self.selectedWalletModel?.extendedPrivateKey != privHash {
-                    return
-                }
-                self.loading = false
-                if self.oriTransactionArr.count > 0 {
-                    self.setHintViewShow(type: "none")
-                }
-                SPUserEventsManager.shared.trackEventAction(SWUEC_Show_TransactionList, eventPrame: (self.oriTransactionArr.count > 0 ? "1" : "0"))
-                if self.oriTransactionArr.count > self.fommerCountForEth {
-//                    self.oriTransactionArr.sort(by: { $1.timeInterval!.isLessThanOrEqualTo($0.timeInterval!) })
-                    if let arr = self.sortArray(parentList: self.oriTransactionArr) {
-                        self.oriTransactionArr = arr
-                        self.transactionArr = self.oriTransactionArr
-                        self.tableView.reloadData()
-                        self.ethPage += 1
-                    }
-                } else {
-                    self.noMore = true
-                    if self.ethPage == 1 && self.oriTransactionArr.count == 0 && self.netErrorView.isHidden {
-                        self.setHintViewShow(type: "empty")
-                    }
-                }
-                self.fommerCountForEth = self.oriTransactionArr.count
-            })
         }
+//        if self.selectedWalletModel?.coinType == CoinType.BTC {
+//            self.requestBtcData(offset: self.btcPage * 10)
+//        } else if self.selectedWalletModel!.coinType == CoinType.ETH {
+//            let group = DispatchGroup()
+//            if self.ethPage == 1 {
+//                self.oriTransactionArr.removeAll()
+//                self.transactionArr.removeAll()
+//            }
+//            if let assets = self.selectedWalletModel!.assetsType {
+//                for asset in assets {
+//                    if let _ = asset.contractAddress {
+//                        self.requestEthData(asset: asset, page: self.ethPage, group: group)
+//                    }
+//                }
+//            }
+//            let privHash = self.selectedWalletModel?.extendedPrivateKey
+//            group.notify(queue: .main, execute: {
+//                if self.selectedWalletModel?.extendedPrivateKey != privHash {
+//                    return
+//                }
+//                self.loading = false
+//                if self.oriTransactionArr.count > 0 {
+//                    self.setHintViewShow(type: "none")
+//                }
+//                SPUserEventsManager.shared.trackEventAction(SWUEC_Show_TransactionList, eventPrame: (self.oriTransactionArr.count > 0 ? "1" : "0"))
+//                if self.oriTransactionArr.count > self.fommerCountForEth {
+////                    self.oriTransactionArr.sort(by: { $1.timeInterval!.isLessThanOrEqualTo($0.timeInterval!) })
+//                    if let arr = self.sortArray(parentList: self.oriTransactionArr) {
+//                        self.oriTransactionArr = arr
+//                        self.transactionArr = self.oriTransactionArr
+//                        self.tableView.reloadData()
+//                        self.ethPage += 1
+//                    }
+//                } else {
+//                    self.noMore = true
+//                    if self.ethPage == 1 && self.oriTransactionArr.count == 0 && self.netErrorView.isHidden {
+//                        self.setHintViewShow(type: "empty")
+//                    }
+//                }
+//                self.fommerCountForEth = self.oriTransactionArr.count
+//            })
+//        }
     }
     
     private func sortArray(parentList: [UniversalTransactionModel]) -> [UniversalTransactionModel]? {
@@ -305,171 +415,171 @@ class TransactionListViewController: UIViewController, UITableViewDelegate, UITa
         return sortedArray as? [UniversalTransactionModel]
     }
     
-    private func convertData(dataArray: [Any], asset: AssetsTokensModel?) -> [UniversalTransactionModel]? {
-        if dataArray.count == 0 {
-            return nil
-        }
-        
-        var uniArray:[UniversalTransactionModel] = []
-        
-        for (index, object) in dataArray.enumerated() {
-            var uniModel = UniversalTransactionModel()
-            
-            if self.selectedWalletModel?.coinType == CoinType.BTC && object is BtcTransactionModel {
-                
-                let btcModel = object as! BtcTransactionModel
-                uniModel.ID = btcModel.txid
-                if btcModel.fees != nil {
-                    uniModel.fee = Decimal(string: btcModel.fees!)?.description
-                }
-                uniModel.blockHeight = btcModel.blockheight
-                uniModel.confirmations = btcModel.confirmations
-                uniModel.coinType = CoinType.BTC
-                
-                let amount = calculateAmount(transaction: btcModel)
-                if amount >= 0 {
-                    uniModel.isIn = true
-                    uniModel.amount = amount
-                } else {
-                    uniModel.isIn = false
-                    uniModel.amount = -1 * amount
-                }
-                if uniModel.isIn! {
-                    if btcModel.from_address == nil {
-                        uniModel.from = "Newly Generated"
-                    } else {
-                        for from in btcModel.from_address! {
-                            if from.addr != self.selectedWalletModel?.extendedPublicKey {
-                                uniModel.from = from.addr
-                                break
-                            }
-                        }
-                    }
-                    uniModel.to = self.selectedWalletModel?.extendedPublicKey
-                } else {
-                    if btcModel.to_address != nil {
-                        for to in btcModel.to_address! {
-                            if to.addr != self.selectedWalletModel?.extendedPublicKey {
-                                uniModel.to = to.addr
-                                break
-                            }
-                        }
-                    }
-                    uniModel.from = self.selectedWalletModel?.extendedPublicKey
-                }
-                
-                var interval = Date().timeIntervalSince1970
-                if btcModel.blocktime != nil,
-                    let temp = TimeInterval(btcModel.blocktime!),
-                    temp > 1230739200
-                {
-                    interval = temp
-                }
-                let date = Date(timeIntervalSince1970: interval)
-                let dateformatter = DateFormatter()
-                dateformatter.locale = NSLocale(localeIdentifier: TelegramUserInfo.shareInstance.currentLanguage) as Locale?
-                dateformatter.dateFormat = SWLocalizedString(key: "date_formatter")
-                let dateStr = dateformatter.string(from: date)
-                uniModel.time = dateStr
-                uniModel.timeInterval = interval
-                
-            } else if self.selectedWalletModel?.coinType == CoinType.ETH && object is EthTransactionListDataModel {
-                
-                let ethModel = object as! EthTransactionListDataModel
-                uniModel.ID = ethModel.hash
-                uniModel.from = ethModel.from
-                uniModel.to = ethModel.to
-                uniModel.blockHeight = ethModel.blockNumber
-                uniModel.confirmations = ethModel.confirmedNum
-                uniModel.coinType = CoinType.ETH
-                
-                if let value = ethModel.value,
-                    let wei = Wei.init(value),
-                    let amount = try? Converter.toEther(wei: wei)
-                {
-                    uniModel.amount = amount
-                }
-                if let gas = ethModel.gas,
-                    let gasPrice = ethModel.gasPrice,
-                    let gasBint = BInt(gas),
-                    let gasPriceBint = BInt(gasPrice),
-                    let fee =  try? Converter.toEther(wei: Wei.init(gasBint * gasPriceBint))
-                {
-                    uniModel.fee = fee.description
-                }
-                uniModel.gasPrice = ethModel.gasPrice
-                if ethModel.to == self.selectedWalletModel?.extendedPublicKey?.lowercased() {
-                    uniModel.isIn = true
-                } else {
-                    uniModel.isIn = false
-                }
-                
-                var interval = Date().timeIntervalSince1970
-                if let stamp = ethModel.timestamp,
-                    let temp = TimeInterval(stamp),
-                    temp > 1230739200
-                {
-                    interval = temp
-                }
-                let date = Date(timeIntervalSince1970: interval)
-                let dateformatter = DateFormatter()
-                dateformatter.locale = NSLocale(localeIdentifier: TelegramUserInfo.shareInstance.currentLanguage) as Locale?
-                dateformatter.dateFormat = SWLocalizedString(key: "date_formatter")
-                let dateStr = dateformatter.string(from: date)
-                uniModel.time = dateStr
-                uniModel.timeInterval = interval
-                
-                if asset != nil {
-//                    if asset?.symbol = 
-                    uniModel.assetSymbol = asset?.symbol
-                    uniModel.assetIconUrl = asset?.iconUrl
-                }
-                
-            } else {
-                return nil
-            }
-            if let confirmations = uniModel.confirmations {
-                if confirmations < 0 {
-                    uniModel.state = 3
-                } else if confirmations < 6 {
-                    uniModel.state = 2
-                } else {
-                    uniModel.state = 1
-                }
-            }
-            uniArray.append(uniModel)
-        }
-        return uniArray
-    }
-    
-    private func calculateAmount(transaction:BtcTransactionModel) -> Decimal {
-        var amount = Decimal()
-        if transaction.from_address != nil {
-            for transfer in transaction.from_address! {
-                if transfer.value != nil {
-                    if transfer.addr == self.selectedWalletModel?.extendedPublicKey {
-                        if let decim = Decimal.init(string: transfer.value!) {
-                            amount -= decim
-                        }
-                        break
-                    }
-                }
-            }
-        }
-        if transaction.to_address != nil {
-            for transfer in transaction.to_address! {
-                if transfer.value != nil {
-                    if transfer.addr == self.selectedWalletModel?.extendedPublicKey {
-                        if let decim = Decimal.init(string: transfer.value!) {
-                            amount += decim
-                        }
-                        break
-                    }
-                }
-            }
-        }
-        return amount
-    }
+//    private func convertData(dataArray: [Any], asset: AssetsTokensModel?) -> [UniversalTransactionModel]? {
+//        if dataArray.count == 0 {
+//            return nil
+//        }
+//
+//        var uniArray:[UniversalTransactionModel] = []
+//
+//        for (index, object) in dataArray.enumerated() {
+//            var uniModel = UniversalTransactionModel()
+//
+//            if self.selectedWalletModel?.coinType == CoinType.BTC && object is BtcTransactionModel {
+//
+//                let btcModel = object as! BtcTransactionModel
+//                uniModel.ID = btcModel.txid
+//                if btcModel.fees != nil {
+//                    uniModel.fee = Decimal(string: btcModel.fees!)?.description
+//                }
+//                uniModel.blockHeight = btcModel.blockheight
+//                uniModel.confirmations = btcModel.confirmations
+//                uniModel.coinType = CoinType.BTC
+//
+//                let amount = calculateAmount(transaction: btcModel)
+//                if amount >= 0 {
+//                    uniModel.isIn = true
+//                    uniModel.amount = amount
+//                } else {
+//                    uniModel.isIn = false
+//                    uniModel.amount = -1 * amount
+//                }
+//                if uniModel.isIn! {
+//                    if btcModel.from_address == nil {
+//                        uniModel.from = "Newly Generated"
+//                    } else {
+//                        for from in btcModel.from_address! {
+//                            if from.addr != self.selectedWalletModel?.extendedPublicKey {
+//                                uniModel.from = from.addr
+//                                break
+//                            }
+//                        }
+//                    }
+//                    uniModel.to = self.selectedWalletModel?.extendedPublicKey
+//                } else {
+//                    if btcModel.to_address != nil {
+//                        for to in btcModel.to_address! {
+//                            if to.addr != self.selectedWalletModel?.extendedPublicKey {
+//                                uniModel.to = to.addr
+//                                break
+//                            }
+//                        }
+//                    }
+//                    uniModel.from = self.selectedWalletModel?.extendedPublicKey
+//                }
+//
+//                var interval = Date().timeIntervalSince1970
+//                if btcModel.blocktime != nil,
+//                    let temp = TimeInterval(btcModel.blocktime!),
+//                    temp > 1230739200
+//                {
+//                    interval = temp
+//                }
+//                let date = Date(timeIntervalSince1970: interval)
+//                let dateformatter = DateFormatter()
+//                dateformatter.locale = NSLocale(localeIdentifier: TelegramUserInfo.shareInstance.currentLanguage) as Locale?
+//                dateformatter.dateFormat = SWLocalizedString(key: "date_formatter")
+//                let dateStr = dateformatter.string(from: date)
+//                uniModel.time = dateStr
+//                uniModel.timeInterval = interval
+//
+//            } else if self.selectedWalletModel?.coinType == CoinType.ETH && object is EthTransactionListDataModel {
+//
+//                let ethModel = object as! EthTransactionListDataModel
+//                uniModel.ID = ethModel.hash
+//                uniModel.from = ethModel.from
+//                uniModel.to = ethModel.to
+//                uniModel.blockHeight = ethModel.blockNumber
+//                uniModel.confirmations = ethModel.confirmedNum
+//                uniModel.coinType = CoinType.ETH
+//
+//                if let value = ethModel.value,
+//                    let wei = Wei.init(value),
+//                    let amount = try? Converter.toEther(wei: wei)
+//                {
+//                    uniModel.amount = amount
+//                }
+//                if let gas = ethModel.gas,
+//                    let gasPrice = ethModel.gasPrice,
+//                    let gasBint = BInt(gas),
+//                    let gasPriceBint = BInt(gasPrice),
+//                    let fee =  try? Converter.toEther(wei: Wei.init(gasBint * gasPriceBint))
+//                {
+//                    uniModel.fee = fee.description
+//                }
+//                uniModel.gasPrice = ethModel.gasPrice
+//                if ethModel.to == self.selectedWalletModel?.extendedPublicKey?.lowercased() {
+//                    uniModel.isIn = true
+//                } else {
+//                    uniModel.isIn = false
+//                }
+//
+//                var interval = Date().timeIntervalSince1970
+//                if let stamp = ethModel.timestamp,
+//                    let temp = TimeInterval(stamp),
+//                    temp > 1230739200
+//                {
+//                    interval = temp
+//                }
+//                let date = Date(timeIntervalSince1970: interval)
+//                let dateformatter = DateFormatter()
+//                dateformatter.locale = NSLocale(localeIdentifier: TelegramUserInfo.shareInstance.currentLanguage) as Locale?
+//                dateformatter.dateFormat = SWLocalizedString(key: "date_formatter")
+//                let dateStr = dateformatter.string(from: date)
+//                uniModel.time = dateStr
+//                uniModel.timeInterval = interval
+//
+//                if asset != nil {
+////                    if asset?.symbol =
+//                    uniModel.assetSymbol = asset?.symbol
+//                    uniModel.assetIconUrl = asset?.iconUrl
+//                }
+//
+//            } else {
+//                return nil
+//            }
+//            if let confirmations = uniModel.confirmations {
+//                if confirmations < 0 {
+//                    uniModel.state = 3
+//                } else if confirmations < 6 {
+//                    uniModel.state = 2
+//                } else {
+//                    uniModel.state = 1
+//                }
+//            }
+//            uniArray.append(uniModel)
+//        }
+//        return uniArray
+//    }
+//
+//    private func calculateAmount(transaction:BtcTransactionModel) -> Decimal {
+//        var amount = Decimal()
+//        if transaction.from_address != nil {
+//            for transfer in transaction.from_address! {
+//                if transfer.value != nil {
+//                    if transfer.addr == self.selectedWalletModel?.extendedPublicKey {
+//                        if let decim = Decimal.init(string: transfer.value!) {
+//                            amount -= decim
+//                        }
+//                        break
+//                    }
+//                }
+//            }
+//        }
+//        if transaction.to_address != nil {
+//            for transfer in transaction.to_address! {
+//                if transfer.value != nil {
+//                    if transfer.addr == self.selectedWalletModel?.extendedPublicKey {
+//                        if let decim = Decimal.init(string: transfer.value!) {
+//                            amount += decim
+//                        }
+//                        break
+//                    }
+//                }
+//            }
+//        }
+//        return amount
+//    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == self.tableView {
@@ -659,24 +769,6 @@ class TransactionListViewController: UIViewController, UITableViewDelegate, UITa
     @IBAction func searchCancelTapped(_ sender: Any) {
         SPUserEventsManager.shared.addCount(forEvent: SWUEC_Close_seach_TransactionRecord_Page)
         self.displaySearchBar(show: false)
-    }
-    
-    struct UniversalTransactionModel:Codable {
-        var isIn: Bool?
-        var state: Int?
-        var amount: Decimal?
-        var ID: String?
-        var time: String?
-        var timeInterval: TimeInterval?
-        var from: String?
-        var to: String?
-        var fee: String?
-        var gasPrice: String?
-        var blockHeight: String?
-        var confirmations: Int?
-        var coinType: CoinType?
-        var assetIconUrl: String?
-        var assetSymbol: String?
     }
     
 

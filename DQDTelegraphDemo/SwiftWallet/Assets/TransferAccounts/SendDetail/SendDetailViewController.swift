@@ -53,20 +53,48 @@ class SendDetailViewController: UIViewController {
 
         self.receiverAddressLabel.text = self.inputModel?.address
 		self.amountLabel.text = (self.inputModel?.amount ?? "0.0") + " " + (self.inputModel?.unit ?? "")
-		if self.walletModel?.coinType == CoinType.BTC {
-            switch self.inputModel?.btcFee {
-            case .slow?:
-                self.minningFeeLabel.text = SWLocalizedString(key: "slow")
-            case .some(.normal):
-                self.minningFeeLabel.text = SWLocalizedString(key: "normal")
-            case .some(.fast):
-                self.minningFeeLabel.text = SWLocalizedString(key: "fast")
-            case .none:
-                self.minningFeeLabel.text = ""
+        if let type = self.walletModel?.coinType {
+            switch type {
+            case .BTC:
+                switch self.inputModel?.btcFee {
+                case .slow?:
+                    self.minningFeeLabel.text = SWLocalizedString(key: "slow")
+                case .some(.normal):
+                    self.minningFeeLabel.text = SWLocalizedString(key: "normal")
+                case .some(.fast):
+                    self.minningFeeLabel.text = SWLocalizedString(key: "fast")
+                case .none:
+                    self.minningFeeLabel.text = ""
+                }
+            case .LTC:
+                switch self.inputModel?.ltcFee {
+                case .slow?:
+                    self.minningFeeLabel.text = SWLocalizedString(key: "slow")
+                case .some(.normal):
+                    self.minningFeeLabel.text = SWLocalizedString(key: "normal")
+                case .some(.fast):
+                    self.minningFeeLabel.text = SWLocalizedString(key: "fast")
+                case .none:
+                    self.minningFeeLabel.text = ""
+                }
+            case .ETH:
+                self.minningFeeLabel.text = (self.inputModel?.ethFee ?? "0.0") + " " + "ETH"
             }
-		} else if self.walletModel?.coinType == CoinType.ETH {
-			self.minningFeeLabel.text = (self.inputModel?.ethFee ?? "0.0") + " " + "ETH"
-		}
+        }
+//        if self.walletModel?.coinType == CoinType.BTC {
+//            switch self.inputModel?.btcFee {
+//            case .slow?:
+//                self.minningFeeLabel.text = SWLocalizedString(key: "slow")
+//            case .some(.normal):
+//                self.minningFeeLabel.text = SWLocalizedString(key: "normal")
+//            case .some(.fast):
+//                self.minningFeeLabel.text = SWLocalizedString(key: "fast")
+//            case .none:
+//                self.minningFeeLabel.text = ""
+//            }
+//        } else if self.walletModel?.coinType == CoinType.ETH {
+//            self.minningFeeLabel.text = (self.inputModel?.ethFee ?? "0.0") + " " + "ETH"
+//        }
         
     }
     @IBAction func nextButtonClick(_ sender: UIButton) {

@@ -16,3 +16,4 @@
 #import "OCLanguage.h"
 #import "JPUSHService.h"
 #import <Bugly/Bugly.h>
+#import "MyProfileViewController.h"

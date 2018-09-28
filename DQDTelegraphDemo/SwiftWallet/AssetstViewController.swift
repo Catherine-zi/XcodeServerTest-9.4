@@ -29,6 +29,16 @@ import EthereumKit
 	
 	private var assetsTypeArr:[AssetsTokensModel] = []
 	private var currentWalletCount:Int = 0
+    var assetsNeedMinCellCount:Int {
+        get {
+            return Int(assetsNeedMinContentSize/68)
+        }
+    }
+    var blankCellHeight: CGFloat {
+        get {
+            return (assetsNeedMinContentSize - 34 - CGFloat(assetsTypeArr.count * 68)) / CGFloat(assetsNeedMinCellCount)
+        }
+    }
     var tokenArray: [AssetsTokensModel]?
 //    private var waitingWalletArray: [SwiftWalletModel] = []
 	
@@ -104,7 +114,7 @@ import EthereumKit
 			return
 		}
 		let model = SwiftWalletManager.shared.walletArr[count]
-        let cost = SwiftExchanger.shared.calculateTotalCost(wallet: model)
+        _ = SwiftExchanger.shared.calculateTotalCost(wallet: model)
 		if model.assetsType != nil {
 			
             SwiftWalletManager.shared.selectedAssetWallet = model // for scan to transfer
@@ -114,7 +124,7 @@ import EthereumKit
 			self.mainTab.reloadData()
 			
 			DispatchQueue.main.async {
-				self.mainTab.contentSize = self.mainTab.contentSize.height > assetsNeedMinContentSize ? self.mainTab.contentSize : CGSize(width: self.mainTab.contentSize.width, height: assetsNeedMinContentSize)
+//                self.mainTab.contentSize = self.mainTab.contentSize.height > assetsNeedMinContentSize ? self.mainTab.contentSize : CGSize(width: self.mainTab.contentSize.width, height: assetsNeedMinContentSize)
 			}
 
 		}
@@ -124,10 +134,15 @@ import EthereumKit
         let group = DispatchGroup()
         for walletModel: SwiftWalletModel in SwiftWalletManager.shared.walletArr {
             _ = SwiftExchanger.shared.calculateTotalAsset(wallet: walletModel)
-            if walletModel.coinType == CoinType.ETH {
-                loadEthCurrency(address: walletModel.extendedPublicKey!, wallet: walletModel, group: group)
-            } else if walletModel.coinType == CoinType.BTC {
-                loadBtcCurrency(address: walletModel.extendedPublicKey!, wallet: walletModel, group: group)
+            if let type = walletModel.coinType {
+                switch type {
+                case .BTC:
+                    loadBtcCurrency(address: walletModel.extendedPublicKey!, wallet: walletModel, group: group)
+                case .LTC:
+                    loadLtcCurrency(address: walletModel.extendedPublicKey!, wallet: walletModel, group: group)
+                case .ETH:
+                    loadEthCurrency(address: walletModel.extendedPublicKey!, wallet: walletModel, group: group)
+                }
             }
         }
         group.notify(queue: .main) {
@@ -180,6 +195,36 @@ import EthereumKit
             case let .success(response):
 //                let decryptedData = Data.init(decryptionResponseData: response.data)
                 let json = try? JSONDecoder().decode(BtcBalanceModel.self, from: response.data)
+                if json?.errcode != 0 {
+                    print(json?.msg ?? "get balance error")
+                    group.leave()
+                    return
+                }
+                guard let balance = json?.data.balance else {
+                    group.leave()
+                    return
+                }
+                wallet.allAssets = ["":balance]
+                _ = SwiftExchanger.shared.calculateTotalAsset(wallet: wallet)
+                self?.reloadDataSource(count: (self?.currentWalletCount)!)
+                self?.assetsTopView.specialTopView.collectionView.reloadData()
+                self?.uploadWalletAssets(wallet: wallet)
+                group.leave()
+            case let .failure(error):
+                print("error = \(error)")
+                self?.noticeOnlyText(SWLocalizedString(key: "network_error"))
+                group.leave()
+            }
+        }
+    }
+    
+    private func loadLtcCurrency(address: String, wallet: SwiftWalletModel, group: DispatchGroup) {
+        group.enter()
+        LtcAPIProvider.request(LtcAPI.ltcCurrency(address)) { [weak self](result) in
+            switch result {
+            case let .success(response):
+                //                let decryptedData = Data.init(decryptionResponseData: response.data)
+                let json = try? JSONDecoder().decode(ltcBalanceModel.self, from: response.data)
                 if json?.errcode != 0 {
                     print(json?.msg ?? "get balance error")
                     group.leave()
@@ -269,7 +314,9 @@ import EthereumKit
 //    }
 
 	public func numberOfSections(in tableView: UITableView) -> Int {
-		return assetsTypeArr.count
+        return CGFloat(assetsTypeArr.count * 68 + 34) > assetsNeedMinContentSize ?
+            assetsTypeArr.count :
+            (assetsTypeArr.count + assetsNeedMinCellCount)
 	}
 	public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
@@ -299,51 +346,58 @@ import EthereumKit
             }
             let backColor = indexPath.section % 2 == 0 ? UIColor.white : UIColor.init(hexColor: "f2f2f2")
             cell.backView.backgroundColor = backColor
-		}
+            
+            if indexPath.section != 0 {
+                
+                let button: MGSwipeButton = MGSwipeButton.init(title: SWLocalizedString(key: "delete_favorite"), icon: UIImage.init(named: "markets_delete_white"), backgroundColor: UIColor.init(hexColor: "F96C6C"), insets: UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)) { [weak self](cell) -> Bool in
+                    
+                    let model = SwiftWalletManager.shared.walletArr[(self?.currentWalletCount)!]
+                    if model.assetsType != nil {
+                        
+                        self?.assetsTypeArr.remove(at: indexPath.section)
+                        model.assetsType?.remove(at: indexPath.section)
+                        SwiftWalletManager.shared.walletArr[(self?.currentWalletCount)!] = model
+                        let suc = SwiftWalletManager.shared.storeWalletArr()
+                        if suc {
+                            self?.mainTab.reloadData()
+                            
+                            DispatchQueue.main.async {
+                                if self?.mainTab != nil {
+//                                                                    self?.mainTab.contentSize = (self?.mainTab.contentSize.height)! > assetsNeedMinContentSize ? (self?.mainTab.contentSize)! : CGSize(width: (self?.mainTab.contentSize.width)!, height: assetsNeedMinContentSize)
+                                }
+                            }
+                            
+                        }
+                    }
+                    
+                    return false
+                }
+                button.buttonWidth = 80
+                button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+                button.centerIconOverText()
+                cell.rightButtons = [button]
+                cell.rightSwipeSettings.transition = .clipCenter
+            }
 		
-		if indexPath.section != 0 {
+            return cell
 			
-			let button: MGSwipeButton = MGSwipeButton.init(title: SWLocalizedString(key: "delete_favorite"), icon: UIImage.init(named: "markets_delete_white"), backgroundColor: UIColor.init(hexColor: "F96C6C"), insets: UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)) { [weak self](cell) -> Bool in
-				
-				let model = SwiftWalletManager.shared.walletArr[(self?.currentWalletCount)!]
-				if model.assetsType != nil {
-					
-					self?.assetsTypeArr.remove(at: indexPath.section)
-					model.assetsType?.remove(at: indexPath.section)
-					SwiftWalletManager.shared.walletArr[(self?.currentWalletCount)!] = model
-					let suc = SwiftWalletManager.shared.storeWalletArr()
-					if suc {
-						self?.mainTab.reloadData()
-						
-						DispatchQueue.main.async {
-							if self?.mainTab != nil {
-								self?.mainTab.contentSize = (self?.mainTab.contentSize.height)! > assetsNeedMinContentSize ? (self?.mainTab.contentSize)! : CGSize(width: (self?.mainTab.contentSize.width)!, height: assetsNeedMinContentSize)
-							}
-						}
-						
-					}
-				}
-				
-				return false
-			}
-			button.buttonWidth = 80
-			button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-			button.centerIconOverText()
-			cell.rightButtons = [button]
-			cell.rightSwipeSettings.transition = .clipCenter
-			
-		}
+        } else {
+            let blankCell = UITableViewCell()
+            blankCell.selectionStyle = .none
+            blankCell.backgroundColor = .clear
+            return blankCell
+        }
 		
-		return cell
 	}
 	
 	public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let createWalletV = AssetsDetailsViewController.init(nibName: "AssetsDetailsViewController", bundle: nil)
-        createWalletV.walletModel = SwiftWalletManager.shared.walletArr[self.currentWalletCount]
-        createWalletV.assetIndexForInit = indexPath.section
-        createWalletV.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(createWalletV, animated: true)
-		
+        if indexPath.section < assetsTypeArr.count {
+            let createWalletV = AssetsDetailsViewController.init(nibName: "AssetsDetailsViewController", bundle: nil)
+            createWalletV.walletModel = SwiftWalletManager.shared.walletArr[self.currentWalletCount]
+            createWalletV.assetIndexForInit = indexPath.section
+            createWalletV.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(createWalletV, animated: true)
+        }
 	}
 
 	//cell delegate
@@ -388,7 +442,11 @@ import EthereumKit
 		return 1
 	}
 	public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return 68
+        if indexPath.section < assetsTypeArr.count {
+            return 68
+        } else {
+            return blankCellHeight
+        }
 	}
 	public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return section == 0 ? 34 : 0

@@ -89,10 +89,15 @@ class ManageWalletViewController: UIViewController, UITableViewDelegate, UITable
             if walletModel.extendedPrivateKey == nil || walletModel.extendedPublicKey == nil {
                 break
             }
-            if walletModel.coinType == CoinType.ETH {
-                loadEthCurrency(address: walletModel.extendedPublicKey!, wallet: walletModel, group: group)
-            } else if walletModel.coinType == CoinType.BTC {
-                loadBtcCurrency(address: walletModel.extendedPublicKey!, wallet: walletModel, group: group)
+            if let type = walletModel.coinType {
+                switch type {
+                case .BTC:
+                    loadBtcCurrency(address: walletModel.extendedPublicKey!, wallet: walletModel, group: group)
+                case .LTC:
+                    loadLtcCurrency(address: walletModel.extendedPublicKey!, wallet: walletModel, group: group)
+                case .ETH:
+                    loadEthCurrency(address: walletModel.extendedPublicKey!, wallet: walletModel, group: group)
+                }
             }
             self.updateLocalAddressAndBalance(key: walletModel.extendedPrivateKey!, balance: "--", address: walletModel.extendedPrivateKey!)
         }
@@ -174,6 +179,32 @@ class ManageWalletViewController: UIViewController, UITableViewDelegate, UITable
             case let .success(response):
                 //                let decryptedData = Data.init(decryptionResponseData: response.data)
                 let json = try? JSONDecoder().decode(BtcBalanceModel.self, from: response.data)
+                if json?.errcode != 0 {
+                    print(json?.msg ?? "get balance error")
+                    group.leave()
+                    return
+                }
+                guard let balance = json?.data.balance else {
+                    group.leave()
+                    return
+                }
+                wallet.allAssets = ["":balance]
+                _ = SwiftExchanger.shared.calculateTotalAsset(wallet: wallet)
+                group.leave()
+            case let .failure(error):
+                print("error = \(error)")
+                self?.noticeOnlyText(SWLocalizedString(key: "network_error"))
+                group.leave()
+            }
+        }
+    }
+    private func loadLtcCurrency(address: String, wallet: SwiftWalletModel, group: DispatchGroup) {
+        group.enter()
+        LtcAPIProvider.request(LtcAPI.ltcCurrency(address)) { [weak self](result) in
+            switch result {
+            case let .success(response):
+                //                let decryptedData = Data.init(decryptionResponseData: response.data)
+                let json = try? JSONDecoder().decode(ltcBalanceModel.self, from: response.data)
                 if json?.errcode != 0 {
                     print(json?.msg ?? "get balance error")
                     group.leave()

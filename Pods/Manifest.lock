@@ -35,7 +35,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 4.7)
   - Bugly
-  - CoreBitcoin (from `https://raw.github.com/oleganza/CoreBitcoin/master/CoreBitcoin.podspec`)
+  - CoreBitcoin (from `https://github.com/FinLaas/CoreBitcoin.git`)
   - HSStockChart
   - IQKeyboardManager
   - JPush
@@ -73,7 +73,12 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   CoreBitcoin:
-    :podspec: https://raw.github.com/oleganza/CoreBitcoin/master/CoreBitcoin.podspec
+    :git: https://github.com/FinLaas/CoreBitcoin.git
+
+CHECKOUT OPTIONS:
+  CoreBitcoin:
+    :commit: 1533d79630bb25d699882c046876bff1695bb886
+    :git: https://github.com/FinLaas/CoreBitcoin.git
 
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
@@ -96,6 +101,6 @@ SPEC CHECKSUMS:
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   Starscream: faf918b2f2eff7d5dd21180646bf015a669673bd
 
-PODFILE CHECKSUM: 78e1bbcb5d0687133e39cb8e49baf6d1f3a339bc
+PODFILE CHECKSUM: 9f8a835a5dad250345d6a611f8f9f9729797f507
 
-COCOAPODS: 1.5.2
+COCOAPODS: 1.5.3

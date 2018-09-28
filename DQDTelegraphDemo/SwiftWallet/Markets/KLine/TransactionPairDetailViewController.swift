@@ -357,7 +357,7 @@ class TransactionPairDetailViewController: BaseNavViewController,WebSocketDelega
         bottomView.addSubview(bottomCoinImageV)
 //
         let title = UILabel()
-        title.font = UIFont.boldSystemFont(ofSize: 12)
+        title.font = UIFont.boldSystemFont(ofSize: 9)
         title.textColor = UIColor.init(hexColor: "333333")
         title.text = SWLocalizedString(key: "average")
         title.textAlignment = .center

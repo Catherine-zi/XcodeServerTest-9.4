@@ -69,13 +69,15 @@ class TotalCostViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func numberOfSections(in tableView: UITableView) -> Int {
         self.cellArray.removeAll()
-        if self.walletModel?.coinType == CoinType.BTC {
-            return 1
-        } else if self.walletModel?.coinType == CoinType.ETH {
-            return self.walletModel?.assetsType?.count ?? 0
-        } else {
-            return 0
+        if let type = self.walletModel?.coinType {
+            switch type {
+            case .BTC, .LTC:
+                return 1
+            case .ETH:
+                return self.walletModel?.assetsType?.count ?? 0
+            }
         }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

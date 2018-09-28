@@ -95,7 +95,18 @@ class KLineView: UIView,KLineDelegate {
 			make.left.right.bottom.equalTo(self)
 			make.top.equalTo(self).offset(btnH + kLineMarjin)
 		}
-		stockChartView = HSKLineView(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height - (btnH + kLineMarjin)), kLineType: klineType, isNeedReverseColor: TelegramUserInfo.shareInstance.settingColorFlag)
+		let legendTitle = ["",//time
+			SWLocalizedString(key: "open").lowercased(),
+			SWLocalizedString(key: "high").lowercased(),
+			SWLocalizedString(key: "low").lowercased(),
+			SWLocalizedString(key: "close_price").lowercased(),
+			SWLocalizedString(key: "volume").lowercased(),
+			"",//对应的value
+			"",
+			"",
+			"",
+			""]
+		stockChartView = HSKLineView(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height - (btnH + kLineMarjin)), kLineType: klineType, isNeedReverseColor: TelegramUserInfo.shareInstance.settingColorFlag, legendTitle:legendTitle)
 		stockChartView.tag = hsChartType.rawValue
 		stockChartView.isLandscapeMode = false
 		stockChartView.backgroundColor = kLineView.backgroundColor
@@ -257,7 +268,7 @@ class KLineView: UIView,KLineDelegate {
 			}
 			
 			tabBar.allowRotation = true
-			
+
 			let value = UIInterfaceOrientation.landscapeLeft.rawValue
 			UIDevice.current.setValue(value, forKey: "orientation")
 			
@@ -268,6 +279,11 @@ class KLineView: UIView,KLineDelegate {
 			vc.klineType = stockChartView.kLineType
 			vc.currentTimeType = self.currentTimeType
 			self.viewController().navigationController?.present(vc, animated: true, completion: nil)
+			
+			self.viewController().view.isHidden = true
+			DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+				self.viewController().view.isHidden = false
+			}
 		}
 		
 		

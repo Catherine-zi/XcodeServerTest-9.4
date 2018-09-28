@@ -15,6 +15,7 @@
 #import "TGAppDelegate.h"
 #import "TGTelegraph.h"
 #import "TGLoginPhoneController.h"
+#import "SwiftWalletNavViewController.h"
 #import "OCLanguage.h"
 
 #import "IQKeyboardManager.h"
@@ -271,7 +272,7 @@
 
 - (UINavigationController *)getOneChildViewController:(UIViewController *)viewController image:(UIImage *)image selectedImage:(UIImage *)selectedImage title:(NSString *)title{
     
-    UINavigationController *navC = [[UINavigationController alloc]initWithRootViewController:viewController];
+    SwiftWalletNavViewController *navC = [[SwiftWalletNavViewController alloc]initWithRootViewController:viewController];
     navC.title = title;
 	[self setUpTabBarItem:navC image:image selectedImage:selectedImage title:title];
     navC.navigationBar.hidden = true;

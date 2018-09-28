@@ -149,9 +149,12 @@ class WatchWalletViewController: UIViewController,UITableViewDataSource,UITableV
         //veriry input (first UI，second can wallet)
         let address = addressCell.textView.text.replacingOccurrences(of: " ", with: "")
         var isAddressValid = false
-        if coinType == CoinType.BTC {
+        switch coinType {
+        case .BTC:
             isAddressValid = SwiftWalletManager.shared.validateBtcAddress(address: address)
-        } else if coinType == CoinType.ETH {
+        case .LTC:
+            isAddressValid = SwiftWalletManager.shared.validateLtcAddress(address: address)
+        case .ETH:
             isAddressValid = SwiftWalletManager.shared.validateEthAddress(address: address)
         }
         if !isAddressValid {

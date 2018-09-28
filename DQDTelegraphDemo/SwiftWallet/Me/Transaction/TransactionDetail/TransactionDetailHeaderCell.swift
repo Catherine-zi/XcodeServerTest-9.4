@@ -19,7 +19,7 @@ class TransactionDetailHeaderCell: UITableViewCell {
         self.selectionStyle = .none
     }
 
-    func setContent(data:TransactionListViewController.UniversalTransactionModel) {
+    func setContent(data:UniversalTransactionModel) {
         var changeChar = ""
         if data.isIn != nil {
             if data.isIn! {
@@ -32,10 +32,10 @@ class TransactionDetailHeaderCell: UITableViewCell {
             self.amountLbl.text = changeChar + data.amount!.description
         }
         if data.coinType != nil {
-            if data.coinType == CoinType.BTC {
-                self.unitLbl.text = data.coinType!.rawValue
-            } else {
+            if data.coinType == CoinType.ETH {
                 self.unitLbl.text = data.assetSymbol
+            } else {
+                self.unitLbl.text = data.coinType!.rawValue
             }
         }
         let formatter: DateFormatter = DateFormatter()

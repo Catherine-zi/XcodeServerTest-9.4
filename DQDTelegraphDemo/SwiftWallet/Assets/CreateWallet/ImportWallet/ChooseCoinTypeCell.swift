@@ -13,6 +13,8 @@ class ChooseCoinTypeCell: UITableViewCell {
 	@IBOutlet weak var typeName: UIButton!
     @IBOutlet weak var coinTypeLabel: UILabel!
     
+    var typeArray = ["BTC", "ETH", "LTC"]
+    
 	override func awakeFromNib() {
         super.awakeFromNib()
 		self.coinTypeLabel.text = SWLocalizedString(key: "wallet_coin_type")
@@ -22,8 +24,9 @@ class ChooseCoinTypeCell: UITableViewCell {
 	@IBAction func didClickChooseType(_ sender: UIButton) {
 		
 		let vc = SelectCoinTypeViewController()
+        vc.typeArray = self.typeArray
 		vc.selectTypeClosure = {[weak self](count:Int) in
-			self?.typeName.setTitle(count == 0 ? "BTC" : "ETH", for: UIControlState.normal)
+			self?.typeName.setTitle(self?.typeArray[count], for: UIControlState.normal)
 		}
 		self.viewController().navigationController?.pushViewController(vc, animated: true)
 	}

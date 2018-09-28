@@ -388,6 +388,16 @@
 "no_price_alert" = "가격 경고 없음";
 "watch_send_denial" = "개인 키를 가져오지 않아 송금할 수 없습니다.";
 "no_tg_group" = "관련 그룹을\n찾을 수 없습니다";
+
+//个人资料编辑
+"person_center_head_pic" = "프로필 사진";
+"person_center_phone_number" = "전화번호";
+"person_center_bio" = "신상정보";
+"person_center_unknow_bio" = "설정 안됨";
+"person_center_name" = "이름";
+"person_center_FirstName" = "이름 (필수)";
+"person_center_LastName" = "성 (선택)";
+"person_center_UserBioInfo" = "자신에 대한 짤막한 소개를 적으실 수 있습니다. 회원님의 프로필을 여는 누구에게나 보입니다.";
 //==================bitPub=====================
 
 // Notifications"MESSAGE_TEXT" = "%1$@: %2$@";

@@ -207,11 +207,11 @@ NSString *authorNameYou = @"  __TGLocalized__YOU";
 }
 //qq--add
 - (void)goToRecGroupsPage{
-//	RecGroupsViewController *vc = [RecGroupsViewController new];
-//	[TGAppDelegateInstance.tabBarController.tabBar setHidden:YES];
-//	[self.navigationController pushViewController:vc animated:YES];
-	
-	[self.navigationController pushViewController:[MyProfileViewController new] animated:YES];//TGAppDelegateInstance.rootController.accountSettingsController
+	RecGroupsViewController *vc = [RecGroupsViewController new];
+	[TGAppDelegateInstance.tabBarController.tabBar setHidden:YES];
+	[self.navigationController pushViewController:vc animated:YES];
+//	[self.navigationController pushViewController:TGAppDelegateInstance.rootController.accountSettingsController animated:YES];
+//	TGAppDelegateInstance.rootController.accountSettingsController
 }
 - (id)initWithCompanion:(TGDialogListCompanion *)companion
 {
@@ -827,7 +827,17 @@ NSString *authorNameYou = @"  __TGLocalized__YOU";
     }
     
     [self _performSizeChangesWithDuration:0.0f size:_tableView.frame.size];
-	
+    
+    UITabBar *tabBar = TGAppDelegateInstance.tabBarController.tabBar;
+    if (tabBar.hidden) {
+        tabBar.hidden = NO;
+        tabBar.layer.transform = CATransform3DMakeTranslation(0, CGRectGetHeight(tabBar.bounds), 0);
+        [self.transitionCoordinator animateAlongsideTransitionInView:tabBar animation:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+            tabBar.layer.transform = CATransform3DIdentity;
+        } completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+            
+        }];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -916,6 +926,14 @@ NSString *authorNameYou = @"  __TGLocalized__YOU";
         [_searchMixin resignResponderIfAny];
     
     [super viewWillDisappear:animated];
+    
+    UITabBar *tabBar = TGAppDelegateInstance.tabBarController.tabBar;
+    tabBar.hidden = NO;
+    [self.transitionCoordinator animateAlongsideTransitionInView:tabBar animation:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        tabBar.layer.transform = CATransform3DMakeTranslation(0, CGRectGetHeight(tabBar.bounds), 0);
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+        tabBar.hidden = YES;
+    }];
 }
 
 - (void)viewDidDisappear:(BOOL)animated

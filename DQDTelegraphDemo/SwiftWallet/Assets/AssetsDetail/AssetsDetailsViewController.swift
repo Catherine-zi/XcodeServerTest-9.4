@@ -29,7 +29,7 @@ class AssetsDetailsViewController: UIViewController, UITableViewDelegate, UITabl
 //            }
         }
     }
-    var transactionArr:[TransactionListViewController.UniversalTransactionModel] = []
+    var transactionArr:[UniversalTransactionModel] = []
     
     var topCardView: AssetsDetailHeaderCardView?
     var topCollectionView: AssetsDetailHeaderCollectionView?
@@ -198,11 +198,21 @@ class AssetsDetailsViewController: UIViewController, UITableViewDelegate, UITabl
         
         self.btcPage = 0
         self.ethPage = 1
-        if self.walletModel!.coinType == CoinType.BTC {
-            self.requestBtcData(offset: self.btcPage)
-        } else if self.walletModel!.coinType == CoinType.ETH {
-            self.requestEthData(page: self.ethPage)
+        if let type = self.walletModel?.coinType {
+            switch type {
+            case .BTC:
+                self.requestBtcData(offset: self.btcPage)
+            case .ETH:
+                self.requestEthData(page: self.ethPage)
+            case .LTC:
+                self.requestLtcData(offset: self.btcPage)
+            }
         }
+//        if self.walletModel!.coinType == CoinType.BTC {
+//            self.requestBtcData(offset: self.btcPage)
+//        } else if self.walletModel!.coinType == CoinType.ETH {
+//            self.requestEthData(page: self.ethPage)
+//        }
     }
     
     private func requestBtcData(offset: Int) {
@@ -224,7 +234,53 @@ class AssetsDetailsViewController: UIViewController, UITableViewDelegate, UITabl
                     self?.transactionArr.removeAll()
                 }
                 guard let data = json?.data,
-                let uniArray = self?.convertData(dataArray: data) else {
+                    let wallet = self?.walletModel,
+                    let uniArray = SwiftWalletManager.shared.convertData(walletModel: wallet, asset: self?.selectedAsset, dataArray: data) else
+                {
+                        if offset == 0 {
+                            self?.emptyView.isHidden = false
+                        }
+                        return
+                }
+                if uniArray.count > 0 {
+                    self?.emptyView.isHidden = true
+                }
+                if self?.logTabView.delegate == nil {
+                    self?.logTabView.delegate = self
+                    self?.logTabView.dataSource = self
+                }
+                self?.transactionArr += uniArray
+                self?.logTabView.reloadData()
+                self?.btcPage += 1
+            case let .failure(error):
+                print("error = \(error)")
+                self?.noticeOnlyText(SWLocalizedString(key: "network_error"))
+            }
+        }
+    }
+    
+    private func requestLtcData(offset: Int) {
+        guard let address = self.walletModel?.extendedPublicKey else {
+            return
+        }
+        self.loading = true
+        LtcAPIProvider.request(LtcAPI.ltcTransactionList(address, offset, 10)) { [weak self] (result) in
+            self?.logTabView.mj_header.endRefreshing()
+            self?.loading = false
+            switch result {
+            case let .success(response):
+                let json = try? JSONDecoder().decode(ltcTransactionListModel.self, from: response.data)
+                if json?.errcode != 0 {
+                    print(json?.msg ?? "get transaction list error")
+                    return
+                }
+                if offset == 0 {
+                    self?.transactionArr.removeAll()
+                }
+                guard let data = json?.data,
+                    let wallet = self?.walletModel,
+                    let uniArray = SwiftWalletManager.shared.convertData(walletModel: wallet, asset: self?.selectedAsset, dataArray: data) else
+                {
                     if offset == 0 {
                         self?.emptyView.isHidden = false
                     }
@@ -272,7 +328,9 @@ class AssetsDetailsViewController: UIViewController, UITableViewDelegate, UITabl
                     self?.transactionArr.removeAll()
                 }
                 guard let data = json?.data,
-                let uniArray = self?.convertData(dataArray: data) else {
+                    let wallet = self?.walletModel,
+                    let uniArray = SwiftWalletManager.shared.convertData(walletModel: wallet, asset: self?.selectedAsset, dataArray: data) else
+                {
                     if page == 1 {
                         self?.emptyView.isHidden = false
                     }
@@ -296,140 +354,193 @@ class AssetsDetailsViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     private func loadMoreData() {
-        if self.walletModel?.coinType == CoinType.BTC {
-            self.requestBtcData(offset: self.btcPage * 10)
-        } else if self.walletModel?.coinType == CoinType.ETH {
-            self.requestEthData(page: self.ethPage)
+        if let type = self.walletModel?.coinType {
+            switch type {
+            case .BTC:
+                self.requestBtcData(offset: self.btcPage * 10)
+            case .LTC:
+                self.requestLtcData(offset: self.btcPage * 10)
+            case .ETH:
+                self.requestEthData(page: self.ethPage)
+            }
         }
     }
-    
-    private func convertData(dataArray: [Any]) -> [TransactionListViewController.UniversalTransactionModel]? {
-        if dataArray.count == 0 {
-            return nil
-        }
-        
-        var uniArray:[TransactionListViewController.UniversalTransactionModel] = []
-        
-        for (index, object) in dataArray.enumerated() {
-            var uniModel = TransactionListViewController.UniversalTransactionModel()
-            
-            if self.walletModel?.coinType == CoinType.BTC {
-                
-                let btcModel = object as! BtcTransactionModel
-                uniModel.ID = btcModel.txid
-                let amount = calculateAmount(transaction: btcModel)
-                if amount >= 0 {
-                    uniModel.isIn = true
-                    uniModel.amount = amount
-                } else {
-                    uniModel.isIn = false
-                    uniModel.amount = -1 * amount
-                }
-                if uniModel.isIn! {
-                    if btcModel.from_address == nil {
-                        uniModel.from = "Newly Generated"
-                    } else {
-                        for from in btcModel.from_address! {
-                            if from.addr != self.walletModel?.extendedPublicKey {
-                                uniModel.from = from.addr
-                                break
-                            }
-                        }
-                    }
-                    uniModel.to = self.walletModel?.extendedPublicKey
-                } else {
-                    for to in btcModel.to_address! {
-                        if to.addr != self.walletModel?.extendedPublicKey {
-                            uniModel.to = to.addr
-                            break
-                        }
-                    }
-                    uniModel.from = self.walletModel?.extendedPublicKey
-                }
-                uniModel.fee = Decimal(string: btcModel.fees!)?.description
-                uniModel.blockHeight = btcModel.blockheight
-                uniModel.confirmations = btcModel.confirmations
-                uniModel.coinType = CoinType.BTC
-                var interval = Date().timeIntervalSince1970
-                if btcModel.blocktime != nil,
-                    let temp = TimeInterval(btcModel.blocktime!),
-                    temp > 1230739200
-                {
-                    interval = temp
-                }
-                let date = Date(timeIntervalSince1970: interval)
-                let dateformatter = DateFormatter()
-                dateformatter.locale = NSLocale(localeIdentifier: TelegramUserInfo.shareInstance.currentLanguage) as Locale?
-                dateformatter.dateFormat = SWLocalizedString(key: "date_formatter")
-                let dateStr = dateformatter.string(from: date)
-                uniModel.time = dateStr
-                uniModel.timeInterval = interval
-                
-            } else if self.walletModel?.coinType == CoinType.ETH {
-                
-                let ethModel = object as! EthTransactionListDataModel
-                uniModel.ID = ethModel.hash
-                uniModel.from = ethModel.from
-                uniModel.to = ethModel.to
-                let amount = try? Converter.toEther(wei: Wei.init(ethModel.value!)!)
-                uniModel.amount = amount
-                let fee = try? Converter.toEther(wei: Wei.init(BInt(ethModel.gas!)! * BInt(ethModel.gasPrice!)!))
-                if ethModel.to == self.walletModel?.extendedPublicKey?.lowercased() {
-                    uniModel.isIn = true
-                } else {
-                    uniModel.isIn = false
-                }
-                uniModel.fee = fee?.description
-                uniModel.blockHeight = ethModel.blockNumber
-                uniModel.confirmations = ethModel.confirmedNum
-                uniModel.coinType = CoinType.ETH
-                var interval = Date().timeIntervalSince1970
-                if let stamp = ethModel.timestamp,
-                    let temp = TimeInterval(stamp),
-                    temp > 1230739200
-                {
-                    interval = temp
-                }
-                let date = Date(timeIntervalSince1970: interval)
-                let dateformatter = DateFormatter()
-                dateformatter.locale = NSLocale(localeIdentifier: TelegramUserInfo.shareInstance.currentLanguage) as Locale?
-                dateformatter.dateFormat = SWLocalizedString(key: "date_formatter")
-                let dateStr = dateformatter.string(from: date)
-                uniModel.time = dateStr
-                uniModel.timeInterval = interval
-                uniModel.gasPrice = ethModel.gasPrice
-                uniModel.assetSymbol = self.selectedAsset?.symbol
-                uniModel.assetIconUrl = self.selectedAsset?.iconUrl
-                
-            }
-            if let confirmations = uniModel.confirmations {
-                if confirmations < 0 {
-                    uniModel.state = 3
-                } else if confirmations < 6 {
-                    uniModel.state = 2
-                } else {
-                    uniModel.state = 1
-                }
-            }
-            uniArray.append(uniModel)
-        }
-        return uniArray
-    }
-    
-    private func calculateAmount(transaction:BtcTransactionModel) -> Decimal {
-        var amount = Decimal()
-        for transfer in transaction.from_address! {
-            if transfer.addr == self.walletModel?.extendedPublicKey {
-                amount -= Decimal.init(string: transfer.value!)!
-            }
-        }
-        for transfer in transaction.to_address! {
-            if transfer.addr == self.walletModel?.extendedPublicKey {
-                amount += Decimal.init(string: transfer.value!)!
-            }
-        }
-        return amount
-    }
+//    
+//    private func convertData(dataArray: [Any]) -> [UniversalTransactionModel]? {
+//        if dataArray.count == 0 {
+//            return nil
+//        }
+//        
+//        var uniArray:[UniversalTransactionModel] = []
+//        
+//        for (index, object) in dataArray.enumerated() {
+//            var uniModel = UniversalTransactionModel()
+//            if let type = self.walletModel?.coinType {
+//                switch type {
+//                case .BTC:
+//                    let btcModel = object as! BtcTransactionModel
+//                    uniModel.ID = btcModel.txid
+//                    let amount = calculateAmount(transaction: btcModel)
+//                    if amount >= 0 {
+//                        uniModel.isIn = true
+//                        uniModel.amount = amount
+//                    } else {
+//                        uniModel.isIn = false
+//                        uniModel.amount = -1 * amount
+//                    }
+//                    if uniModel.isIn! {
+//                        if btcModel.from_address == nil {
+//                            uniModel.from = "Newly Generated"
+//                        } else {
+//                            for from in btcModel.from_address! {
+//                                if from.addr != self.walletModel?.extendedPublicKey {
+//                                    uniModel.from = from.addr
+//                                    break
+//                                }
+//                            }
+//                        }
+//                        uniModel.to = self.walletModel?.extendedPublicKey
+//                    } else {
+//                        for to in btcModel.to_address! {
+//                            if to.addr != self.walletModel?.extendedPublicKey {
+//                                uniModel.to = to.addr
+//                                break
+//                            }
+//                        }
+//                        uniModel.from = self.walletModel?.extendedPublicKey
+//                    }
+//                    uniModel.fee = Decimal(string: btcModel.fees!)?.description
+//                    uniModel.blockHeight = btcModel.blockheight
+//                    uniModel.confirmations = btcModel.confirmations
+//                    uniModel.coinType = CoinType.BTC
+//                    var interval = Date().timeIntervalSince1970
+//                    if btcModel.blocktime != nil,
+//                        let temp = TimeInterval(btcModel.blocktime!),
+//                        temp > 1230739200
+//                    {
+//                        interval = temp
+//                    }
+//                    let date = Date(timeIntervalSince1970: interval)
+//                    let dateformatter = DateFormatter()
+//                    dateformatter.locale = NSLocale(localeIdentifier: TelegramUserInfo.shareInstance.currentLanguage) as Locale?
+//                    dateformatter.dateFormat = SWLocalizedString(key: "date_formatter")
+//                    let dateStr = dateformatter.string(from: date)
+//                    uniModel.time = dateStr
+//                    uniModel.timeInterval = interval
+//                case .LTC:
+//                    let btcModel = object as! BtcTransactionModel
+//                    uniModel.ID = btcModel.txid
+//                    let amount = calculateAmount(transaction: btcModel)
+//                    if amount >= 0 {
+//                        uniModel.isIn = true
+//                        uniModel.amount = amount
+//                    } else {
+//                        uniModel.isIn = false
+//                        uniModel.amount = -1 * amount
+//                    }
+//                    if uniModel.isIn! {
+//                        if btcModel.from_address == nil {
+//                            uniModel.from = "Newly Generated"
+//                        } else {
+//                            for from in btcModel.from_address! {
+//                                if from.addr != self.walletModel?.extendedPublicKey {
+//                                    uniModel.from = from.addr
+//                                    break
+//                                }
+//                            }
+//                        }
+//                        uniModel.to = self.walletModel?.extendedPublicKey
+//                    } else {
+//                        for to in btcModel.to_address! {
+//                            if to.addr != self.walletModel?.extendedPublicKey {
+//                                uniModel.to = to.addr
+//                                break
+//                            }
+//                        }
+//                        uniModel.from = self.walletModel?.extendedPublicKey
+//                    }
+//                    uniModel.fee = Decimal(string: btcModel.fees!)?.description
+//                    uniModel.blockHeight = btcModel.blockheight
+//                    uniModel.confirmations = btcModel.confirmations
+//                    uniModel.coinType = CoinType.BTC
+//                    var interval = Date().timeIntervalSince1970
+//                    if btcModel.blocktime != nil,
+//                        let temp = TimeInterval(btcModel.blocktime!),
+//                        temp > 1230739200
+//                    {
+//                        interval = temp
+//                    }
+//                    let date = Date(timeIntervalSince1970: interval)
+//                    let dateformatter = DateFormatter()
+//                    dateformatter.locale = NSLocale(localeIdentifier: TelegramUserInfo.shareInstance.currentLanguage) as Locale?
+//                    dateformatter.dateFormat = SWLocalizedString(key: "date_formatter")
+//                    let dateStr = dateformatter.string(from: date)
+//                    uniModel.time = dateStr
+//                    uniModel.timeInterval = interval
+//                case .ETH:
+//                    let ethModel = object as! EthTransactionListDataModel
+//                    uniModel.ID = ethModel.hash
+//                    uniModel.from = ethModel.from
+//                    uniModel.to = ethModel.to
+//                    let amount = try? Converter.toEther(wei: Wei.init(ethModel.value!)!)
+//                    uniModel.amount = amount
+//                    let fee = try? Converter.toEther(wei: Wei.init(BInt(ethModel.gas!)! * BInt(ethModel.gasPrice!)!))
+//                    if ethModel.to == self.walletModel?.extendedPublicKey?.lowercased() {
+//                        uniModel.isIn = true
+//                    } else {
+//                        uniModel.isIn = false
+//                    }
+//                    uniModel.fee = fee?.description
+//                    uniModel.blockHeight = ethModel.blockNumber
+//                    uniModel.confirmations = ethModel.confirmedNum
+//                    uniModel.coinType = CoinType.ETH
+//                    var interval = Date().timeIntervalSince1970
+//                    if let stamp = ethModel.timestamp,
+//                        let temp = TimeInterval(stamp),
+//                        temp > 1230739200
+//                    {
+//                        interval = temp
+//                    }
+//                    let date = Date(timeIntervalSince1970: interval)
+//                    let dateformatter = DateFormatter()
+//                    dateformatter.locale = NSLocale(localeIdentifier: TelegramUserInfo.shareInstance.currentLanguage) as Locale?
+//                    dateformatter.dateFormat = SWLocalizedString(key: "date_formatter")
+//                    let dateStr = dateformatter.string(from: date)
+//                    uniModel.time = dateStr
+//                    uniModel.timeInterval = interval
+//                    uniModel.gasPrice = ethModel.gasPrice
+//                    uniModel.assetSymbol = self.selectedAsset?.symbol
+//                    uniModel.assetIconUrl = self.selectedAsset?.iconUrl
+//                }
+//            }
+//            if let confirmations = uniModel.confirmations {
+//                if confirmations < 0 {
+//                    uniModel.state = 3
+//                } else if confirmations < 6 {
+//                    uniModel.state = 2
+//                } else {
+//                    uniModel.state = 1
+//                }
+//            }
+//            uniArray.append(uniModel)
+//        }
+//        return uniArray
+//    }
+//    
+//    private func calculateAmount(transaction:BtcTransactionModel) -> Decimal {
+//        var amount = Decimal()
+//        for transfer in transaction.from_address! {
+//            if transfer.addr == self.walletModel?.extendedPublicKey {
+//                amount -= Decimal.init(string: transfer.value!)!
+//            }
+//        }
+//        for transfer in transaction.to_address! {
+//            if transfer.addr == self.walletModel?.extendedPublicKey {
+//                amount += Decimal.init(string: transfer.value!)!
+//            }
+//        }
+//        return amount
+//    }
 	
 	@IBAction func clickSendBtn(_ sender: UIButton) {
         SPUserEventsManager.shared.addCount(forEvent: SWUEC_Click_Send_AssetsDetail_Page)

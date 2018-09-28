@@ -54,16 +54,24 @@ class TotalCostCell: UITableViewCell, UITextFieldDelegate {
                 self.amountField.text = self.price.description
             }
             
-            if wallet.coinType == CoinType.BTC || asset.symbol == "ETH" {
-                let coinName = wallet.coinType?.rawValue
-//                self.symbolLbl.text = coinName
-                if coinName != nil {
-                    self.iconImgView.image = UIImage.init(named: coinName!)
-                }
+            if let symbol = asset.symbol,
+                let image = UIImage.init(named: symbol)
+            {
+                self.iconImgView.image = image
             } else {
-//                self.symbolLbl.text = asset.symbol
                 self.iconImgView.coinImageSet(urlStr: asset.iconUrl)
             }
+            
+//            if wallet.coinType == CoinType.BTC || asset.symbol == "ETH" {
+//                let coinName = wallet.coinType?.rawValue
+////                self.symbolLbl.text = coinName
+//                if coinName != nil {
+//                    self.iconImgView.image = UIImage.init(named: coinName!)
+//                }
+//            } else {
+////                self.symbolLbl.text = asset.symbol
+//                self.iconImgView.coinImageSet(urlStr: asset.iconUrl)
+//            }
         }
     }
     

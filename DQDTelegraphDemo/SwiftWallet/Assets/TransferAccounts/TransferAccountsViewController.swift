@@ -16,6 +16,7 @@ class TransferAccountsViewController: UIViewController {
     var assetType: AssetsTokensModel?
     var destinationAddress: String?
     var btcFee: SwiftTransaction.BTCFeeRate = .normal
+    var ltcFee: SwiftTransaction.LTCFeeRate = .normal
     var ethFee: String = "" {
         didSet {
             self.ethFeeLbl.text = ethFee
@@ -120,41 +121,59 @@ class TransferAccountsViewController: UIViewController {
 //        self.normalSwitch.onImage = #imageLiteral(resourceName: "addAssets_open")
 //        self.normalSwitch.offImage = #imageLiteral(resourceName: "addAssets_close")
     
-        if self.walletModel?.coinType == CoinType.BTC {
-            self.titleLbl.text = "BTC"
-        } else if self.walletModel?.coinType == CoinType.ETH {
-            if self.assetType != nil {
-                self.titleLbl.text = self.assetType!.symbol
-            } else {
-                self.titleLbl.text = "ETH"
-            }
-        }
         if self.destinationAddress != nil {
             self.addressTextField.text = self.destinationAddress!
         }
 
         self.addressTextField.contentVerticalAlignment = UIControlContentVerticalAlignment.center
         self.amountTextField.contentVerticalAlignment = UIControlContentVerticalAlignment.center
-        if self.walletModel?.coinType == CoinType.ETH {
-//            self.memoView.isHidden = true
-//            self.momoTextField.contentVerticalAlignment = UIControlContentVerticalAlignment.center
-//            self.normalSwitch.isOn = false
-            self.advanceView.isHidden = true
-            self.view.addSubview(self.advanceView)
-            self.advanceView.snp.makeConstraints { (make) in
-                make.top.left.right.equalTo(self.miningFeeView)
-                make.height.equalTo(267)
+//        if self.walletModel?.coinType == CoinType.ETH {
+////            self.memoView.isHidden = true
+////            self.momoTextField.contentVerticalAlignment = UIControlContentVerticalAlignment.center
+////            self.normalSwitch.isOn = false
+//            self.advanceView.isHidden = true
+//            self.view.addSubview(self.advanceView)
+//            self.advanceView.snp.makeConstraints { (make) in
+//                make.top.left.right.equalTo(self.miningFeeView)
+//                make.height.equalTo(267)
+//            }
+//            let gasInfo = UserDefaults.standard.data(forKey: "ethGasInfoKey")
+//            if gasInfo != nil {
+//                self.ethGasModel = try? JSONDecoder().decode(EthGasInfoModel.self, from: gasInfo!)
+//            }
+//        } else if self.walletModel?.coinType == CoinType.BTC {
+////            self.memoView.isHidden = true
+////            self.normalSwitch.isHidden = true
+//            self.advanceSwitchLbl.isHidden = true
+//            self.ethFeeLbl.isHidden = true
+//            self.ethUnitLbl.isHidden = true
+//        }
+        
+        if let type = self.walletModel?.coinType {
+            switch type {
+            case .BTC, .LTC:
+                self.titleLbl.text = type.rawValue
+                self.advanceSwitchLbl.isHidden = true
+                self.normalSwitchBtn.isHidden = true
+                self.ethFeeLbl.isHidden = true
+                self.ethUnitLbl.isHidden = true
+            case .ETH:
+                if self.assetType != nil {
+                    self.titleLbl.text = self.assetType!.symbol
+                } else {
+                    self.titleLbl.text = "ETH"
+                }
+                self.advanceView.isHidden = true
+                self.view.addSubview(self.advanceView)
+                self.advanceView.snp.makeConstraints { (make) in
+                    make.top.left.right.equalTo(self.miningFeeView)
+                    make.height.equalTo(267)
+                }
+                let gasInfo = UserDefaults.standard.data(forKey: "ethGasInfoKey")
+                if gasInfo != nil {
+                    self.ethGasModel = try? JSONDecoder().decode(EthGasInfoModel.self, from: gasInfo!)
+                }
             }
-            let gasInfo = UserDefaults.standard.data(forKey: "ethGasInfoKey")
-            if gasInfo != nil {
-                self.ethGasModel = try? JSONDecoder().decode(EthGasInfoModel.self, from: gasInfo!)
-            }
-        } else if self.walletModel?.coinType == CoinType.BTC {
-//            self.memoView.isHidden = true
-//            self.normalSwitch.isHidden = true
-            self.advanceSwitchLbl.isHidden = true
-            self.ethFeeLbl.isHidden = true
-            self.ethUnitLbl.isHidden = true
         }
 		self.getGasFromSlider()
     }
@@ -231,20 +250,48 @@ class TransferAccountsViewController: UIViewController {
 //        self.isAdvance = false
 //    }
     @IBAction func feeSliderChanged(_ sender: Any) {
-        if self.walletModel?.coinType == CoinType.BTC {
-            if self.feeSlider.value <= 0.25 {
-                self.feeSlider.value = 0
-                self.btcFee = SwiftTransaction.BTCFeeRate.slow
-            } else if self.feeSlider.value <= 0.75 {
-                self.feeSlider.value = 0.5
-                self.btcFee = SwiftTransaction.BTCFeeRate.normal
-            } else {
-                self.feeSlider.value = 1
-                self.btcFee = SwiftTransaction.BTCFeeRate.fast
+        if let type = self.walletModel?.coinType {
+            switch type {
+            case .BTC:
+                if self.feeSlider.value <= 0.25 {
+                    self.feeSlider.value = 0
+                    self.btcFee = SwiftTransaction.BTCFeeRate.slow
+                } else if self.feeSlider.value <= 0.75 {
+                    self.feeSlider.value = 0.5
+                    self.btcFee = SwiftTransaction.BTCFeeRate.normal
+                } else {
+                    self.feeSlider.value = 1
+                    self.btcFee = SwiftTransaction.BTCFeeRate.fast
+                }
+            case .LTC:
+                if self.feeSlider.value <= 0.25 {
+                    self.feeSlider.value = 0
+                    self.ltcFee = SwiftTransaction.LTCFeeRate.slow
+                } else if self.feeSlider.value <= 0.75 {
+                    self.feeSlider.value = 0.5
+                    self.ltcFee = SwiftTransaction.LTCFeeRate.normal
+                } else {
+                    self.feeSlider.value = 1
+                    self.ltcFee = SwiftTransaction.LTCFeeRate.fast
+                }
+            case .ETH:
+                self.getGasFromSlider()
             }
-        } else if self.walletModel?.coinType == CoinType.ETH {
-            self.getGasFromSlider()
         }
+//        if self.walletModel?.coinType == CoinType.BTC {
+//            if self.feeSlider.value <= 0.25 {
+//                self.feeSlider.value = 0
+//                self.btcFee = SwiftTransaction.BTCFeeRate.slow
+//            } else if self.feeSlider.value <= 0.75 {
+//                self.feeSlider.value = 0.5
+//                self.btcFee = SwiftTransaction.BTCFeeRate.normal
+//            } else {
+//                self.feeSlider.value = 1
+//                self.btcFee = SwiftTransaction.BTCFeeRate.fast
+//            }
+//        } else if self.walletModel?.coinType == CoinType.ETH {
+//            self.getGasFromSlider()
+//        }
     }
     @IBAction func gasPriceEditted(_ sender: Any) {
         print(self.advanceGasPriceField.text ?? "error")
@@ -440,64 +487,127 @@ class TransferAccountsViewController: UIViewController {
         }
         inputModel.address = addressStr
         inputModel.amount = amountStr
-        if self.walletModel?.coinType == CoinType.BTC {
-            if !SwiftWalletManager.shared.validateBtcAddress(address: addressStr) {
-                self.noticeOnlyText(SWLocalizedString(key: "address_not_valid"))
-                return
-            }
-            inputModel.btcFee = self.btcFee
-            inputModel.unit = "BTC"
-        } else {
-            if !SwiftWalletManager.shared.validateEthAddress(address: addressStr) {
-                self.noticeOnlyText(SWLocalizedString(key: "address_not_valid"))
-                return
-            }
-            inputModel.assetModel = self.assetType
-            inputModel.ethFee = self.ethFee
-            inputModel.unit = self.assetType?.symbol
-            if (self.isAdvance) {
-                
-                guard let gasPriceStr = self.advanceGasPriceField.text,
-                    let gasPriceDecim = Decimal(string: gasPriceStr),
-                    let gasLimitStr = self.advanceGasField.text,
-                    let gasLimitDecim = Decimal(string: gasLimitStr)
-                else {
+        if let type = self.walletModel?.coinType {
+            switch type {
+            case .BTC:
+                if !SwiftWalletManager.shared.validateBtcAddress(address: addressStr) {
+                    self.noticeOnlyText(SWLocalizedString(key: "address_not_valid"))
+                    return
+                }
+                inputModel.btcFee = self.btcFee
+                inputModel.unit = "BTC"
+            case .LTC:
+                if !SwiftWalletManager.shared.validateLtcAddress(address: addressStr) {
+                    self.noticeOnlyText(SWLocalizedString(key: "address_not_valid"))
+                    return
+                }
+                inputModel.ltcFee = self.ltcFee
+                inputModel.unit = "LTC"
+            case .ETH:
+                if !SwiftWalletManager.shared.validateEthAddress(address: addressStr) {
+                    self.noticeOnlyText(SWLocalizedString(key: "address_not_valid"))
+                    return
+                }
+                inputModel.assetModel = self.assetType
+                inputModel.ethFee = self.ethFee
+                inputModel.unit = self.assetType?.symbol
+                if (self.isAdvance) {
+                    
+                    guard let gasPriceStr = self.advanceGasPriceField.text,
+                        let gasPriceDecim = Decimal(string: gasPriceStr),
+                        let gasLimitStr = self.advanceGasField.text,
+                        let gasLimitDecim = Decimal(string: gasLimitStr)
+                        else {
+                            return
+                    }
+                    if gasPriceDecim < 0 {
+                        self.noticeOnlyText(SWLocalizedString(key: "gas_price_toast"))
                         return
-                }
-                if gasPriceDecim < 0 {
-                    self.noticeOnlyText(SWLocalizedString(key: "gas_price_toast"))
-                    return
-                }
-                if gasLimitDecim < 21000 {
-                    self.noticeOnlyText(SWLocalizedString(key: "gas_toast"))
-                    return
-                }
-                
-                inputModel.ethGasPrice = (gasPriceDecim * 1000000000).description
-                inputModel.ethGasLimit = self.advanceGasField.text
-                if self.advanceHexField.text.count > 0 {
-
-                    inputModel.data = OCLanguage.swdata(fromHex: self.advanceHexField.text)//BTCDataFromHex(self.advanceHexField.text) //Data.init(hex: self.advanceHexField.text)
-
-                }
-            } else {
-                if self.assetType?.symbol == "ETH" {
-                    inputModel.ethGasLimit = "30000"
+                    }
+                    if gasLimitDecim < 21000 {
+                        self.noticeOnlyText(SWLocalizedString(key: "gas_toast"))
+                        return
+                    }
+                    
+                    inputModel.ethGasPrice = (gasPriceDecim * 1000000000).description
+                    inputModel.ethGasLimit = self.advanceGasField.text
+                    if self.advanceHexField.text.count > 0 {
+                        
+                        inputModel.data = OCLanguage.swdata(fromHex: self.advanceHexField.text)//BTCDataFromHex(self.advanceHexField.text) //Data.init(hex: self.advanceHexField.text)
+                        
+                    }
                 } else {
-                    inputModel.ethGasLimit = assetType?.gas
+                    if self.assetType?.symbol == "ETH" {
+                        inputModel.ethGasLimit = "30000"
+                    } else {
+                        inputModel.ethGasLimit = assetType?.gas
+                    }
+                    //                let str = (Decimal(string:self.ethFee)! / 21000 * 1000000000000000000).description
+                    guard let gasPriceDecim = Decimal(string:self.ethFee) else {
+                        return
+                    }
+                    inputModel.ethGasPrice = SwiftExchanger.shared.getWei(from: (gasPriceDecim / 21000).description)?.description
                 }
-//                let str = (Decimal(string:self.ethFee)! / 21000 * 1000000000000000000).description
-                guard let gasPriceDecim = Decimal(string:self.ethFee) else {
-                    return
-                }
-                inputModel.ethGasPrice = SwiftExchanger.shared.getWei(from: (gasPriceDecim / 21000).description)?.description//String(str.split(separator: ".").first!)
-//                do {
-//                    inputModel.ethGasPrice = try Converter.toWei(ether: (Decimal(string:self.ethFee)! / 21000)).description
-//                } catch {
-//                    print(error)
-//                }
             }
         }
+//        if self.walletModel?.coinType == CoinType.BTC {
+//            if !SwiftWalletManager.shared.validateBtcAddress(address: addressStr) {
+//                self.noticeOnlyText(SWLocalizedString(key: "address_not_valid"))
+//                return
+//            }
+//            inputModel.btcFee = self.btcFee
+//            inputModel.unit = "BTC"
+//        } else {
+//            if !SwiftWalletManager.shared.validateEthAddress(address: addressStr) {
+//                self.noticeOnlyText(SWLocalizedString(key: "address_not_valid"))
+//                return
+//            }
+//            inputModel.assetModel = self.assetType
+//            inputModel.ethFee = self.ethFee
+//            inputModel.unit = self.assetType?.symbol
+//            if (self.isAdvance) {
+//
+//                guard let gasPriceStr = self.advanceGasPriceField.text,
+//                    let gasPriceDecim = Decimal(string: gasPriceStr),
+//                    let gasLimitStr = self.advanceGasField.text,
+//                    let gasLimitDecim = Decimal(string: gasLimitStr)
+//                else {
+//                        return
+//                }
+//                if gasPriceDecim < 0 {
+//                    self.noticeOnlyText(SWLocalizedString(key: "gas_price_toast"))
+//                    return
+//                }
+//                if gasLimitDecim < 21000 {
+//                    self.noticeOnlyText(SWLocalizedString(key: "gas_toast"))
+//                    return
+//                }
+//
+//                inputModel.ethGasPrice = (gasPriceDecim * 1000000000).description
+//                inputModel.ethGasLimit = self.advanceGasField.text
+//                if self.advanceHexField.text.count > 0 {
+//
+//                    inputModel.data = OCLanguage.swdata(fromHex: self.advanceHexField.text)//BTCDataFromHex(self.advanceHexField.text) //Data.init(hex: self.advanceHexField.text)
+//
+//                }
+//            } else {
+//                if self.assetType?.symbol == "ETH" {
+//                    inputModel.ethGasLimit = "30000"
+//                } else {
+//                    inputModel.ethGasLimit = assetType?.gas
+//                }
+////                let str = (Decimal(string:self.ethFee)! / 21000 * 1000000000000000000).description
+//                guard let gasPriceDecim = Decimal(string:self.ethFee) else {
+//                    return
+//                }
+//                inputModel.ethGasPrice = SwiftExchanger.shared.getWei(from: (gasPriceDecim / 21000).description)?.description//String(str.split(separator: ".").first!)
+////                do {
+////                    inputModel.ethGasPrice = try Converter.toWei(ether: (Decimal(string:self.ethFee)! / 21000)).description
+////                } catch {
+////                    print(error)
+////                }
+//            }
+//        }
         
         let sendDetailVC = SendDetailViewController.init(nibName: "SendDetailViewController", bundle: nil)
         sendDetailVC.walletModel = self.walletModel!
@@ -510,10 +620,10 @@ class TransferAccountsViewController: UIViewController {
     
     private func compareLastReceiver(currentReceiver address: String) -> Bool {
         var symbol = ""
-        if self.walletModel?.coinType == CoinType.BTC {
-            symbol = "BTC"
-        } else if self.walletModel?.coinType == CoinType.ETH {
+        if self.walletModel?.coinType == CoinType.ETH {
             symbol = self.assetType?.symbol ?? "UNKNOW"
+        } else {
+            symbol = self.walletModel?.coinType?.rawValue ?? "UNKNOW"
         }
         guard let receiverData = UserDefaults.standard.dictionary(forKey: symbol + "LastReceiverKey") else {
             return true
@@ -552,6 +662,7 @@ class TransferAccountsViewController: UIViewController {
         var ethGasPrice: String?
         var ethGasLimit: String?
         var btcFee: SwiftTransaction.BTCFeeRate?
+        var ltcFee: SwiftTransaction.LTCFeeRate?
         var assetModel: AssetsTokensModel?
         var unit: String?
     }

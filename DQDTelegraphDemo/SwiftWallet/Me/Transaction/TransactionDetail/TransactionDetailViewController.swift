@@ -16,7 +16,7 @@ class TransactionDetailViewController: UIViewController, UITableViewDelegate, UI
     var type:CoinType?
     var walletModel:SwiftWalletModel?
     var cellArr:[[[String:String]]] = [[[:]]]
-    var transactionModel:TransactionListViewController.UniversalTransactionModel? {
+    var transactionModel:UniversalTransactionModel? {
         didSet {
             self.fee = transactionModel?.fee
         }

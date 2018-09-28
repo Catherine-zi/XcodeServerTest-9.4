@@ -312,7 +312,7 @@ private let topViewH:CGFloat = 218
 		if indexPath.section == 0 {
             SPUserEventsManager.shared.addCount(forEvent: SWUEC_Click_MyAccount)
 			if TelegramUserInfo.shareInstance.telegramLoginState == "yes" {
-				vc = MyAccountViewController()
+				vc = MyProfileViewController()//MyAccountViewController()
 			}else {
 				let isAgreeServicePolicy = UserDefaults.standard.bool(forKey: "isAgreeServicePolicy")
 				if isAgreeServicePolicy == true {

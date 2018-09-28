@@ -30,7 +30,7 @@ protocol HSDrawLayerProtocol {
     func getCrossLineLayer(frame: CGRect, pricePoint: CGPoint, volumePoint: CGPoint, model: AnyObject?) -> CAShapeLayer
 	
 	//qq--add 长按时添加一个图例浮层
-	func getLegendlayer(isLeft: Bool,frame: CGRect, model: AnyObject?) -> CAShapeLayer
+	func getLegendlayer(isLeft: Bool,frame: CGRect, model: AnyObject?, legendTitleArr: [String]) -> CAShapeLayer
     
 }
 
@@ -114,7 +114,7 @@ extension HSDrawLayerProtocol {
         
         return yMarkLayer
     }
-	func getLegendlayer(isLeft: Bool,frame: CGRect, model: AnyObject?) -> CAShapeLayer {
+	func getLegendlayer(isLeft: Bool,frame: CGRect, model: AnyObject?,legendTitleArr: [String]) -> CAShapeLayer {
 		
 		let layerW: CGFloat = 143
 		let layerH: CGFloat = 101
@@ -129,22 +129,12 @@ extension HSDrawLayerProtocol {
 		legendLayer.frame = legendFrame
 		legendLayer.backgroundColor = theme.legendColor.cgColor
 		legendLayer.cornerRadius = 8.0
-		
+	
 		guard let model = model else {
 			return legendLayer
 		}
 		//add TextLayer
-		var legendContentStrs: [String] = ["",//time
-										   "open",
-										   "high",
-										   "low",
-										   "close",
-										   "volume",
-										   "",//对应的value
-										   "",
-										   "",
-										   "",
-										   ""]
+		var legendContentStrs: [String] = legendTitleArr
 		if model.isKind(of: HSKLineModel.self) {
 			let entity = model as! HSKLineModel
 			legendContentStrs[0] = entity.date.hschart.toDate("yyyyMMddHHmmss")?.hschart.toString("yyyy/MM/dd HH:mm") ?? ""
@@ -315,7 +305,9 @@ extension HSDrawLayerProtocol {
 		if value <= 0 {
 			return 0
 		}
-		let str = NSNumber.init(value: Double(value)).stringValue
+		let formatStr = NSString(format: "%f", value)
+		let str = NSString(format: "%@", NSNumber.init(value: formatStr.floatValue))
+//		let str = NSNumber.init(value: Double(value)).stringValue
 		if !str.contains(".") {
 			return 0
 		}

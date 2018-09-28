@@ -51,11 +51,12 @@ public class HSKLineView: UIView {
             return uperChartHeight + theme.xAxisHeitht
         }
     }
-    
-	public init(frame: CGRect, kLineType: HSChartType,isNeedReverseColor: Bool) {
+	
+	var legendTitleArr: [String] = []
+	public init(frame: CGRect, kLineType: HSChartType,isNeedReverseColor: Bool,legendTitle: [String]) {
         super.init(frame: frame)
         backgroundColor = UIColor.white
-        
+        legendTitleArr = legendTitle
         drawFrameLayer()
         
         scrollView = UIScrollView(frame: bounds)
@@ -282,7 +283,7 @@ public class HSKLineView: UIView {
                 let preIndex = (highLightIndex - 1 >= 0) ? (highLightIndex - 1) : highLightIndex
                 let preData = kLine.dataK[preIndex]
                 
-                upFrontView.drawCrossLine(pricePoint: CGPoint(x: centerX, y: highLightClose), volumePoint: CGPoint(x: centerX, y: highLightVolume), model: entity)
+                upFrontView.drawCrossLine(pricePoint: CGPoint(x: centerX, y: highLightClose), volumePoint: CGPoint(x: centerX, y: highLightVolume), model: entity, legendArr:self.legendTitleArr)
                 
                 let userInfo: [AnyHashable: Any]? = ["preClose" : preData.close, "kLineEntity" : entity]
                 NotificationCenter.default.post(name: Notification.Name(rawValue: KLineChartLongPress), object: self, userInfo: userInfo)

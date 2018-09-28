@@ -40,26 +40,9 @@
          <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
-            condition = "type.symbol == &quot;OCN&quot;"
-            continueAfterRunningActions = "No"
-            filePath = "DQDTelegraphDemo/SwiftWallet/Utils/HDWallet/SwiftExchanger.swift"
-            timestampString = "556799917.139429"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "244"
-            endingLineNumber = "244"
-            landmarkName = "calculateTotalAsset(wallet:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DQDTelegraphDemo/SwiftWallet/Me/Transaction/TransactionListCell.swift"
-            timestampString = "557402715.517336"
+            timestampString = "559220428.459873"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "31"
@@ -75,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DQDTelegraphDemo/SwiftWallet/Me/Transaction/TransactionDetail/TransactionDetailViewController.swift"
-            timestampString = "554293745.3123209"
+            timestampString = "559220428.459978"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "76"
@@ -123,28 +106,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DQDTelegraphDemo/SwiftWallet/Assets/AssetsDetail/AssetsDetailsViewController.swift"
-            timestampString = "558261781.3964781"
+            timestampString = "559220428.4600379"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "289"
-            endingLineNumber = "289"
+            startingLineNumber = "347"
+            endingLineNumber = "347"
             landmarkName = "requestEthData(page:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DQDTelegraphDemo/SwiftWallet/Assets/TransferAccounts/WalletPsw/WalletPswViewController.swift"
-            timestampString = "554200698.986794"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "267"
-            endingLineNumber = "267"
-            landmarkName = "processBtcTransaction(transaction:error:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -161,22 +128,6 @@
             startingLineNumber = "215"
             endingLineNumber = "215"
             landmarkName = "isFrame(for:inSameLineAsFrameFor:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DQDTelegraphDemo/SwiftWallet/Utils/HDWallet/SwiftNotificationManager.swift"
-            timestampString = "557739991.597621"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "236"
-            endingLineNumber = "236"
-            landmarkName = "processNewNotification(userInfo:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -324,6 +275,198 @@
             endingLineNumber = "62"
             landmarkName = "task"
             landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/CoreBitcoin/CoreBitcoin/BTCKey.m"
+            timestampString = "559106628.0236551"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "546"
+            endingLineNumber = "546"
+            landmarkName = "-addressTestnet"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/CoreBitcoin/CoreBitcoin/BTCAddress.m"
+            timestampString = "559220428.46041"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "-base58CString"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DQDTelegraphDemo/SwiftWallet/Assets/TransferAccounts/WalletPsw/WalletPswViewController.swift"
+            timestampString = "559220428.460754"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
+            landmarkName = "sendLtcTransaction()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DQDTelegraphDemo/SwiftWallet/Utils/HDWallet/SwiftTransaction.swift"
+            timestampString = "559220428.460851"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "329"
+            endingLineNumber = "329"
+            landmarkName = "createLtcTransaction(privateKey:destinationAddress:changeAddress:amount:feeRate:completionHandler:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DQDTelegraphDemo/SwiftWallet/Utils/HDWallet/SwiftTransaction.swift"
+            timestampString = "559220428.460935"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "341"
+            endingLineNumber = "341"
+            landmarkName = "createLtcTransaction(privateKey:destinationAddress:changeAddress:amount:feeRate:completionHandler:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DQDTelegraphDemo/SwiftWallet/Utils/HDWallet/SwiftTransaction.swift"
+            timestampString = "559220428.46102"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "356"
+            endingLineNumber = "356"
+            landmarkName = "createLtcTransaction(privateKey:destinationAddress:changeAddress:amount:feeRate:completionHandler:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DQDTelegraphDemo/SwiftWallet/Assets/TransferAccounts/WalletPsw/WalletPswViewController.swift"
+            timestampString = "559220428.4611011"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "319"
+            endingLineNumber = "319"
+            landmarkName = "processLtcTransaction(transaction:error:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DQDTelegraphDemo/SwiftWallet/Assets/AssetsDetail/AssetsDetailsViewController.swift"
+            timestampString = "559220428.4611779"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "300"
+            endingLineNumber = "300"
+            landmarkName = "requestLtcData(offset:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DQDTelegraph/Telegraph/Legacy/TelegraphKit/TGDialogListController.mm"
+            timestampString = "559647574.691927"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1514"
+            endingLineNumber = "1514"
+            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DQDTelegraphDemo/SwiftWallet/AssetstViewController.swift"
+            timestampString = "559647574.692899"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
+            landmarkName = "reloadDataSource(count:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "DQDTelegraphDemo.AssetstViewController.(reloadDataSource in _E4976FFD4C6EA1F2728F0DD30906D7FF)(count: Swift.Int) -&gt; ()"
+                  moduleName = "DQDTelegraphDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/avazu/Telegram_iOS2/DQDTelegraph/DQDTelegraphDemo/SwiftWallet/AssetstViewController.swift"
+                  timestampString = "559645809.035787"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "116"
+                  endingLineNumber = "116"
+                  offsetFromSymbolStart = "1536">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in DQDTelegraphDemo.AssetstViewController.(reloadDataSource in _E4976FFD4C6EA1F2728F0DD30906D7FF)(count: Swift.Int) -&gt; ()"
+                  moduleName = "DQDTelegraphDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/avazu/Telegram_iOS2/DQDTelegraph/DQDTelegraphDemo/SwiftWallet/AssetstViewController.swift"
+                  timestampString = "559645809.0413049"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "117"
+                  endingLineNumber = "117"
+                  offsetFromSymbolStart = "22">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

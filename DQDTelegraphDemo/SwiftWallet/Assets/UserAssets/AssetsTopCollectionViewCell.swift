@@ -38,11 +38,11 @@ class AssetsTopCollectionViewCell: UICollectionViewCell {
             let str = SwiftExchanger.shared.getRoundedNumber(number: SwiftExchanger.shared.calculate24Profit(wallet: model), decimalCount: 2).description
             self.profit24hLbl.text = SWLocalizedString(key: "profit_24h") + " " + SwiftExchanger.shared.getSignumMovedCurrencySymbolString(string: str)
             
-			if model.coinType == CoinType.BTC {
-				addAssetBtn.isHidden = true
-//                sepView.isHidden = true
-			}else {
+			if model.coinType == CoinType.ETH {
 				addAssetBtn.isHidden = false
+//                sepView.isHidden = true
+			} else {
+				addAssetBtn.isHidden = true
 //                sepView.isHidden = false
 			}
             if model.isBackUp != nil {
@@ -90,7 +90,7 @@ class AssetsTopCollectionViewCell: UICollectionViewCell {
 	@IBAction func clickAddBtn(_ sender: UIButton) {
 		
         SPUserEventsManager.shared.addCount(forEvent: SWUEC_Click_AddAssets_Assets_Page)
-		if model?.coinType == .BTC {
+		if model?.coinType != .ETH {
 			return
 		}
 		let vc:SWAddAssetsViewController = SWAddAssetsViewController()

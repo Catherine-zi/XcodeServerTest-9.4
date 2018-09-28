@@ -390,6 +390,15 @@
 "watch_send_denial" = "Вы не можете выполнить перевод, так как не импортировали персональный ключ.";
 "no_tg_group" = "Релевантные группы\nне найдены";
 
+//个人资料编辑
+"person_center_head_pic" = "ФОТО ПРОФИЛЯ";
+"person_center_phone_number" = "НОМЕР ТЕЛЕФОНА";
+"person_center_bio" = "БИОГРАФИЯ";
+"person_center_unknow_bio" = "Не установлено";
+"person_center_name" = "имя";
+"person_center_FirstName" = "Имя (обязательно)";
+"person_center_LastName" = "Фамилия (не обязательно)";
+"person_center_UserBioInfo" = "Вы можете добавить несколько строк о себе. Они будут видны всем, кто откроет Ваш профиль.";
 //==================bitPub=====================
 
 // Notifications"MESSAGE_TEXT" = "%1$@: %2$@";

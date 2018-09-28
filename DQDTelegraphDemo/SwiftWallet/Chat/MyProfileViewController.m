@@ -37,6 +37,10 @@
 #import "MyProfileTextCell.h"
 #import "MyProfileImageCell.h"
 #import "TGLetteredAvatarView.h"
+#import "TGNavigationController.h"
+#import "EditNameViewController.h"
+#import "EditBioViewController.h"
+#import "OCLanguage.h"
 @interface MyProfileViewController () <ASWatcher,UITableViewDelegate,UITableViewDataSource>
 {
 	int32_t _uid;
@@ -63,6 +67,8 @@
 @property (nonatomic, strong) ASHandle *actionHandle;
 @property (nonatomic, strong) TGProgressWindow *progressWindow;
 @property (nonatomic, strong) UITableView *mainTab;
+@property (nonatomic, weak)MyProfileTextCell *nameCell;
+@property (nonatomic, weak)TGLetteredAvatarView *avtarView;
 @end
 
 @implementation MyProfileViewController
@@ -80,7 +86,7 @@
 											   ] watcher:self];
 		
 		_uid = TGTelegraphInstance.clientUserId;
-		self.title = TGLocalized(@"EditProfile.Title");
+//		self.title = TGLocalized(@"EditProfile.Title");
 		_doneItem = [[UIBarButtonItem alloc] initWithTitle:TGLocalized(@"Common.Done") style:UIBarButtonItemStyleDone target:self action:@selector(donePressed)];
 		[self setRightBarButtonItem:_doneItem];
 		
@@ -96,7 +102,7 @@
 //		TGCommentCollectionItem *commentItem = [[TGCommentCollectionItem alloc] initWithFormattedText:TGLocalized(@"EditProfile.NameAndPhotoHelp")];
 //		commentItem.topInset = 1.0f;
 		
-		TGCollectionMenuSection *topSection = [[TGCollectionMenuSection alloc] initWithItems:@[_profileDataItem]];
+//		TGCollectionMenuSection *topSection = [[TGCollectionMenuSection alloc] initWithItems:@[_profileDataItem]];
 //		[self.menuSections addSection:topSection];
 		
 		_inputItem = [[TGCollectionMultilineInputItem alloc] init];
@@ -123,50 +129,75 @@
 //		commentItem = [[TGCommentCollectionItem alloc] initWithFormattedText:TGLocalized(@"Settings.About.Help")];
 //		commentItem.topInset = 1.0f;
 		
-		_aboutSection = [[TGCollectionMenuSection alloc] initWithItems:@[_inputItem]];
+//		_aboutSection = [[TGCollectionMenuSection alloc] initWithItems:@[_inputItem]];
 //		[self.menuSections addSection:_aboutSection];
 		
-		_usernameItem = [[TGVariantCollectionItem alloc] initWithTitle:TGLocalized(@"Settings.Username") action:@selector(usernamePressed)];
-		_phoneNumberItem = [[TGVariantCollectionItem alloc] initWithTitle:TGLocalized(@"Settings.PhoneNumber") action:@selector(phoneNumberPressed)];
+//		_usernameItem = [[TGVariantCollectionItem alloc] initWithTitle:TGLocalized(@"Settings.Username") action:@selector(usernamePressed)];
+//		_phoneNumberItem = [[TGVariantCollectionItem alloc] initWithTitle:TGLocalized(@"Settings.PhoneNumber") action:@selector(phoneNumberPressed)];
 		
-		NSString *username = user.userName.length == 0 ? TGLocalized(@"Settings.UsernameEmpty") : [[NSString alloc] initWithFormat:@"@%@", user.userName];
-		_usernameItem.variant = username;
-		
-		NSString *phoneNumber = user.phoneNumber.length == 0 ? @"" : [TGPhoneUtils formatPhone:user.phoneNumber forceInternational:true];
-		_phoneNumberItem.variant = phoneNumber;
-		
-		TGCollectionMenuSection *credentialsSection = [[TGCollectionMenuSection alloc] initWithItems:@[_phoneNumberItem, _usernameItem]];
-//		[self.menuSections addSection:credentialsSection];
-		
-		
-		//隐藏原来的显示内容，新增自己的设计样式
-		self.mainTab = [[UITableView alloc]initWithFrame:self.collectionView.frame];
-		self.mainTab.translatesAutoresizingMaskIntoConstraints = NO;
-		self.mainTab.backgroundColor = [[UIColor alloc] initWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1.0];
-		[self.view addSubview:self.mainTab];
-		
-		;
-		[self.view addConstraints:@[[NSLayoutConstraint constraintWithItem:self.mainTab attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.collectionView attribute:NSLayoutAttributeLeft multiplier:1 constant:0],
-									[NSLayoutConstraint constraintWithItem:self.mainTab attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.collectionView attribute:NSLayoutAttributeRight multiplier:1 constant:0],
-									[NSLayoutConstraint constraintWithItem:self.mainTab attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.collectionView attribute:NSLayoutAttributeTop multiplier:1 constant:0],
-									[NSLayoutConstraint constraintWithItem:self.mainTab attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.collectionView attribute:NSLayoutAttributeBottom multiplier:1 constant:0]]];
-		
-		[self.mainTab registerNib:[UINib nibWithNibName:@"MyProfileTextCell" bundle:nil] forCellReuseIdentifier:@"MyProfileTextCell"];
-		[self.mainTab registerNib:[UINib nibWithNibName:@"MyProfileImageCell" bundle:nil] forCellReuseIdentifier:@"MyProfileImageCell"];
-		self.mainTab.delegate = self;
-		self.mainTab.dataSource = self;
-		self.mainTab.estimatedRowHeight = 50;
-		self.mainTab.separatorStyle = UITableViewCellSeparatorStyleNone;
-		
-//		_avatarView = [[TGLetteredAvatarView alloc] initWithFrame:CGRectMake(UIScreen.mainScreen.bounds.size.width - 45 - 18, 64 + 15 + 15, 41, 41)];
-//		[_avatarView setSingleFontSize:28.0f doubleFontSize:28.0f useBoldFont:false];
-//		_avatarView.fadeTransition = true;
-//		_avatarView.userInteractionEnabled = true;
+//		NSString *username = user.userName.length == 0 ? TGLocalized(@"Settings.UsernameEmpty") : [[NSString alloc] initWithFormat:@"@%@", user.userName];
+//		_usernameItem.variant = username;
 //
-//		[_avatarView loadImage:user.photoUrlSmall filter:user.photoUrlSmall placeholder:nil];
-//		[self.mainTab addSubview:_avatarView];
+//		NSString *phoneNumber = user.phoneNumber.length == 0 ? @"" : [TGPhoneUtils formatPhone:user.phoneNumber forceInternational:true];
+//		_phoneNumberItem.variant = phoneNumber;
+		
+//		TGCollectionMenuSection *credentialsSection = [[TGCollectionMenuSection alloc] initWithItems:@[_phoneNumberItem, _usernameItem]];
+//		[self.menuSections addSection:credentialsSection];
+		[self addAccountInfoView];
 	}
 	return self;
+}
+
+- (void)addAccountInfoView {
+	
+	self.view.backgroundColor = UIColor.whiteColor;
+	for (UIView *subView in self.view.subviews) {
+		subView.hidden = true;
+	}
+	CGFloat screenW = UIScreen.mainScreen.bounds.size.width;
+	CGFloat screenH = UIScreen.mainScreen.bounds.size.height;
+	UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(0, UIApplication.sharedApplication.statusBarFrame.size.height, screenW, 44)];
+	
+	navView.backgroundColor = UIColor.whiteColor;
+	UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(15, 2, 40, 40)];
+	backBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 20);
+	[backBtn addTarget:self action:@selector(clickBack) forControlEvents:UIControlEventTouchUpInside];
+	[backBtn setImage:[UIImage imageNamed:@"addAssets_back"] forState:UIControlStateNormal];
+
+	UILabel *titleLB = [[UILabel alloc]init];
+	titleLB.font = [UIFont boldSystemFontOfSize:15];
+	titleLB.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0];
+	titleLB.text = [OCLanguage SWLocalizedString:@"my_account"];
+	titleLB.translatesAutoresizingMaskIntoConstraints = NO;
+//	navView.translatesAutoresizingMaskIntoConstraints = NO;
+	[navView addSubview:backBtn];
+	[navView addSubview:titleLB];
+	
+	[navView addConstraints:@[[NSLayoutConstraint constraintWithItem:titleLB attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:navView attribute:NSLayoutAttributeCenterX multiplier:1 constant:0],
+							  [NSLayoutConstraint constraintWithItem:titleLB attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:navView attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]]];
+	[self.view addSubview:navView];
+	//隐藏原来的显示内容，新增自己的设计样式
+	
+	self.mainTab = [[UITableView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(navView.frame), screenW, screenH - CGRectGetMaxY(navView.frame))];
+	self.mainTab.translatesAutoresizingMaskIntoConstraints = NO;
+	self.mainTab.backgroundColor = [[UIColor alloc] initWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1.0];
+	[self.view addSubview:self.mainTab];
+	
+	;
+//	[self.view addConstraints:@[[NSLayoutConstraint constraintWithItem:self.mainTab attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.collectionView attribute:NSLayoutAttributeLeft multiplier:1 constant:0],
+//								[NSLayoutConstraint constraintWithItem:self.mainTab attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.collectionView attribute:NSLayoutAttributeRight multiplier:1 constant:0],
+//								[NSLayoutConstraint constraintWithItem:self.mainTab attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.collectionView attribute:NSLayoutAttributeTop multiplier:1 constant:0],
+//								[NSLayoutConstraint constraintWithItem:self.mainTab attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.collectionView attribute:NSLayoutAttributeBottom multiplier:1 constant:0]]];
+	
+	[self.mainTab registerNib:[UINib nibWithNibName:@"MyProfileTextCell" bundle:nil] forCellReuseIdentifier:@"MyProfileTextCell"];
+	[self.mainTab registerNib:[UINib nibWithNibName:@"MyProfileImageCell" bundle:nil] forCellReuseIdentifier:@"MyProfileImageCell"];
+	self.mainTab.delegate = self;
+	self.mainTab.dataSource = self;
+	self.mainTab.estimatedRowHeight = 50;
+	self.mainTab.separatorStyle = UITableViewCellSeparatorStyleNone;
+}
+- (void)clickBack {
+	[self.navigationController popViewControllerAnimated:true];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	return UITableViewAutomaticDimension;
@@ -175,25 +206,27 @@
 	
 	if (indexPath.section == 0) {
 		MyProfileImageCell * cell = [tableView dequeueReusableCellWithIdentifier:@"MyProfileImageCell"];
-		cell.titleLB.text = @"PROFILE PHOTO";
+		cell.titleLB.text = [OCLanguage SWLocalizedString:@"person_center_head_pic"];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		[cell.avartaView loadImage:[TGDatabaseInstance() loadUser:_uid].photoUrlSmall filter:[TGDatabaseInstance() loadUser:_uid].photoUrlSmall placeholder:nil];
+		self.avtarView = cell.avartaView;
 		return cell;
 	}
 	
 	MyProfileTextCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MyProfileTextCell"];
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	if (indexPath.section == 1){
-		cell.titleLabel.text = @"NAME";
-		cell.subTitleLB.text = _usernameItem.variant;
+		cell.titleLabel.text = [OCLanguage SWLocalizedString:@"person_center_name"];
+		cell.subTitleLB.text = [NSString stringWithFormat:@"%@ %@",[TGDatabaseInstance() loadUser:_uid].firstName,[TGDatabaseInstance() loadUser:_uid].lastName];
+		self.nameCell = cell;
 	}else if (indexPath.section == 2) {
-		cell.titleLabel.text = @"PHONE NUMBER";
-		cell.subTitleLB.text = _phoneNumberItem.variant;
+		cell.titleLabel.text = [OCLanguage SWLocalizedString:@"person_center_phone_number"];
+		cell.subTitleLB.text = [TGDatabaseInstance() loadUser:_uid].phoneNumber.length == 0 ? @"" : [TGPhoneUtils formatPhone:[TGDatabaseInstance() loadUser:_uid].phoneNumber forceInternational:true];
 		cell.rightImageV.hidden = YES;
 		cell.subTitleRightContent.constant = -18;
 	}else {
-		cell.titleLabel.text = @"BIO";
-		cell.subTitleLB.text = _inputItem.text;
+		cell.titleLabel.text = [OCLanguage SWLocalizedString:@"person_center_bio"];
+		cell.subTitleLB.text = _inputItem.text.length == 0 ? [OCLanguage SWLocalizedString:@"person_center_unknow_bio"] : _inputItem.text;
 	}
 	return cell;
 }
@@ -212,7 +245,34 @@
 	view.frame = CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 15);
 	return view;
 }
-
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+	if (indexPath.section == 0) {
+		
+//		TGNavigationController *nav = [[TGNavigationController alloc] initWithRootViewController:[MyProfileEditViewController new]];
+//		[self presentViewController:nav animated:true completion:nil];
+		
+		[self setProfilePhotoPressed];
+	}else if(indexPath.section == 1){
+		EditNameViewController *vc = [[EditNameViewController alloc]init];
+		vc.lastNameStr = [TGDatabaseInstance() loadUser:_uid].lastName;
+		vc.firstNameStr = [TGDatabaseInstance() loadUser:_uid].firstName;
+		
+		__weak MyProfileViewController *weakSelf = self;
+		vc.saveBlock = ^(NSString *firstName, NSString *lastName) {
+			[weakSelf editNameDone:firstName :lastName];
+		};
+		[self.navigationController pushViewController:vc animated:YES];
+	}else if(indexPath.section == 3){
+		EditBioViewController *vc = [[EditBioViewController alloc] init];
+		vc.bioStr = _inputItem.text;
+		__weak MyProfileViewController *weakSelf = self;
+		vc.saveBlock = ^(NSString *bio) {
+			[weakSelf editBioDone:bio];
+		};
+		[self.navigationController pushViewController:vc animated:YES];
+	}
+	
+}
 - (void)dealloc {
 	[_updateAboutDisposable dispose];
 	[_currentAboutDisposable dispose];
@@ -275,6 +335,40 @@
 	 }];
 }
 
+//qq--add
+- (void)editNameDone:(NSString *)fisrtName :(NSString *)lastName{
+	
+	TGProgressWindow *progressWindow = [[TGProgressWindow alloc] init];
+	[progressWindow show:true];
+	
+	TGUser *user = [TGDatabaseInstance() loadUser:_uid];
+	if (!TGStringCompare(user.firstName, fisrtName) || !TGStringCompare(user.lastName, lastName))
+	{
+		self.nameCell.subTitleLB.text = [NSString stringWithFormat:@"%@ %@",fisrtName, lastName];
+		
+		static int actionId = 0;
+		NSString *action = [[NSString alloc] initWithFormat:@"/tg/changeUserName/(%d)", actionId++];
+		NSDictionary *options = [[NSDictionary alloc] initWithObjectsAndKeys:fisrtName, @"firstName", lastName, @"lastName", nil];
+		[ActionStageInstance() requestActor:action options:options flags:0 watcher:self];
+	}
+}
+- (void)editBioDone:(NSString *)bio{
+	TGProgressWindow *progressWindow = [[TGProgressWindow alloc] init];
+	[progressWindow show:true];
+	TGUser *user = [TGDatabaseInstance() loadUser:_uid];
+	
+	NSString *text = [bio stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	if (![text isEqualToString:_initialAbout])
+	{
+		[_updateAboutDisposable setDisposable:[[[[TGAccountSignals updateAbout:text] deliverOn:[SQueue mainQueue]] onDispose:^
+												{
+													[progressWindow dismiss:true];
+												}] startWithNext:nil error:^(__unused id error) {
+													[[[TGAlertView alloc] initWithTitle:TGLocalized(@"Login.UnknownError") message:nil cancelButtonTitle:TGLocalized(@"Common.OK") okButtonTitle:nil completionBlock:nil] show];
+												} completed:^{
+												}]];
+	}
+}
 - (void)donePressed
 {
 	TGProgressWindow *progressWindow = [[TGProgressWindow alloc] init];
@@ -326,7 +420,7 @@
 	}
 	else
 	{
-		TGRemoteImageView *avatarView = [_profileDataItem visibleAvatarView];
+		TGRemoteImageView *avatarView = self.avtarView;//[_profileDataItem visibleAvatarView];
 		
 		if (user != nil && user.photoUrlBig != nil && avatarView.currentImage != nil)
 		{
@@ -479,37 +573,6 @@
 	[_avatarMixin present];
 }
 
-- (void)phoneNumberPressed
-{
-	TGChangePhoneNumberHelpController *phoneNumberController = [[TGChangePhoneNumberHelpController alloc] init];
-	
-	TGNavigationController *navigationController = [TGNavigationController navigationControllerWithControllers:@[phoneNumberController]];
-	if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-		navigationController.restrictLandscape = true;
-	else
-	{
-		navigationController.presentationStyle = TGNavigationControllerPresentationStyleInFormSheet;
-		navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-	}
-	
-	[self presentViewController:navigationController animated:true completion:nil];
-}
-
-- (void)usernamePressed
-{
-	TGUsernameController *usernameController = [[TGUsernameController alloc] init];
-	
-	TGNavigationController *navigationController = [TGNavigationController navigationControllerWithControllers:@[usernameController]];
-	if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-		navigationController.restrictLandscape = false;
-	else
-	{
-		navigationController.presentationStyle = TGNavigationControllerPresentationStyleInFormSheet;
-		navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-	}
-	
-	[self presentViewController:navigationController animated:true completion:nil];
-}
 
 - (void)actionStageActionRequested:(NSString *)action options:(id)__unused options
 {
@@ -563,9 +626,11 @@
 			{
 				TGDispatchOnMainThread(^
 									   {
-										   [_profileDataItem setUser:user animated:true];
-										   [_usernameItem setVariant:user.userName.length == 0 ? TGLocalized(@"Settings.UsernameEmpty") : [[NSString alloc] initWithFormat:@"@%@", user.userName]];
-										   [_phoneNumberItem setVariant:user.phoneNumber.length == 0 ? @"" : [TGPhoneUtils formatPhone:user.phoneNumber forceInternational:true]];
+//										   [_profileDataItem setUser:user animated:true];
+//										   [_usernameItem setVariant:user.userName.length == 0 ? TGLocalized(@"Settings.UsernameEmpty") : [[NSString alloc] initWithFormat:@"@%@", user.userName]];
+//										   [_phoneNumberItem setVariant:user.phoneNumber.length == 0 ? @"" : [TGPhoneUtils formatPhone:user.phoneNumber forceInternational:true]];
+										   [_avtarView loadImage:user.photoUrlSmall filter:user.photoUrlSmall placeholder:nil];
+										   _nameCell.subTitleLB.text = [NSString stringWithFormat:@"%@ %@",user.firstName,user.lastName];
 									   });
 			}
 		}
@@ -584,10 +649,11 @@
 								   {
 									   NSString *photoUrl = [imageInfo closestImageUrlWithSize:CGSizeMake(160, 160) resultingSize:NULL];
 									   
-									   if (photoUrl != nil)
-										   [_profileDataItem copyUpdatingAvatarToCacheWithUri:photoUrl];
-									   
-									   [_profileDataItem resetUpdatingAvatar:photoUrl];
+//									   if (photoUrl != nil)
+//										   [_profileDataItem copyUpdatingAvatarToCacheWithUri:photoUrl];
+//
+//									   [_profileDataItem resetUpdatingAvatar:photoUrl];
+									   [self.avtarView loadImage:photoUrl filter:photoUrl placeholder:nil];
 								   }
 								   else
 								   {
@@ -608,6 +674,9 @@
 	if (MIN(image.size.width, image.size.height) < 160.0f)
 		image = TGScaleImageToPixelSize(image, CGSizeMake(160, 160));
 	
+	//qq--add
+	[self.avtarView setImage:image];
+	//qq--end
 	NSData *imageData = UIImageJPEGRepresentation(image, 0.6f);
 	if (imageData == nil)
 		return;
@@ -684,13 +753,13 @@
 	[ActionStageInstance() requestActor:action options:options watcher:TGTelegraphInstance];
 }
 
-- (void)_resetCollectionView {
-	[super _resetCollectionView];
-	
-	if (iosMajorVersion() >= 7) {
-		self.collectionView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
-	}
-}
+//- (void)_resetCollectionView {
+//	[super _resetCollectionView];
+//
+//	if (iosMajorVersion() >= 7) {
+//		self.collectionView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
+//	}
+//}
 
 
 @end

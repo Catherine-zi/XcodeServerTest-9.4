@@ -163,7 +163,7 @@ class MnemonicTypeImportWalletVc: UIViewController,UITableViewDataSource,UITable
 				return
 		}
 		
-		let coinType = coinTypeCell.typeName.titleLabel?.text == "BTC" ? CoinType.BTC : CoinType.ETH
+        let coinType = CoinType(rawValue: coinTypeCell.typeName.titleLabel?.text ?? "ETH") ?? .ETH
 		let arr = mnemonicCell.textView.text.components(separatedBy: " ")
 		let result = SwiftWalletManager.shared.createWalletByMnemonic(extendMnemonic: arr, walletName: walletNameCell.walletName.text, pwd: pwdCell.passwordTF.text!, coinType: coinType)
 		

@@ -372,6 +372,16 @@
 "no_price_alert" = "您还没有设置价格提醒";
 "watch_send_denial" = "不支持转账，由于你没有导入私钥";
 "no_tg_group" = "没有找到相关群组";
+
+//个人资料编辑
+"person_center_head_pic" = "头像";
+"person_center_phone_number" = "手机号";
+"person_center_bio" = "个性签名";
+"person_center_unknow_bio" = "未设置";
+"person_center_name" = "名字";
+"person_center_FirstName" = "名字（必填）";
+"person_center_LastName" = "姓氏（可选）";
+"person_center_UserBioInfo" = "您可以给自己添加一些简介。任何人在打开您的个人信息后将会看到这个简介。";
 //==================bitPub=====================
 
 // Notifications
@@ -3305,7 +3315,7 @@
 "Media.ShareItem_many" = "All %@ Items";
 "Media.ShareItem_0" = "All %@ Items";
 
-"Settings.ViewPhoto" = "View Photo";
+"Settings.ViewPhoto" = "查看图片";
 
 "DialogList.SavedMessagesTooltip" = "You can find your Saved Messages in Settings";
 

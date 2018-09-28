@@ -9,6 +9,7 @@
 import UIKit
 import PKHUD
 
+
 let coinSortingArrayStoreKey = "coinSortingArray"
 var coinSortingKeyArray: [String: String] = {
     var array: [String: String] = [:]

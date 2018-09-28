@@ -9,7 +9,7 @@
 import UIKit
 
 @IBDesignable
-open class SWPlaceholderTextView: UITextView {
+@objc open class SWPlaceholderTextView: UITextView {
 	
 	private struct Constants{
 		static let defaultiOSPlaceholderColor = UIColor(red: 0.0, green: 0.0, blue: 0.0980392, alpha: 0.22)

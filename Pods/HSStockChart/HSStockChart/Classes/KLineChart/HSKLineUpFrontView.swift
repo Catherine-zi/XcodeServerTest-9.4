@@ -131,11 +131,11 @@ class HSKLineUpFrontView: UIView, HSDrawLayerProtocol {
 		self.layer.addSublayer(ma20Text)
     }
     
-    func drawCrossLine(pricePoint: CGPoint, volumePoint: CGPoint, model: AnyObject?) {
+	func drawCrossLine(pricePoint: CGPoint, volumePoint: CGPoint, model: AnyObject?, legendArr: [String]) {
         corssLineLayer.removeFromSuperlayer()
 		legendLayer.removeFromSuperlayer()
         corssLineLayer = getCrossLineLayer(frame: frame, pricePoint: pricePoint, volumePoint: volumePoint, model: model)
-		legendLayer = getLegendlayer(isLeft: (frame.size.width * 0.5 < pricePoint.x),frame: frame, model: model)
+		legendLayer = getLegendlayer(isLeft: (frame.size.width * 0.5 < pricePoint.x),frame: frame, model: model, legendTitleArr: legendArr)
 		
         self.layer.addSublayer(corssLineLayer)
 		self.layer.addSublayer(legendLayer)
@@ -158,7 +158,9 @@ class HSKLineUpFrontView: UIView, HSDrawLayerProtocol {
 		if value <= 0 {
 			return 0
 		}
-		let str = NSNumber.init(value: Double(value)).stringValue
+		let formatStr = NSString(format: "%f", value)
+		let str = NSString(format: "%@", NSNumber.init(value: formatStr.floatValue))//NSNumber.init(value: Double(value)).stringValue
+		print("str = \(str)")
 		if !str.contains(".") {
 			return 0
 		}

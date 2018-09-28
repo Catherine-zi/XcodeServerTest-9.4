@@ -33,19 +33,33 @@ import EthereumKit
     private func requestAllTransactionForNotification() {
         let group = DispatchGroup()
         for model in SwiftWalletManager.shared.walletArr {
-            if let address = model.extendedPublicKey {
-                if model.coinType == CoinType.BTC {
-                    self.requestBtcData(address: address, group: group)
-                } else if model.coinType == CoinType.ETH {
+            if let type = model.coinType {
+                switch type {
+                case .BTC:
+                    self.requestBtcData(wallet: model, group: group)
+                case .LTC:
+                    self.requestLtcData(wallet: model, group: group)
+                case .ETH:
                     if let assets = model.assetsType {
                         for asset in assets {
                             if let _ = asset.contractAddress {
-                                self.requestEthData(address: address, asset: asset, group: group)
+                                self.requestEthData(wallet: model, asset: asset, group: group)
                             }
                         }
                     }
                 }
             }
+//            if model.coinType == CoinType.BTC {
+//                self.requestBtcData(wallet: model, group: group)
+//            } else if model.coinType == CoinType.ETH {
+//                if let assets = model.assetsType {
+//                    for asset in assets {
+//                        if let _ = asset.contractAddress {
+//                            self.requestEthData(wallet: model, asset: asset, group: group)
+//                        }
+//                    }
+//                }
+//            }
         }
         group.notify(queue: .main, execute: {
             //                self.loading = false
@@ -108,8 +122,11 @@ import EthereumKit
         }
     }
     
-    private func requestBtcData(address: String, group: DispatchGroup) {
+    private func requestBtcData(wallet: SwiftWalletModel, group: DispatchGroup) {
         //        self.loading = true
+        guard let address = wallet.extendedPublicKey else {
+            return
+        }
         group.enter()
         BtcAPIProvider.request(BtcAPI.btcTransactionList(address, 0, 999)) { [weak self] (result) in
             //            self?.loading = false
@@ -122,7 +139,7 @@ import EthereumKit
                     return
                 }
                 if let array = json?.data {
-                    self?.processTransaction(address: address, asset: nil, array: array)
+                    self?.processTransaction(wallet: wallet, asset: nil, array: array)
                 }
                 group.leave()
             case let .failure(error):
@@ -131,8 +148,37 @@ import EthereumKit
         }
     }
     
-    private func requestEthData(address: String, asset: AssetsTokensModel, group: DispatchGroup) {
+    private func requestLtcData(wallet: SwiftWalletModel, group: DispatchGroup) {
         //        self.loading = true
+        guard let address = wallet.extendedPublicKey else {
+            return
+        }
+        group.enter()
+        LtcAPIProvider.request(LtcAPI.ltcTransactionList(address, 0, 999)) { [weak self] (result) in
+            //            self?.loading = false
+            switch result {
+            case let .success(response):
+                let json = try? JSONDecoder().decode(ltcTransactionListModel.self, from: response.data)
+                if json?.errcode != 0 {
+                    print(json?.msg ?? "get transaction list error")
+                    group.leave()
+                    return
+                }
+                if let array = json?.data {
+                    self?.processTransaction(wallet: wallet, asset: nil, array: array)
+                }
+                group.leave()
+            case let .failure(error):
+                print("error = \(error)")
+            }
+        }
+    }
+    
+    private func requestEthData(wallet: SwiftWalletModel, asset: AssetsTokensModel, group: DispatchGroup) {
+        //        self.loading = true
+        guard let address = wallet.extendedPublicKey else {
+            return
+        }
         group.enter()
         EthAPIProvider.request(EthAPI.ethTransactionList(address, asset.contractAddress!, 1, 999)) { [weak self] (result) in
             switch result {
@@ -144,7 +190,7 @@ import EthereumKit
                     return
                 }
                 if let array = json?.data {
-                    self?.processTransaction(address: address, asset: asset, array: array)
+                    self?.processTransaction(wallet: wallet, asset: asset, array: array)
                 }
                 group.leave()
             case let .failure(error):
@@ -154,7 +200,12 @@ import EthereumKit
         }
     }
     
-    func processTransaction(address: String, asset:AssetsTokensModel?, array: [Any]) {
+    func processTransaction(wallet: SwiftWalletModel, asset:AssetsTokensModel?, array: [Any]) {
+        guard let address = wallet.extendedPublicKey,
+            let type = wallet.coinType else
+        {
+            return
+        }
         for object in array {
             var notificationModel = NotificationModel()
             if object is BtcTransactionModel {
@@ -166,10 +217,10 @@ import EthereumKit
                     let amount = calculateAmount(address: address, transaction: btcModel)
                     if amount >= 0 {
                         notificationModel.isIn = true
-                        notificationModel.value = amount.description + " BTC"
+                        notificationModel.value = amount.description + " " + type.rawValue
                     } else {
                         notificationModel.isIn = false
-                        notificationModel.value = (-1 * amount).description + " BTC"
+                        notificationModel.value = (-1 * amount).description + " " + type.rawValue
                     }
                     
                     self.notificationArray.append(notificationModel)
@@ -282,27 +333,61 @@ import EthereumKit
         if let address = wallet.extendedPublicKey,
             let registrationId = JPUSHService.registrationID()
         {
-            if wallet.coinType == CoinType.BTC {
-                BtcAPIProvider.request(BtcAPI.btcAddNoticeTag(registrationId, address)) { (result) in
-                    switch result {
-                    case let .success(response):
-                        let json = try? JSONDecoder().decode(BtcNoticeModel.self, from: response.data)
-                        print(json ?? "add notice")
-                    case let .failure(error):
-                        print("add notice fail: \(error)")
+            if let type = wallet.coinType {
+                switch type {
+                case .BTC:
+                    BtcAPIProvider.request(BtcAPI.btcAddNoticeTag(registrationId, address)) { (result) in
+                        switch result {
+                        case let .success(response):
+                            let json = try? JSONDecoder().decode(BtcNoticeModel.self, from: response.data)
+                            print(json ?? "add notice")
+                        case let .failure(error):
+                            print("add notice fail: \(error)")
+                        }
                     }
-                }
-            } else if wallet.coinType == CoinType.ETH {
-                EthAPIProvider.request(EthAPI.ethAddNoticeTag(registrationId, address)) { (result) in
-                    switch result {
-                    case let .success(response):
-                        let json = try? JSONDecoder().decode(BtcNoticeModel.self, from: response.data)
-                        print(json ?? "add notice")
-                    case let .failure(error):
-                        print("add notice fail: \(error)")
+                case .LTC:
+                    LtcAPIProvider.request(LtcAPI.ltcAddNoticeTag(registrationId, address)) { (result) in
+                        switch result {
+                        case let .success(response):
+                            let json = try? JSONDecoder().decode(ltcNoticeModel.self, from: response.data)
+                            print(json ?? "add notice")
+                        case let .failure(error):
+                            print("add notice fail: \(error)")
+                        }
+                    }
+                case .ETH:
+                    EthAPIProvider.request(EthAPI.ethAddNoticeTag(registrationId, address)) { (result) in
+                        switch result {
+                        case let .success(response):
+                            let json = try? JSONDecoder().decode(BtcNoticeModel.self, from: response.data)
+                            print(json ?? "add notice")
+                        case let .failure(error):
+                            print("add notice fail: \(error)")
+                        }
                     }
                 }
             }
+//            if wallet.coinType == CoinType.BTC {
+//                BtcAPIProvider.request(BtcAPI.btcAddNoticeTag(registrationId, address)) { (result) in
+//                    switch result {
+//                    case let .success(response):
+//                        let json = try? JSONDecoder().decode(BtcNoticeModel.self, from: response.data)
+//                        print(json ?? "add notice")
+//                    case let .failure(error):
+//                        print("add notice fail: \(error)")
+//                    }
+//                }
+//            } else if wallet.coinType == CoinType.ETH {
+//                EthAPIProvider.request(EthAPI.ethAddNoticeTag(registrationId, address)) { (result) in
+//                    switch result {
+//                    case let .success(response):
+//                        let json = try? JSONDecoder().decode(BtcNoticeModel.self, from: response.data)
+//                        print(json ?? "add notice")
+//                    case let .failure(error):
+//                        print("add notice fail: \(error)")
+//                    }
+//                }
+//            }
         }
     }
     
@@ -310,27 +395,61 @@ import EthereumKit
         if let address = wallet.extendedPublicKey,
             let registrationId = registrationId ?? JPUSHService.registrationID()
         {
-            if wallet.coinType == CoinType.BTC {
-                BtcAPIProvider.request(BtcAPI.btcRemoveNoticeTag(registrationId, address)) { (result) in
-                    switch result {
-                    case let .success(response):
-                        let json = try? JSONDecoder().decode(BtcNoticeModel.self, from: response.data)
-                        print(json ?? "remove notice")
-                    case let .failure(error):
-                        print("remove notice fail: \(error)")
+            if let type = wallet.coinType {
+                switch type {
+                case .BTC:
+                    BtcAPIProvider.request(BtcAPI.btcRemoveNoticeTag(registrationId, address)) { (result) in
+                        switch result {
+                        case let .success(response):
+                            let json = try? JSONDecoder().decode(BtcNoticeModel.self, from: response.data)
+                            print(json ?? "remove notice")
+                        case let .failure(error):
+                            print("remove notice fail: \(error)")
+                        }
                     }
-                }
-            } else if wallet.coinType == CoinType.ETH {
-                EthAPIProvider.request(EthAPI.ethRemoveNoticeTag(registrationId, address)) { (result) in
-                    switch result {
-                    case let .success(response):
-                        let json = try? JSONDecoder().decode(BtcNoticeModel.self, from: response.data)
-                        print(json ?? "remove notice")
-                    case let .failure(error):
-                        print("remove notice fail: \(error)")
+                case .LTC:
+                    LtcAPIProvider.request(LtcAPI.ltcRemoveNoticeTag(registrationId, address)) { (result) in
+                        switch result {
+                        case let .success(response):
+                            let json = try? JSONDecoder().decode(ltcNoticeModel.self, from: response.data)
+                            print(json ?? "remove notice")
+                        case let .failure(error):
+                            print("remove notice fail: \(error)")
+                        }
+                    }
+                case .ETH:
+                    EthAPIProvider.request(EthAPI.ethRemoveNoticeTag(registrationId, address)) { (result) in
+                        switch result {
+                        case let .success(response):
+                            let json = try? JSONDecoder().decode(BtcNoticeModel.self, from: response.data)
+                            print(json ?? "remove notice")
+                        case let .failure(error):
+                            print("remove notice fail: \(error)")
+                        }
                     }
                 }
             }
+//            if wallet.coinType == CoinType.BTC {
+//                BtcAPIProvider.request(BtcAPI.btcRemoveNoticeTag(registrationId, address)) { (result) in
+//                    switch result {
+//                    case let .success(response):
+//                        let json = try? JSONDecoder().decode(BtcNoticeModel.self, from: response.data)
+//                        print(json ?? "remove notice")
+//                    case let .failure(error):
+//                        print("remove notice fail: \(error)")
+//                    }
+//                }
+//            } else if wallet.coinType == CoinType.ETH {
+//                EthAPIProvider.request(EthAPI.ethRemoveNoticeTag(registrationId, address)) { (result) in
+//                    switch result {
+//                    case let .success(response):
+//                        let json = try? JSONDecoder().decode(BtcNoticeModel.self, from: response.data)
+//                        print(json ?? "remove notice")
+//                    case let .failure(error):
+//                        print("remove notice fail: \(error)")
+//                    }
+//                }
+//            }
         }
     }
     

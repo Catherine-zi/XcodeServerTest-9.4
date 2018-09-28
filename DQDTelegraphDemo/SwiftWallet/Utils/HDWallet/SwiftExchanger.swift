@@ -121,6 +121,10 @@ import EthereumKit
                         }
                     }
                 }
+            } else {
+                if let type = wallet.coinType?.rawValue {
+                    existTokens.insert(type)
+                }
             }
         }
         
@@ -224,7 +228,11 @@ import EthereumKit
             return nil
         }
         var totalBalance = Decimal()
-        if wallet.coinType == CoinType.BTC {
+        guard let type = wallet.coinType else {
+            return ""
+        }
+        switch type {
+        case .BTC, .LTC:
             if let assets = wallet.allAssets,
             let assetStr = assets[""],
             let decim = Decimal(string: assetStr) {
@@ -242,7 +250,7 @@ import EthereumKit
                 wallet.assetsType![0].balance = btc
                 wallet.assetsType![0].balanceInLegal = totalBalance
             }
-        } else {
+        case .ETH:
             for asset in wallet.allAssets! {
                 for(index, type) in wallet.assetsType!.enumerated() {
                     if asset.key == type.contractAddress {

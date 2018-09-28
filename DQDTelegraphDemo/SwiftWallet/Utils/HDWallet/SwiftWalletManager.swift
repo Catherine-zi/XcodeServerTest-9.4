@@ -277,38 +277,13 @@ import EthereumKit
 	//create wallet (store in keychain)
 	func createWalletByPrivateKey(privateKey:String,walletName:String,pwd:String,coinType:CoinType) -> (Bool,error:String,Bool,SwiftWalletModel?) {
 		
-//		let mnemonic:[String]
-//		let privateKey:String
-		let publickKey:String
+		var publickKey:String = ""
 		var assetsTypes:[AssetsTokensModel] = []
 		
 		//create wallet
-		if coinType == CoinType.ETH {
-			
-			let wallet: Wallet
-//			do {
-                var network:Network?
-                if SwiftWalletManager.isTest {
-                    network = Network.kovan
-                } else {
-                    network = Network.main
-                }
-				wallet = Wallet(network: network!, privateKey: privateKey, debugPrints: true)
-				
-//				privateKey = wallet.dumpPrivateKey()
-				publickKey = wallet.generateAddress()
-//				mnemonic = wallet.
-//			}
-			
-			if wallet.dumpPrivateKey().lengthOfBytes(using: String.Encoding.utf8) == 0 {
-				return (false,"Invalid private key",false,nil)
-			}
-            assetsTypes.append(AssetsTokensModel(symbol: "ETH", contractName: "ETH", iconUrl: "ETH", contractAddress: "", decim: "", saler: "", gas: "", balance:Decimal(), balanceInLegal:Decimal(), costPrice:Decimal(), cost:Decimal(), costCurrency:SwiftExchanger.shared.currency, isSelected:true))
-		} else {
-		
+        switch coinType {
+        case .BTC:
             if SwiftWalletManager.isTest {
-//                let key = BTCKey.init(privateKey: BTCDataFromHex(privateKey))
-//                publickKey = key!.addressTestnet.string
                 if let thePrivateKey = BTCPrivateKeyAddress(string: privateKey) {
                     if let key = BTCKey.init(privateKeyAddress: thePrivateKey) {
                         print("privateKey = \(key.privateKeyAddress)")
@@ -332,22 +307,55 @@ import EthereumKit
                 }
             }
             
-//            let blockKeyChain = BTCKeychain.init(extendedKey: privateKey)
-//
-//            guard let extendedPrivateKey = blockKeyChain?.extendedPrivateKey else {
-//
-//                return (false,"Invalid private key",false,nil)
-//            }
-//            guard let extendedPublicKey  = blockKeyChain?.extendedPublicKey else {
-//
-//                return (false,"Invalid private key",false,nil)
-//            }
-//
-////            privateKey = extendedPrivateKey
-//            publickKey = extendedPublicKey
-			
             assetsTypes.append(AssetsTokensModel(symbol: "BTC", contractName: "BTC", iconUrl: "BTC_logo", contractAddress: "", decim: "", saler: "", gas: "", balance:Decimal(), balanceInLegal:Decimal(), costPrice:Decimal(), cost:Decimal(), costCurrency:SwiftExchanger.shared.currency, isSelected:true))
-		}
+            
+        case .LTC:
+            if SwiftWalletManager.isTest {
+                if let thePrivateKey = BTCPrivateKeyAddress(string: privateKey) {
+                    if let key = BTCKey.init(privateKeyAddress: thePrivateKey) {
+                        publickKey = key.ltcAddressTestnet.string
+                    } else {
+                        return (false,"Invalid private key",false,nil)
+                    }
+                } else {
+                    return (false,"Invalid private key",false,nil)
+                }
+            } else {
+                if let thePrivateKey = LTCPrivateKeyAddress(string: privateKey) {
+                    if let key = BTCKey.init(privateKeyAddress: thePrivateKey) {
+                        publickKey = key.ltcAddress.string
+                    } else {
+                        return (false,"Invalid private key",false,nil)
+                    }
+                } else {
+                    return (false,"Invalid private key",false,nil)
+                }
+            }
+            
+            assetsTypes.append(AssetsTokensModel(symbol: "LTC", contractName: "LTC", iconUrl: "LTC_logo", contractAddress: "", decim: "", saler: "", gas: "", balance:Decimal(), balanceInLegal:Decimal(), costPrice:Decimal(), cost:Decimal(), costCurrency:SwiftExchanger.shared.currency, isSelected:true))
+            
+        case .ETH:
+            let wallet: Wallet
+            //            do {
+            var network:Network?
+            if SwiftWalletManager.isTest {
+                network = Network.kovan
+            } else {
+                network = Network.main
+            }
+            wallet = Wallet(network: network!, privateKey: privateKey, debugPrints: true)
+            
+            //                privateKey = wallet.dumpPrivateKey()
+            publickKey = wallet.generateAddress()
+            //                mnemonic = wallet.
+            //            }
+            
+            if wallet.dumpPrivateKey().lengthOfBytes(using: String.Encoding.utf8) == 0 {
+                return (false,"Invalid private key",false,nil)
+            }
+            assetsTypes.append(AssetsTokensModel(symbol: "ETH", contractName: "ETH", iconUrl: "ETH", contractAddress: "", decim: "", saler: "", gas: "", balance:Decimal(), balanceInLegal:Decimal(), costPrice:Decimal(), cost:Decimal(), costCurrency:SwiftExchanger.shared.currency, isSelected:true))
+            
+        }
 		
 		//store in keychain
         guard let encryptPrivKey = self.customEncrypt(string: privateKey, key: pwd),
@@ -379,77 +387,39 @@ import EthereumKit
 	
 	func createWalletByMnemonic(extendMnemonic:[String]?,walletName:String,pwd:String,coinType:CoinType) -> (Bool,[String],Bool,SwiftWalletModel?) {
 		
-		let mnemonic:[String]
-		let privateKey:String
-		let publickKey:String
+		var mnemonic:[String] = []
+		var privateKey:String = ""
+		var publickKey:String = ""
 		var assetsTypes:[AssetsTokensModel] = []
         var isBackup = false
 		//create wallet
-		if coinType == CoinType.ETH {
-			
-			if extendMnemonic != nil {
-				mnemonic = extendMnemonic!
-                isBackup = true
-			} else {
-				mnemonic = Mnemonic.create(strength: Mnemonic.Strength.normal, language: WordList.english)
-			}
-
-            var network:Network?
-            if SwiftWalletManager.isTest {
-                network = Network.kovan
-            } else {
-                network = Network.main
-            }
-			let wallet: Wallet
-			do {
-				let seed = try Mnemonic.createSeed(mnemonic: mnemonic)
-				wallet = try Wallet(seed: seed, network: network!, debugPrints: true)
-				
-				privateKey = wallet.dumpPrivateKey()
-				publickKey = wallet.generateAddress()
-				
-			} catch let error {
-				fatalError("Error: \(error.localizedDescription)")
-			}
-			
-            assetsTypes.append(AssetsTokensModel(symbol: "ETH", contractName: "ETH", iconUrl: "ETH", contractAddress: "", decim: "", saler: "", gas: "", balance:Decimal(), balanceInLegal:Decimal(), costPrice:Decimal(), cost:Decimal(), costCurrency:SwiftExchanger.shared.currency, isSelected:true))
-		} else {
-			
+        switch coinType {
+        case .BTC:
             var btcMnemonic: BTCMnemonic?
-			
-			if extendMnemonic != nil {
-				mnemonic = extendMnemonic!
+            
+            if extendMnemonic != nil {
+                mnemonic = extendMnemonic!
                 isBackup = true
                 btcMnemonic = BTCMnemonic.init(words: mnemonic, password: nil, wordListType: BTCMnemonicWordListType.english)
-			} else {
+            } else {
                 btcMnemonic = BTCMnemonic(entropy: BTCRandomDataWithLength(16) as Data?, password: nil, wordListType: BTCMnemonicWordListType.english)
-				mnemonic = btcMnemonic?.words as! [String]
-			}
+                mnemonic = btcMnemonic?.words as! [String]
+            }
             
             print(mnemonic)
-			
-            let blockKeyChain = BTCKeychain.init(seed: btcMnemonic!.seed, network: btcNetwork)
-			guard let extendedPrivateKey = blockKeyChain?.extendedPrivateKey else {
-				
-				return (false,[],false,nil)
-			}
-			guard let extendedPublicKey  = blockKeyChain?.extendedPublicKey else {
-				
-				return (false,[],false,nil)
-			}
-
             
-
-//            let address = blockKeyChain?.derivedKeychain(withPath: "m/44'/0'/0'/0/0").key.address.string
-			
-//            print(blockKeyChain?.key)
-//            print(extendedPrivateKey)
-//            print(blockKeyChain?.key(withPath: "m/44'/0'/0'/0"))
-
+            let blockKeyChain = BTCKeychain.init(seed: btcMnemonic!.seed, network: btcNetwork)
+            guard let _ = blockKeyChain?.extendedPrivateKey else {
+                
+                return (false,[],false,nil)
+            }
+            guard let _  = blockKeyChain?.extendedPublicKey else {
+                
+                return (false,[],false,nil)
+            }
+            
             let derivedKeychain = blockKeyChain?.derivedKeychain(withPath: "m/44'/0'/0'/0/0")
-
-			
-//            privateKey = extendedPrivateKey
+            
             if SwiftWalletManager.isTest {
                 privateKey = derivedKeychain!.key.wifTestnet
                 publickKey = derivedKeychain!.key.addressTestnet.string
@@ -457,9 +427,75 @@ import EthereumKit
                 privateKey = derivedKeychain!.key.wif
                 publickKey = derivedKeychain!.key.address.string
             }
-			
+            
             assetsTypes.append(AssetsTokensModel(symbol: "BTC", contractName: "BTC", iconUrl: "BTC_logo", contractAddress: "", decim: "", saler: "", gas: "", balance:Decimal(), balanceInLegal:Decimal(), costPrice:Decimal(), cost:Decimal(), costCurrency:SwiftExchanger.shared.currency, isSelected:true))
-		}
+        case .LTC:
+            var btcMnemonic: BTCMnemonic?
+            
+            if extendMnemonic != nil {
+                mnemonic = extendMnemonic!
+                isBackup = true
+                btcMnemonic = BTCMnemonic.init(words: mnemonic, password: nil, wordListType: BTCMnemonicWordListType.english)
+            } else {
+                btcMnemonic = BTCMnemonic(entropy: BTCRandomDataWithLength(16) as Data?, password: nil, wordListType: BTCMnemonicWordListType.english)
+                mnemonic = btcMnemonic?.words as! [String]
+            }
+            
+            print(mnemonic)
+            
+            let blockKeyChain = BTCKeychain.init(seed: btcMnemonic!.seed, network: btcNetwork)
+            guard let _ = blockKeyChain?.extendedPrivateKey else {
+                
+                return (false,[],false,nil)
+            }
+            guard let _  = blockKeyChain?.extendedPublicKey else {
+                
+                return (false,[],false,nil)
+            }
+            
+            let derivedKeychain = blockKeyChain?.derivedKeychain(withPath: "m/44'/2'/0'/0/0")
+            
+            if SwiftWalletManager.isTest {
+                privateKey = derivedKeychain!.key.wifTestnet
+                publickKey = derivedKeychain!.key.ltcAddressTestnet.string
+            } else {
+                privateKey = derivedKeychain!.key.ltcwif
+                publickKey = derivedKeychain!.key.ltcAddress.string
+            }
+            //            let ltcAddress = derivedKeychain!.key.ltcAddress.string
+            //            let ltcAddressTestnet = derivedKeychain!.key.ltcAddressTestnet.string
+            //            let btcPrivateKey = derivedKeychain!.key.wif
+            //            let ltcPrivateKey = derivedKeychain!.key.ltcwif
+            
+            assetsTypes.append(AssetsTokensModel(symbol: "LTC", contractName: "LTC", iconUrl: "LTC_logo", contractAddress: "", decim: "", saler: "", gas: "", balance:Decimal(), balanceInLegal:Decimal(), costPrice:Decimal(), cost:Decimal(), costCurrency:SwiftExchanger.shared.currency, isSelected:true))
+        case .ETH:
+            if extendMnemonic != nil {
+                mnemonic = extendMnemonic!
+                isBackup = true
+            } else {
+                mnemonic = Mnemonic.create(strength: Mnemonic.Strength.normal, language: WordList.english)
+            }
+            
+            var network:Network?
+            if SwiftWalletManager.isTest {
+                network = Network.kovan
+            } else {
+                network = Network.main
+            }
+            let wallet: Wallet
+            do {
+                let seed = try Mnemonic.createSeed(mnemonic: mnemonic)
+                wallet = try Wallet(seed: seed, network: network!, debugPrints: true)
+                
+                privateKey = wallet.dumpPrivateKey()
+                publickKey = wallet.generateAddress()
+                
+            } catch let error {
+                fatalError("Error: \(error.localizedDescription)")
+            }
+            
+            assetsTypes.append(AssetsTokensModel(symbol: "ETH", contractName: "ETH", iconUrl: "ETH", contractAddress: "", decim: "", saler: "", gas: "", balance:Decimal(), balanceInLegal:Decimal(), costPrice:Decimal(), cost:Decimal(), costCurrency:SwiftExchanger.shared.currency, isSelected:true))
+        }
 		
         //store in keychainguard
         guard let encryptPrivKey = self.customEncrypt(string: privateKey, key: pwd),
@@ -497,10 +533,13 @@ import EthereumKit
         var assetsTypes:[AssetsTokensModel] = []
         
         //create wallet
-        if coinType == CoinType.ETH {
-            assetsTypes.append(AssetsTokensModel(symbol: "ETH", contractName: "ETH", iconUrl: "ETH", contractAddress: "", decim: "", saler: "", gas: "", balance:Decimal(), balanceInLegal:Decimal(), costPrice:Decimal(), cost:Decimal(), costCurrency:SwiftExchanger.shared.currency, isSelected:true))
-        } else {
+        switch coinType {
+        case .BTC:
             assetsTypes.append(AssetsTokensModel(symbol: "BTC", contractName: "BTC", iconUrl: "BTC_logo", contractAddress: "", decim: "", saler: "", gas: "", balance:Decimal(), balanceInLegal:Decimal(), costPrice:Decimal(), cost:Decimal(), costCurrency:SwiftExchanger.shared.currency, isSelected:true))
+        case .LTC:
+            assetsTypes.append(AssetsTokensModel(symbol: "LTC", contractName: "LTC", iconUrl: "LTC_logo", contractAddress: "", decim: "", saler: "", gas: "", balance:Decimal(), balanceInLegal:Decimal(), costPrice:Decimal(), cost:Decimal(), costCurrency:SwiftExchanger.shared.currency, isSelected:true))
+        case .ETH:
+            assetsTypes.append(AssetsTokensModel(symbol: "ETH", contractName: "ETH", iconUrl: "ETH", contractAddress: "", decim: "", saler: "", gas: "", balance:Decimal(), balanceInLegal:Decimal(), costPrice:Decimal(), cost:Decimal(), costCurrency:SwiftExchanger.shared.currency, isSelected:true))
         }
         
         //store in keychain
@@ -606,16 +645,150 @@ import EthereumKit
         if hex.hasPrefix("6f") || hex.hasPrefix("05") || hex.hasPrefix("c4") || hex.hasPrefix("00") {
             return true
         }
-//        if SwiftWalletManager.isTest {
-//            if hex.hasPrefix("6f") || hex.hasPrefix("05") || hex.hasPrefix("c4") {
-//                return true
-//            }
-//        } else {
-//            if hex.hasPrefix("00") {
-//                return true
-//            }
-//        }
         return false
+    }
+    
+    func validateLtcAddress(address: String) -> Bool {
+        let data0 = BTCDataFromBase58Check(address)
+        guard let hex = data0?.hex() else {
+            return false
+        }
+        if hex.hasPrefix("6f") || hex.hasPrefix("05") || hex.hasPrefix("c4") || hex.hasPrefix("03") {
+            return true
+        }
+        return false
+    }
+    
+    
+    // MARK:converter
+    
+    func convertData(walletModel: SwiftWalletModel, asset: AssetsTokensModel?, dataArray: [Any]) -> [UniversalTransactionModel]? {
+        if dataArray.count == 0 {
+            return nil
+        }
+        
+        var uniArray:[UniversalTransactionModel] = []
+        
+        for object in dataArray {
+            var uniModel = UniversalTransactionModel()
+            if let type = walletModel.coinType {
+                switch type {
+                case .BTC, .LTC:
+                    let btcModel = object as! BtcTransactionModel
+                    uniModel.ID = btcModel.txid
+                    let amount = calculateAmount(walletModel: walletModel, transaction: btcModel)
+                    if amount >= 0 {
+                        uniModel.isIn = true
+                        uniModel.amount = amount
+                    } else {
+                        uniModel.isIn = false
+                        uniModel.amount = -1 * amount
+                    }
+                    if uniModel.isIn! {
+                        if btcModel.from_address == nil {
+                            uniModel.from = "Newly Generated"
+                        } else {
+                            for from in btcModel.from_address! {
+                                if from.addr != walletModel.extendedPublicKey {
+                                    uniModel.from = from.addr
+                                    break
+                                }
+                            }
+                        }
+                        uniModel.to = walletModel.extendedPublicKey
+                    } else {
+                        for to in btcModel.to_address! {
+                            if to.addr != walletModel.extendedPublicKey {
+                                uniModel.to = to.addr
+                                break
+                            }
+                        }
+                        uniModel.from = walletModel.extendedPublicKey
+                    }
+                    uniModel.fee = Decimal(string: btcModel.fees!)?.description
+                    uniModel.blockHeight = btcModel.blockheight
+                    uniModel.confirmations = btcModel.confirmations
+                    uniModel.coinType = type
+                    var interval = Date().timeIntervalSince1970
+                    if btcModel.blocktime != nil,
+                        let temp = TimeInterval(btcModel.blocktime!),
+                        temp > 1230739200
+                    {
+                        interval = temp
+                    }
+                    let date = Date(timeIntervalSince1970: interval)
+                    let dateformatter = DateFormatter()
+                    dateformatter.locale = NSLocale(localeIdentifier: TelegramUserInfo.shareInstance.currentLanguage) as Locale?
+                    dateformatter.dateFormat = SWLocalizedString(key: "date_formatter")
+                    let dateStr = dateformatter.string(from: date)
+                    uniModel.time = dateStr
+                    uniModel.timeInterval = interval
+                    
+                case .ETH:
+                    let ethModel = object as! EthTransactionListDataModel
+                    uniModel.ID = ethModel.hash
+                    uniModel.from = ethModel.from
+                    uniModel.to = ethModel.to
+                    let amount = try? Converter.toEther(wei: Wei.init(ethModel.value!)!)
+                    uniModel.amount = amount
+                    let fee = try? Converter.toEther(wei: Wei.init(BInt(ethModel.gas!)! * BInt(ethModel.gasPrice!)!))
+                    if ethModel.to == walletModel.extendedPublicKey?.lowercased() {
+                        uniModel.isIn = true
+                    } else {
+                        uniModel.isIn = false
+                    }
+                    uniModel.fee = fee?.description
+                    uniModel.blockHeight = ethModel.blockNumber
+                    uniModel.confirmations = ethModel.confirmedNum
+                    uniModel.coinType = CoinType.ETH
+                    var interval = Date().timeIntervalSince1970
+                    if let stamp = ethModel.timestamp,
+                        let temp = TimeInterval(stamp),
+                        temp > 1230739200
+                    {
+                        interval = temp
+                    }
+                    let date = Date(timeIntervalSince1970: interval)
+                    let dateformatter = DateFormatter()
+                    dateformatter.locale = NSLocale(localeIdentifier: TelegramUserInfo.shareInstance.currentLanguage) as Locale?
+                    dateformatter.dateFormat = SWLocalizedString(key: "date_formatter")
+                    let dateStr = dateformatter.string(from: date)
+                    uniModel.time = dateStr
+                    uniModel.timeInterval = interval
+                    uniModel.gasPrice = ethModel.gasPrice
+                    uniModel.assetSymbol = asset?.symbol
+                    uniModel.assetIconUrl = asset?.iconUrl
+                    
+                }
+            }
+            
+            if let confirmations = uniModel.confirmations {
+                if confirmations < 0 {
+                    uniModel.state = 3
+                } else if confirmations < 6 {
+                    uniModel.state = 2
+                } else {
+                    uniModel.state = 1
+                }
+            }
+            uniArray.append(uniModel)
+        }
+        return uniArray
+    }
+    
+    private func calculateAmount(walletModel: SwiftWalletModel, transaction:BtcTransactionModel) -> Decimal {
+        var amount = Decimal()
+        for transfer in transaction.from_address! {
+            if transfer.addr == walletModel.extendedPublicKey {
+                amount -= Decimal.init(string: transfer.value!)!
+            }
+        }
+        for transfer in transaction.to_address! {
+            if transfer.addr == walletModel.extendedPublicKey {
+                amount += Decimal.init(string: transfer.value!)!
+            }
+        }
+        return amount
     }
     
 }
@@ -630,6 +803,7 @@ extension Notification.Name {
 
 enum CoinType: String, Codable {
 	case BTC = "BTC"
+    case LTC = "LTC"
 	case ETH = "ETH"
 }
 

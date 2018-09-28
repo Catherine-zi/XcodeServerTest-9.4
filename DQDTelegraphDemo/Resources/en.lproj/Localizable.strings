@@ -276,7 +276,7 @@
 "push_title" = "Transaction Notify";
 "push_content_sent" = "%@ sent successfully";
 "push_content_received" = "%@ received";
-"coin_detail" = " DETAILS";
+"coin_detail" = "Details";
 "volume_text" = "24H Vol:";
 "coin_base" = "COINBASE";
 "no_wallet_empty_tips_text" = "No Wallet\nYou can Create or Import";
@@ -382,6 +382,16 @@
 "no_price_alert" = "No Price Alert";
 "watch_send_denial" = "You can not transfer, because you did not import private key.";
 "no_tg_group" = "No related groups\nfound";
+
+//个人资料编辑
+"person_center_head_pic" = "Profile Photo";
+"person_center_phone_number" = "Phone Number";
+"person_center_bio" = "Bio";
+"person_center_unknow_bio" = "Not Set";
+"person_center_name" = "Name";
+"person_center_FirstName" = "First name (required)";
+"person_center_LastName" = "Last name (optional)";
+"person_center_UserBioInfo" = "You can add a few lines about yourself. Anyone who opens your profile will see this text.";
 //==================bitPub=====================
 
 // Notifications

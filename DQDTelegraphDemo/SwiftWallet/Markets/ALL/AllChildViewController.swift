@@ -8,6 +8,30 @@
 
 import UIKit
 
+enum MarketsAllTagSortParamKey: String {
+    case ch_asc = "ch_asc"         //涨幅升序
+    case ch_desc = "ch_desc"       //涨幅降序
+    case vo_asc = "vo_asc"         //成交量升序
+    case vo_desc = "vo_desc"       //成交量降序
+    case cap_asc = "cap_asc"       //市值升序
+    case cap_desc = "cap_desc"     //市值降序
+    case price_asc = "price_asc"   //价格升序
+    case price_desc = "price_desc" //价格降序
+}
+var MarketsAllTagSortSelectedKey = MarketsAllTagSortParamKey.cap_desc.rawValue
+
+enum MarketsCoinPairsSortParamKey: String {
+    case ch_asc = "price_usd_change_asc"         //涨幅升序
+    case ch_desc = "price_usd_change_desc"       //涨幅降序
+    case vo_asc = "vol_asc"         //成交量升序
+    case vo_desc = "vol_desc"       //成交量降序
+    //    case cap_asc = "cap_asc"       //市值升序
+    //    case cap_desc = "cap_desc"     //市值降序
+    case price_asc = "price_usd_asc"   //价格升序
+    case price_desc = "price_usd_desc" //价格降序
+}
+var MarketsCoinPairsSortParamSelectedKey = MarketsCoinPairsSortParamKey.vo_desc.rawValue
+
 protocol AllChildDelegate: class {
     func allChildDidSelect(child: AllChildViewController, vc: UIViewController)
 }

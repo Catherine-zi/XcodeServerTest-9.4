@@ -10,6 +10,13 @@ import UIKit
 
 class SelectCoinTypeViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 	var mainTab:UITableView?
+    var typeArray: [String] = [] {
+        didSet {
+            if typeArray.count > 0 {
+                self.mainTab?.reloadData()
+            }
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -60,14 +67,14 @@ class SelectCoinTypeViewController: UIViewController,UITableViewDelegate,UITable
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return 2
+		return typeArray.count
 	}
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
 		let cell:SelectCoinTypeCell = tableView.dequeueReusableCell(withIdentifier: "SelectCoinTypeCell") as! SelectCoinTypeCell
 		cell.contentView.backgroundColor = UIColor.init(red: 242, green: 242, blue: 242)
-		cell.coinName.text = indexPath.row == 0 ? "BTC" : "ETH"
-		cell.headV.image = indexPath.row == 0 ? #imageLiteral(resourceName: "BTC") : #imageLiteral(resourceName: "ETH")
+		cell.coinName.text = typeArray[indexPath.row]
+		cell.headV.image = UIImage.init(named: (typeArray[indexPath.row]))//indexPath.row == 0 ? #imageLiteral(resourceName: "BTC") : #imageLiteral(resourceName: "ETH")
 		
 		return cell
 	}

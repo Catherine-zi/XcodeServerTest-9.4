@@ -94,7 +94,7 @@ class CreateWalletDetailViewController: UIViewController,UITextFieldDelegate,UIT
             }
 			
 			//create wallet
-			let coinType = coinTypeCell.typeName.titleLabel?.text == "BTC" ? CoinType.BTC : CoinType.ETH
+			let coinType = CoinType(rawValue: coinTypeCell.typeName.titleLabel?.text ?? "ETH") ?? .ETH
 			
 			let result = SwiftWalletManager.shared.createWalletByMnemonic(extendMnemonic: nil, walletName: nameCell.walletName.text, pwd: pwdCell.passwordTF.text!, coinType: coinType)
 			

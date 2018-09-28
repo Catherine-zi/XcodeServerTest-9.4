@@ -23,11 +23,16 @@ class KlineFullScreenViewController: UIViewController {
 		
     }
 
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
 		
-		
-		print("\(SWScreen_width)")
+//		guard let tabBar:SWTabBarController = UIApplication.shared.keyWindow?.rootViewController as? SWTabBarController else {
+//			return
+//		}
+//		tabBar.allowRotation = true
+//		
+//		let value = UIInterfaceOrientation.landscapeLeft.rawValue
+//		UIDevice.current.setValue(value, forKey: "orientation")
 	}
 	override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
 		super.traitCollectionDidChange(previousTraitCollection)
