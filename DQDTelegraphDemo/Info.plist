@@ -17,9 +17,17 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2.0</string>
+<<<<<<< .mine
+	<string>1.1.0</string>
+=======
+	<string>1.0.11</string>
+>>>>>>> .r1278
 	<key>CFBundleVersion</key>
-	<string>1.4.0</string>
+<<<<<<< .mine
+	<string>1.4.2</string>
+=======
+	<string>1.3.7</string>
+>>>>>>> .r1278
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

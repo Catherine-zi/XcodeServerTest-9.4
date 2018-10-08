@@ -36,8 +36,8 @@ public class HSKLine: UIView, HSDrawLayerProtocol {
     var maxVolume: CGFloat = 0
     var maxMA: CGFloat = 0
     var minMA: CGFloat = 0
-    var maxMACD: CGFloat = 0
-    
+//    var maxMACD: CGFloat = 0
+	
     var priceUnit: CGFloat = 0.1
     var volumeUnit: CGFloat = 0
     
@@ -132,32 +132,41 @@ public class HSKLine: UIView, HSDrawLayerProtocol {
             self.maxVolume = CGFloat.leastNormalMagnitude
             self.maxMA = CGFloat.leastNormalMagnitude
             self.minMA = CGFloat.greatestFiniteMagnitude
-            self.maxMACD = CGFloat.leastNormalMagnitude
+//            self.maxMACD = CGFloat.leastNormalMagnitude
             let startIndex = self.startIndex
             // 比计算出来的多加一个，是为了避免计算结果的取整导致少画
-            let count = (startIndex + countOfshowCandle + 1) > dataK.count ? dataK.count : (startIndex + countOfshowCandle + 1)
+            let count = getCurrentLastModel()
 //			print("ma5 = \(dataK[count - 1].ma5),ma10 = \(dataK[count - 1].ma10)")
             if startIndex < count {
                 for i in startIndex ..< count {
                     let entity = dataK[i]
-                    self.maxPrice = self.maxPrice > entity.high ? self.maxPrice : entity.high
-                    self.minPrice = self.minPrice < entity.low ? self.minPrice : entity.low
+					
+					let high: CGFloat = CGFloat((entity.high as NSString).doubleValue)
+					let low: CGFloat = CGFloat((entity.low as NSString).doubleValue)
+					let volume: CGFloat = CGFloat((entity.volume as NSString).doubleValue)
+					let ma5: CGFloat = CGFloat((entity.ma5 as NSString).floatValue)
+					let ma10: CGFloat = CGFloat((entity.ma10 as NSString).floatValue)
+					let ma20: CGFloat = CGFloat((entity.ma20 as NSString).floatValue)
+					
+					
+                    self.maxPrice = self.maxPrice > high ? self.maxPrice : high
+                    self.minPrice = self.minPrice < low ? self.minPrice : low
                     
-                    self.maxVolume = self.maxVolume > entity.volume ? self.maxVolume : entity.volume
+                    self.maxVolume = self.maxVolume > volume ? self.maxVolume : volume
                     
-                    let tempMAMax = max(entity.ma5, entity.ma10, entity.ma20)
+                    let tempMAMax = max(ma5, ma10, ma20)
 					if tempMAMax > 0 {
 						self.maxMA = self.maxMA > tempMAMax ? self.maxMA : tempMAMax
 					}
 					
-                    let tempMAMin = min(entity.ma5, entity.ma10, entity.ma20)
+                    let tempMAMin = min(ma5, ma10, ma20)
 					if tempMAMin > 0 {
 						self.minMA = self.minMA < tempMAMin ? self.minMA : tempMAMin
 					}
 					
                     
-                    let tempMax = max(abs(entity.diff), abs(entity.dea), abs(entity.macd))
-                    self.maxMACD = tempMax > self.maxMACD ? tempMax : self.maxMACD
+//                    let tempMax = max(abs(entity.diff), abs(entity.dea), abs(entity.macd))
+//                    self.maxMACD = tempMax > self.maxMACD ? tempMax : self.maxMACD
                 }
             }
 //            // 当均线数据缺失时候，注意注释这段，不然 minPrice 为 0，导致整体绘画比例不对
@@ -186,40 +195,51 @@ public class HSKLine: UIView, HSDrawLayerProtocol {
         if startIndex < count {
             for index in startIndex ..< count {
                 let model = data[index]
+				
+				//String TO CGFloat
+				let high: CGFloat = CGFloat((model.high as NSString).doubleValue)
+				let low: CGFloat = CGFloat((model.low as NSString).doubleValue)
+				let open: CGFloat = CGFloat((model.open as NSString).doubleValue)
+				let close: CGFloat = CGFloat((model.close as NSString).doubleValue)
+				let modelVolume: CGFloat = CGFloat((model.volume as NSString).doubleValue)
+				let ma5: CGFloat = CGFloat((model.ma5 as NSString).floatValue)
+				let ma10: CGFloat = CGFloat((model.ma10 as NSString).floatValue)
+				let ma20: CGFloat = CGFloat((model.ma20 as NSString).floatValue)
+				
                 let leftPosition = startX + CGFloat(index - startIndex) * (theme.candleWidth + theme.candleGap)
                 let xPosition = leftPosition + theme.candleWidth / 2.0
                 //(maxPrice - model.high)用于计算当前点到最高点之间的距离，用于上下影线
-                let highPoint = CGPoint(x: xPosition, y: (maxPrice - model.high) * priceUnit + minY)
-                let lowPoint = CGPoint(x: xPosition, y: (maxPrice - model.low) * priceUnit + minY)
+                let highPoint = CGPoint(x: xPosition, y: (maxPrice - high) * priceUnit + minY)
+                let lowPoint = CGPoint(x: xPosition, y: (maxPrice - low) * priceUnit + minY)
 				
 				
 				var ma5Point:CGPoint
-				if model.ma5 != 0 {
-					ma5Point = CGPoint(x: xPosition, y: (maxPrice - model.ma5) * priceUnit + minY)
+				if ma5 != 0 {
+					ma5Point = CGPoint(x: xPosition, y: (maxPrice - ma5) * priceUnit + minY)
 				}else {
 					ma5Point = .zero
 				}
 				
 				var ma10Point:CGPoint
-				if model.ma10 != 0 {
-					ma10Point = CGPoint(x: xPosition, y: (maxPrice - model.ma10) * priceUnit + minY)
+				if ma10 != 0 {
+					ma10Point = CGPoint(x: xPosition, y: (maxPrice - ma10) * priceUnit + minY)
 				}else {
 					ma10Point = .zero
 				}
 				
 				var ma20Point:CGPoint
-				if model.ma20 != 0 {
-					ma20Point = CGPoint(x: xPosition, y: (maxPrice - model.ma20) * priceUnit + minY)
+				if ma20 != 0 {
+					ma20Point = CGPoint(x: xPosition, y: (maxPrice - ma20) * priceUnit + minY)
 				}else {
 					ma20Point = .zero
 				}
                 
-                let openPointY = (maxPrice - model.open) * priceUnit + minY
-                let closePointY = (maxPrice - model.close) * priceUnit + minY
+                let openPointY = (maxPrice - open) * priceUnit + minY
+                let closePointY = (maxPrice - close) * priceUnit + minY
                 var fillCandleColor = UIColor.black
                 var candleRect = CGRect.zero
                 
-                let volume = (model.volume - 0) * volumeUnit
+                let volume = (modelVolume - 0) * volumeUnit
                 let volumeStartPoint = CGPoint(x: xPosition, y: self.frame.height - volume)
                 let volumeEndPoint = CGPoint(x: xPosition, y: self.frame.height)
                 

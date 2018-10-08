@@ -93,6 +93,11 @@ extension NameSpaceWrapper where T == String {
         
         return dateformatter.date(from: wrappedValue)
     }
+	
+	public func toCGFloat() -> CGFloat {
+		
+		return CGFloat((wrappedValue as NSString).doubleValue)
+	}
 }
 
 

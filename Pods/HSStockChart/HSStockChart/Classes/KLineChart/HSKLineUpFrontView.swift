@@ -61,14 +61,21 @@ class HSKLineUpFrontView: UIView, HSDrawLayerProtocol {
         return view
     }
     
-	func configureAxis(max: CGFloat, min: CGFloat, maxVol: CGFloat, ma5: CGFloat,ma10: CGFloat,ma20: CGFloat) {
-		let formatStr = "." + getFormatCount(max: max, min: min).description
-        let maxPriceStr = max.hschart.toStringWithFormat(formatStr)
-        let minPriceStr = min.hschart.toStringWithFormat(formatStr)
-        let midPriceStr = ((max + min) / 2).hschart.toStringWithFormat(formatStr)
-//		let secondPriceStr = ((((max + min) / 2) + min) / 2).hschart.toStringWithFormat(formatStr)
-//		let fourPriceStr = ((((max + min) / 2) + max) / 2).hschart.toStringWithFormat(formatStr)
-        let maxVolStr = maxVol.hschart.toStringWithFormat(".2")
+	func configureAxis(max: String, min: String, maxVol: String, ma5: String,ma10: String,ma20: String) {
+
+		let maxDecimal = Decimal(string: max) ?? Decimal(0)
+		let minDecimal = Decimal(string: min) ?? Decimal(0)
+		
+        let maxPriceStr = NSDecimalNumber(decimal: maxDecimal).stringValue
+        let minPriceStr = NSDecimalNumber(decimal: minDecimal).stringValue
+		
+		var midPriceStr = "0"
+		
+		let midDecimal: Decimal = (maxDecimal + minDecimal) / 2
+		midPriceStr = NSDecimalNumber.init(decimal: midDecimal).stringValue
+		
+		
+		let maxVolStr = Decimal(string: maxVol)
         maxMark.string = maxPriceStr
         minMark.string = minPriceStr
         midMark.string = midPriceStr
@@ -76,13 +83,13 @@ class HSKLineUpFrontView: UIView, HSDrawLayerProtocol {
 //		fourMark.string = fourPriceStr
         maxVolMark.string = maxVolStr
 		
-			let ma5Str = "ma5:" + ma5.hschart.toStringWithFormat(formatStr)
+			let ma5Str = "ma5:" + ma5
 			ma5Text.string = ma5Str
 			
-			let ma10Str = "ma10:" + ma10.hschart.toStringWithFormat(formatStr)
+			let ma10Str = "ma10:" + ma10
 			ma10Text.string = ma10Str
 			
-			let ma20Str = "ma20:" + ma20.hschart.toStringWithFormat(formatStr)
+			let ma20Str = "ma20:" + ma20
 			ma20Text.string = ma20Str
 			
 			var ma5Frame = ma5Text.frame
@@ -146,28 +153,29 @@ class HSKLineUpFrontView: UIView, HSDrawLayerProtocol {
 		self.legendLayer.removeFromSuperlayer()
     }
 	
-	func getFormatCount(max: CGFloat,min: CGFloat) -> Int{
-		
-		var count: Int = 0
-		count = getZeroCount(value: max)
-		count = getZeroCount(value: min) > count ? getZeroCount(value: min) : count
-
-		return count
-	}
-	func getZeroCount(value:CGFloat) -> Int{
-		if value <= 0 {
-			return 0
-		}
-		let formatStr = NSString(format: "%f", value)
-		let str = NSString(format: "%@", NSNumber.init(value: formatStr.floatValue))//NSNumber.init(value: Double(value)).stringValue
-		print("str = \(str)")
-		if !str.contains(".") {
-			return 0
-		}
-		let arr = str.components(separatedBy: ".")
-		guard let subStr = arr.last else {
-			return 0
-		}
-		return subStr.lengthOfBytes(using: String.Encoding.utf8) > 9 ? 9 : subStr.lengthOfBytes(using: String.Encoding.utf8)
-	}
+//	func getFormatCount(max: CGFloat,min: CGFloat) -> Int{
+//
+//		var count: Int = 0
+//		count = getZeroCount(value: max)
+//		count = getZeroCount(value: min) > count ? getZeroCount(value: min) : count
+//
+//		return count
+//	}
+//	func getZeroCount(value:CGFloat) -> Int{
+//		if value <= 0 {
+//			return 0
+//		}
+//
+//		let formatStr = NSString(format: "%f", value)
+//		let str = NSString(format: "%@", NSNumber.init(value: formatStr.floatValue))//NSNumber.init(value: Double(value)).stringValue
+//		print("str = \(str)")
+//		if !str.contains(".") {
+//			return 0
+//		}
+//		let arr = str.components(separatedBy: ".")
+//		guard let subStr = arr.last else {
+//			return 0
+//		}
+//		return subStr.lengthOfBytes(using: String.Encoding.utf8) > 9 ? 9 : subStr.lengthOfBytes(using: String.Encoding.utf8)
+//	}
 }

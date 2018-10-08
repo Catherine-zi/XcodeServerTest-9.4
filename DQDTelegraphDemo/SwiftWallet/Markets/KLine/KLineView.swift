@@ -654,20 +654,20 @@ class KLineView: UIView,KLineDelegate {
 		for kline in dataArr {//.reversed()
 			let model = HSKLineModel()
 			
-			guard let openStr = kline.openPrice,let dOpen = Double(openStr),
-				let closeStr = kline.closePrice,let dClose = Double(closeStr),
-				let highStr = kline.highPrice,let dHigh = Double(highStr),
-				let lowStr = kline.lowPrice,let dLow = Double(lowStr),
-				let volumeStr = kline.volume,let dVolume = Double(volumeStr),
+			guard let openStr = kline.openPrice,
+				let closeStr = kline.closePrice,
+				let highStr = kline.highPrice,
+				let lowStr = kline.lowPrice,
+				let volumeStr = kline.volume,
 				let timeStr = kline.dateline,let dTime = Double(timeStr) else {
 					continue
 			}
 			
-			model.open = CGFloat(dOpen)
-			model.close = CGFloat(dClose)
-			model.high = CGFloat(dHigh)
-			model.low = CGFloat(dLow)
-			model.volume = CGFloat(dVolume)
+			model.open = openStr
+			model.close = closeStr
+			model.high = highStr
+			model.low = lowStr
+			model.volume = volumeStr
 			model.date = dateFormatter.string(from: Date.init(timeIntervalSince1970: dTime))
 			model.originDate = timeStr
 			klineModel.append(model)

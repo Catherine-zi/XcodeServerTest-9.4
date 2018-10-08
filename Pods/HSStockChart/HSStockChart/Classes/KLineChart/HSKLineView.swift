@@ -106,20 +106,23 @@ public class HSKLineView: UIView {
 			kLine.kLineType = self.kLineType
             kLine.drawKLineView()
 			
-			var ma5:CGFloat = 0
-			var ma10:CGFloat = 0
-			var ma20:CGFloat = 0
+			var ma5:String = ""
+			var ma10:String = ""
+			var ma20:String = ""
 			let count = kLine.getCurrentLastModel() - 1
 			if count < dataK.count - 1 && count > 0{
 				ma5 = dataK[count].ma5
 				ma10 = dataK[count].ma10
 				ma20 = dataK[count].ma20
 			}else {
-				ma5 = dataK.last?.ma5 ?? 0.00
-				ma10 = dataK.last?.ma10 ?? 0.00
-				ma20 = dataK.last?.ma20 ?? 0.00
+				if let model = dataK.last {
+					ma5 = model.ma5
+					ma10 = model.ma10
+					ma20 = model.ma20
+				}
+				
 			}
-			upFrontView.configureAxis(max: kLine.maxPrice, min: kLine.minPrice, maxVol: kLine.maxVolume, ma5: ma5, ma10: ma10, ma20: ma20)
+			upFrontView.configureAxis(max: String.init(format: "%f", kLine.maxPrice), min: String.init(format: "%f", kLine.minPrice), maxVol: String.init(format: "%@", kLine.maxVolume), ma5: ma5, ma10: ma10, ma20: ma20)
         }
     }
 	
@@ -133,39 +136,45 @@ public class HSKLineView: UIView {
 		for (index,model) in resultData.enumerated() {
 			
 			if index < ma5 {
-//				model.ma5 = model.close
 			}else if(model.isCalculatedMa5 == false){//有平均值
-				var sum:CGFloat = 0
-				for count in 0...ma5-1 {
-					sum = sum + data[index - count].close
-				}
-				model.ma5 = sum / CGFloat(ma5)
-				model.isCalculatedMa5 = true
+
+				assignMaValue(ma: ma5, index: index, datak: data, model: model)
 			}
 			
 			if index < ma10 {
-//				model.ma10 = model.close
 			}else if(model.isCalculatedMa10 == false){
-				var sum:CGFloat = 0
-				for count in 0...ma10-1 {
-					sum = sum + data[index - count].close
-				}
-				model.ma10 = sum / CGFloat(ma10)
-				model.isCalculatedMa10 = true
+				
+				assignMaValue(ma: ma10, index: index, datak: data, model: model)
 			}
 			
 			if index < ma20 {
-//				model.ma20 = model.close
 			}else if(model.isCalculatedMa20 == false){
-				var sum:CGFloat = 0
-				for count in 0...ma20-1 {
-					sum = sum + data[index - count].close
-				}
-				model.ma20 = sum / CGFloat(ma20)
-				model.isCalculatedMa20 = true
+				
+				assignMaValue(ma: ma20, index: index, datak: data, model: model)
 			}
 		}
 		return resultData
+	}
+	private func assignMaValue(ma: Int,index: Int,datak: [HSKLineModel],model :HSKLineModel){
+		
+		var sum: Decimal = Decimal(0)
+		for count in 0...ma-1 {
+			
+			if let value = Decimal(string: datak[index - count].close) {
+				sum = sum + value
+			}
+			
+		}
+		
+		if ma == 5 {
+			model.ma5 = (sum / Decimal(ma)).description
+		}else if ma == 10 {
+			model.ma10 = (sum / Decimal(ma)).description
+		}else if ma == 20 {
+			model.ma20 = (sum / Decimal(ma)).description
+		}
+		
+		model.isCalculatedMa5 = true
 	}
 	public func configureView(data: [HSKLineModel],isLoadMore:Bool) {
 		

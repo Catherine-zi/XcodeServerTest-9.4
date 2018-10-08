@@ -138,15 +138,18 @@ extension HSDrawLayerProtocol {
 		if model.isKind(of: HSKLineModel.self) {
 			let entity = model as! HSKLineModel
 			legendContentStrs[0] = entity.date.hschart.toDate("yyyyMMddHHmmss")?.hschart.toString("yyyy/MM/dd HH:mm") ?? ""
-			var formatStr = "." + "\(getZeroCount(value: entity.open))"
-			legendContentStrs[6] = entity.open.hschart.toStringWithFormat(formatStr)
-			formatStr = "." + "\(getZeroCount(value: entity.high))"
-			legendContentStrs[7] = entity.high.hschart.toStringWithFormat(formatStr)
-			formatStr = "." + "\(getZeroCount(value: entity.low))"
-			legendContentStrs[8] = entity.low.hschart.toStringWithFormat(formatStr)
-			formatStr = "." + "\(getZeroCount(value: entity.close))"
-			legendContentStrs[9] = entity.close.hschart.toStringWithFormat(formatStr)
-			legendContentStrs[10] = entity.volume.hschart.toStringWithFormat(".2")
+			
+//			let formatCount = getLegendFormat(entity: entity)
+		
+			
+			legendContentStrs[6] = removeInvalidZero(value: entity.open)
+//			formatStr = "." + "\(getZeroCount(value: entity.high))"
+			legendContentStrs[7] = removeInvalidZero(value: entity.high)
+//			formatStr = "." + "\(getZeroCount(value: entity.low))"
+			legendContentStrs[8] = removeInvalidZero(value: entity.low)
+//			formatStr = "." + "\(getZeroCount(value: entity.close))"
+			legendContentStrs[9] = removeInvalidZero(value: entity.close)
+			legendContentStrs[10] = removeInvalidZero(value: entity.volume)
 		}
 		
 		let margin: CGFloat = 15
@@ -200,15 +203,15 @@ extension HSDrawLayerProtocol {
         guard let model = model else { return highlightLayer }
 
         if model.isKind(of: HSKLineModel.self) {
-            let entity = model as! HSKLineModel
-			
-			let formatStr = "." + "\(getZeroCount(value: entity.close))"
+//            let entity = model as! HSKLineModel
+//
+//			let formatStr = "." + "\(getZeroCount(value: entity.close))"
 //            yAxisMarkString = entity.close.hschart.toStringWithFormat(formatStr)
 //			bottomMarkerString = entity.date.hschart.toDate("yyyyMMddHHmmss")?.hschart.toString("yyyy/MM/dd HH:mm") ?? ""
 //            volumeMarkerString = entity.volume.hschart.toStringWithFormat(".2")
 
         } else if model.isKind(of: HSTimeLineModel.self){
-            let entity = model as! HSTimeLineModel
+//            let entity = model as! HSTimeLineModel
 //            yAxisMarkString = entity.price.hschart.toStringWithFormat(".2")
 //            bottomMarkerString = entity.time
 //            volumeMarkerString = entity.volume.hschart.toStringWithFormat(".2")
@@ -301,20 +304,38 @@ extension HSDrawLayerProtocol {
         
         return CGSize(width: width, height: height)
     }
-	func getZeroCount(value:CGFloat) -> Int{
-		if value <= 0 {
-			return 0
+	
+//	private func getLegendFormat(entity: HSKLineModel) -> Int{
+//
+//		var countArr: [Int] = []
+//		countArr.append(getZeroCount(value: entity.open))
+//		countArr.append(getZeroCount(value: entity.close))
+//		countArr.append(getZeroCount(value: entity.low))
+//		countArr.append(getZeroCount(value: entity.high))
+//
+//		return countArr.max() ?? 0
+//	}
+//	private func getZeroCount(value:String) -> Int{
+//
+//		//去除多余的0
+//		let str = NSString(format: "%@", NSNumber.init(value: (value as NSString).floatValue))
+//
+//		if (!str.contains(".")) {
+//			return 0
+//		}
+//		let arr = str.components(separatedBy: ".")
+//		guard let subStr = arr.last else {
+//			return 0
+//		}
+//		return subStr.lengthOfBytes(using: String.Encoding.utf8) > 9 ? 9 : subStr.lengthOfBytes(using: String.Encoding.utf8)
+//	}
+	private func removeInvalidZero(value: String) -> String{
+		
+		if let decimal = Decimal(string: value) {
+			return NSDecimalNumber(decimal: decimal).stringValue
+		}else {
+			return ""
 		}
-		let formatStr = NSString(format: "%f", value)
-		let str = NSString(format: "%@", NSNumber.init(value: formatStr.floatValue))
-//		let str = NSNumber.init(value: Double(value)).stringValue
-		if !str.contains(".") {
-			return 0
-		}
-		let arr = str.components(separatedBy: ".")
-		guard let subStr = arr.last else {
-			return 0
-		}
-		return subStr.lengthOfBytes(using: String.Encoding.utf8) > 9 ? 9 : subStr.lengthOfBytes(using: String.Encoding.utf8)
+		
 	}
 }
